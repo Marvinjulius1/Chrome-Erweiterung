@@ -1,0 +1,335 @@
+/* ==========================================================================
+   Zenith - base styles: fonts, tokens, background, layout, photo credit
+   ========================================================================== */
+
+/* ---------- Fonts (bundled, SIL Open Font License) ---------- */
+@font-face {
+  font-family: 'Inter';
+  font-weight: 200;
+  font-display: swap;
+  src: url('../fonts/inter-latin-200-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/inter-latin-300-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/inter-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/inter-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-300-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-300-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-400-italic.woff2') format('woff2');
+}
+
+/* ---------- Design tokens ---------- */
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --font-serif: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+
+  --text: rgba(255, 255, 255, 0.96);
+  --text-soft: rgba(255, 255, 255, 0.72);
+  --text-faint: rgba(255, 255, 255, 0.5);
+  --shadow-text: 0 1px 2px rgba(0, 0, 0, 0.18), 0 2px 24px rgba(0, 0, 0, 0.28);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --fast: 200ms;
+  --medium: 400ms;
+  --slow: 600ms;
+
+  --edge: clamp(16px, 2.4vw, 32px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background: #0d1117;
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  user-select: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---------- Background ---------- */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  /* Fallback gradient: used before the first image arrives and when offline */
+  background: var(--slot-gradient, linear-gradient(160deg, #1b2735 0%, #090a0f 100%));
+  transition: background var(--slow) var(--ease);
+}
+
+.bg__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity var(--slow) var(--ease), transform 1200ms var(--ease);
+  will-change: opacity;
+}
+
+.bg__img.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Readability: soft shade behind the centered text, a vignette, darker top and bottom edges */
+.bg__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 42% at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.32) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 66%, rgba(0, 0, 0, 0.38) 100%);
+}
+
+/* Per-slot fallback gradients */
+body[data-slot='dawn']    { --slot-gradient: linear-gradient(170deg, #2b3a55 0%, #ce8a7a 70%, #f2c59b 100%); }
+body[data-slot='morning'] { --slot-gradient: linear-gradient(170deg, #4a7a9b 0%, #9cc3d5 60%, #e6efe9 100%); }
+body[data-slot='day']     { --slot-gradient: linear-gradient(170deg, #2f6f9f 0%, #6fb1d1 55%, #bfe3ec 100%); }
+body[data-slot='golden']  { --slot-gradient: linear-gradient(170deg, #3b2c4f 0%, #c0605a 55%, #f0a860 100%); }
+body[data-slot='dusk']    { --slot-gradient: linear-gradient(170deg, #0f1c3a 0%, #2c3e6b 60%, #5a4a78 100%); }
+body[data-slot='night']   { --slot-gradient: linear-gradient(170deg, #05070d 0%, #0d1530 60%, #1a1f3d 100%); }
+
+/* ---------- Center stage ---------- */
+.center {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 1.2vh, 14px);
+  padding: 0 var(--edge);
+  text-align: center;
+  text-shadow: var(--shadow-text);
+  pointer-events: none;
+  transition: opacity var(--slow) var(--ease);
+}
+
+.center > * {
+  pointer-events: auto;
+}
+
+.message {
+  max-width: min(92vw, 1100px);
+}
+
+.greeting {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(30px, 5.2vw, 72px);
+  line-height: 1.12;
+  letter-spacing: 0.005em;
+  color: var(--text);
+}
+
+/* Fade-in used for the greeting and other swapped texts */
+.fade-in {
+  animation: fade-in var(--slow) var(--ease) both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Initial load: content fades in once the first render is ready */
+body.is-loading .center,
+body.is-loading .photo-info {
+  opacity: 0;
+}
+
+/* ---------- Photo credit + image controls (bottom left) ---------- */
+.photo-info {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  /* Generous hit area so the info appears when the pointer nears the corner */
+  padding: 48px 48px var(--edge) var(--edge);
+  max-width: min(640px, 80vw);
+  opacity: 0;
+  transition: opacity var(--medium) var(--ease);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.photo-info:hover,
+.photo-info:focus-within {
+  opacity: 1;
+}
+
+.photo-info__text {
+  min-width: 0;
+}
+
+.photo-info p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.photo-info__title {
+  color: var(--text);
+  font-weight: 400;
+}
+
+.photo-info__credit {
+  color: var(--text-soft);
+  font-weight: 300;
+}
+
+.photo-info__credit a {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  transition: border-color var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.photo-info__credit a:hover {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.photo-info__controls {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* ---------- Icon buttons ---------- */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease), opacity var(--fast);
+}
+
+.icon-btn svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--text);
+}
+
+.icon-btn:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 2px;
+}
+
+.icon-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  background: transparent;
+}
+
+.icon-btn--toggle[aria-pressed='true'] {
+  color: var(--text);
+}
+
+.icon-btn--toggle[aria-pressed='true'] svg {
+  fill: currentColor;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 560px) {
+  .photo-info {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 6px;
+    padding-top: 32px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}

@@ -1,0 +1,989 @@
+{
+  "_readme": "Background images for Zenith. Every entry must be a photo under the Unsplash License or the Pexels License. 'url' is the base image URL without query parameters; Zenith appends size parameters for Unsplash URLs. Set \"placeholder\": true on entries whose URL is not filled in yet; they are skipped.",
+  "images": [
+    {
+      "id": "unsplash-aN8IMFIpg1c",
+      "url": "https://images.unsplash.com/photo-1766221072212-cf2f9383221c",
+      "title": "Snowy forest around a tranquil lake at sunrise",
+      "categories": [
+        "fog",
+        "nature"
+      ],
+      "slots": [
+        "dawn",
+        "morning"
+      ],
+      "photographer": "Aivars Vilks",
+      "photographerUrl": "https://unsplash.com/@vilkuaivars",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/snowy-forest-surrounds-a-tranquil-lake-at-sunrise-aN8IMFIpg1c",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-MaeshPdBGV4",
+      "url": "https://images.unsplash.com/photo-1743309411498-a0f4f4b96b65",
+      "title": "Golden sunrise over a foggy mountain landscape",
+      "categories": [
+        "fog",
+        "sunsets",
+        "mountains"
+      ],
+      "slots": [
+        "dawn",
+        "golden"
+      ],
+      "photographer": "Zetong Li",
+      "photographerUrl": "https://unsplash.com/@zetong",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/golden-sunrise-illuminates-a-foggy-mountain-landscape-MaeshPdBGV4",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-26-lAP0XprM",
+      "url": "https://images.unsplash.com/uploads/14115890754139bc8568d/d5e1ad1d",
+      "title": "Mountain peak rising above morning fog",
+      "categories": [
+        "mountains",
+        "fog"
+      ],
+      "slots": [
+        "dawn",
+        "morning"
+      ],
+      "photographer": "Dustin Scarpitti",
+      "photographerUrl": "https://unsplash.com/@dusty_blanco",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/green-and-gray-mountains-covered-with-fog-26-lAP0XprM",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-IRUOF57vT-Y",
+      "url": "https://images.unsplash.com/photo-1563431453247-75de8bddeaef",
+      "title": "Sea of fog under an orange horizon",
+      "categories": [
+        "fog",
+        "mountains"
+      ],
+      "slots": [
+        "dawn",
+        "dusk"
+      ],
+      "photographer": "Girish Dalvi",
+      "photographerUrl": "https://unsplash.com/@shotzofpixels",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/high-angle-photography-of-mountains-IRUOF57vT-Y",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-IZbIpqpeUaA",
+      "url": "https://images.unsplash.com/photo-1576017609857-da8426c5af3e",
+      "title": "Mist drifting over a forested ridge",
+      "categories": [
+        "fog",
+        "mountains"
+      ],
+      "slots": [
+        "dawn",
+        "morning"
+      ],
+      "photographer": "Andy Crone",
+      "photographerUrl": "https://unsplash.com/@andycrone",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/view-photography-of-foggy-mountain-IZbIpqpeUaA",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-peHDKDWUfXs",
+      "url": "https://images.unsplash.com/photo-1675652202189-d33f7fa075f0",
+      "title": "Layered hills covered in fog",
+      "categories": [
+        "fog",
+        "mountains"
+      ],
+      "slots": [
+        "dawn",
+        "morning"
+      ],
+      "photographer": "Jude Infantini",
+      "photographerUrl": "https://unsplash.com/@judowoodo_",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-view-of-a-mountain-covered-in-fog-peHDKDWUfXs",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-W4mxkUzIs3w",
+      "url": "https://images.unsplash.com/photo-1633960339812-788f86e6c996",
+      "title": "Mountain range wrapped in fog",
+      "categories": [
+        "fog",
+        "mountains"
+      ],
+      "slots": [
+        "dawn",
+        "morning"
+      ],
+      "photographer": "Mark Olsen",
+      "photographerUrl": "https://unsplash.com/@markolsen",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-view-of-a-mountain-range-covered-in-fog-W4mxkUzIs3w",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-dI7vfR1Bqcg",
+      "url": "https://images.unsplash.com/photo-1542224566-6e85f2e6772f",
+      "title": "Sunrise over the mountains of Lofoten",
+      "categories": [
+        "mountains"
+      ],
+      "slots": [
+        "dawn",
+        "morning"
+      ],
+      "photographer": "Luke Richardson",
+      "photographerUrl": "https://unsplash.com/@lukealrich",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/mountain-range-dI7vfR1Bqcg",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-CJIzia8PdV4",
+      "url": "https://images.unsplash.com/photo-1542384781206-d07657226fe7",
+      "title": "Morning light at Passo Fedaia",
+      "categories": [
+        "mountains"
+      ],
+      "slots": [
+        "morning",
+        "day"
+      ],
+      "photographer": "Janine Joles",
+      "photographerUrl": "https://unsplash.com/@joyful_janine",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/landscape-photo-of-mountains-CJIzia8PdV4",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-P4f7H2B7aF4",
+      "url": "https://images.unsplash.com/photo-1631549623760-32e83c5dd5da",
+      "title": "Sunbeams in a misty forest",
+      "categories": [
+        "nature"
+      ],
+      "slots": [
+        "morning"
+      ],
+      "photographer": "Mark Olsen",
+      "photographerUrl": "https://unsplash.com/@markolsen",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-forest-filled-with-lots-of-trees-covered-in-sunlight-P4f7H2B7aF4",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-4ts56rcUy8o",
+      "url": "https://images.unsplash.com/photo-1681457550293-5a516cb5dedf",
+      "title": "Sun shining through tall pines",
+      "categories": [
+        "nature"
+      ],
+      "slots": [
+        "morning",
+        "golden"
+      ],
+      "photographer": "Anita Austvika",
+      "photographerUrl": "https://unsplash.com/@anitaaustvika",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/the-sun-is-shining-through-the-trees-in-the-forest-4ts56rcUy8o",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-wRkhfsT_rTA",
+      "url": "https://images.unsplash.com/photo-1489392510471-e6bf8b0c3f80",
+      "title": "Light rays through a dark forest",
+      "categories": [
+        "nature"
+      ],
+      "slots": [
+        "morning",
+        "day"
+      ],
+      "photographer": "Ricardo Gomez Angel",
+      "photographerUrl": "https://unsplash.com/@rgaleriacom",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/sunlight-rays-in-forest-wRkhfsT_rTA",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-Y5p_0LW1xQg",
+      "url": "https://images.unsplash.com/photo-1743878206228-5f36b5f5c830",
+      "title": "A quiet path through the forest",
+      "categories": [
+        "nature"
+      ],
+      "slots": [
+        "morning",
+        "day"
+      ],
+      "photographer": "Sarlote Laura Jevdokimova",
+      "photographerUrl": "https://unsplash.com/@laurlota",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/sunlight-illuminates-a-path-through-a-forest-Y5p_0LW1xQg",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-Kb-Cpr5dZXo",
+      "url": "https://images.unsplash.com/photo-1438179152657-8ce7dfda4f0b",
+      "title": "Low sun through trees and tall grass",
+      "categories": [
+        "nature"
+      ],
+      "slots": [
+        "morning",
+        "golden"
+      ],
+      "photographer": "Micah Hallahan",
+      "photographerUrl": "https://unsplash.com/@micah_hallahan",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/sunlight-through-trees-Kb-Cpr5dZXo",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-ELGDJBMKNMI",
+      "url": "https://images.unsplash.com/photo-1779551363999-707505ab4102",
+      "title": "Turquoise water and rocks from above",
+      "categories": [
+        "ocean"
+      ],
+      "slots": [
+        "day"
+      ],
+      "photographer": "Bernd Dittrich",
+      "photographerUrl": "https://unsplash.com/@hdbernd",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/aerial-view-of-turquoise-ocean-water-rocks-and-crashing-waves-ELGDJBMKNMI",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-nnwF1gHIRCU",
+      "url": "https://images.unsplash.com/photo-1714414638521-7b56a97ec5e2",
+      "title": "Waves meeting the sand from above",
+      "categories": [
+        "ocean"
+      ],
+      "slots": [
+        "day"
+      ],
+      "photographer": "Bernd Dittrich",
+      "photographerUrl": "https://unsplash.com/@hdbernd",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/an-aerial-view-of-a-beach-with-waves-and-sand-nnwF1gHIRCU",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-cJY0advK23A",
+      "url": "https://images.unsplash.com/photo-1751818430682-67a0a48d7a9b",
+      "title": "Coastline and turquoise water from above",
+      "categories": [
+        "ocean"
+      ],
+      "slots": [
+        "day"
+      ],
+      "photographer": "Bernd Dittrich",
+      "photographerUrl": "https://unsplash.com/@hdbernd",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/aerial-view-of-a-beautiful-coastline-and-turquoise-water-cJY0advK23A",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-ZeGQ22v9Zhk",
+      "url": "https://images.unsplash.com/photo-1783586879543-3378ba2eede0",
+      "title": "Alpine lake between forested mountains",
+      "categories": [
+        "mountains",
+        "nature"
+      ],
+      "slots": [
+        "morning",
+        "day"
+      ],
+      "photographer": "Daniel J. Schwarz",
+      "photographerUrl": "https://unsplash.com/@danieljschwarz",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/lake-surrounded-by-forested-mountains-under-a-blue-sky-ZeGQ22v9Zhk",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-jAAk__SlP8U",
+      "url": "https://images.unsplash.com/photo-1624239364354-93ae3e590f66",
+      "title": "Mountains mirrored in a clear lake",
+      "categories": [
+        "mountains"
+      ],
+      "slots": [
+        "day"
+      ],
+      "photographer": "Simon Hurry",
+      "photographerUrl": "https://unsplash.com/@bullterriere",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/lake-near-mountain-under-blue-sky-during-daytime-jAAk__SlP8U",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-nkMLcbvIuuE",
+      "url": "https://images.unsplash.com/photo-1702912092980-05aca31e5243",
+      "title": "A lush green valley",
+      "categories": [
+        "nature"
+      ],
+      "slots": [
+        "day"
+      ],
+      "photographer": "Michael Hamments",
+      "photographerUrl": "https://unsplash.com/@35mmtodgt",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-lush-green-valley-surrounded-by-lush-green-hills-nkMLcbvIuuE",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-2hgS5tpMfgY",
+      "url": "https://images.unsplash.com/photo-1772215842318-356e3767b734",
+      "title": "Green valley in the Lake District",
+      "categories": [
+        "nature",
+        "mountains"
+      ],
+      "slots": [
+        "day"
+      ],
+      "photographer": "Clovis Wood",
+      "photographerUrl": "https://unsplash.com/@clo_wd",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/green-valley-with-trees-and-distant-mountains-under-sky-2hgS5tpMfgY",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-P_lyT2-TxCE",
+      "url": "https://images.unsplash.com/photo-1577555695198-590127bcee8b",
+      "title": "Morning light in a hazy forest",
+      "categories": [
+        "nature",
+        "fog"
+      ],
+      "slots": [
+        "dawn",
+        "morning"
+      ],
+      "photographer": "Peter Steiner",
+      "photographerUrl": "https://unsplash.com/@pedrino5_official",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/sunlight-reflecting-on-trees-in-the-forest-P_lyT2-TxCE",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-RraKuk4JjEU",
+      "url": "https://images.unsplash.com/photo-1517393537986-7f11137e12c0",
+      "title": "Pastel sky over a mountain silhouette",
+      "categories": [
+        "sunsets"
+      ],
+      "slots": [
+        "golden",
+        "dusk"
+      ],
+      "photographer": "Oliver Conway",
+      "photographerUrl": "https://unsplash.com/@olivergonegreen",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/mountain-silhouette-during-golden-hour-RraKuk4JjEU",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-n5c2IPdFJSU",
+      "url": "https://images.unsplash.com/photo-1495215871224-568f5124ca61",
+      "title": "Last light on a lone peak",
+      "categories": [
+        "mountains",
+        "sunsets"
+      ],
+      "slots": [
+        "golden",
+        "dusk"
+      ],
+      "photographer": "Nathan Anderson",
+      "photographerUrl": "https://unsplash.com/@nathananderson",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/mountain-silhouette-at-golden-hour-n5c2IPdFJSU",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-G3JsoE2CAvw",
+      "url": "https://images.unsplash.com/photo-1489471100131-98c2ab4036c1",
+      "title": "Sunset glow behind dark ridges",
+      "categories": [
+        "sunsets",
+        "mountains"
+      ],
+      "slots": [
+        "golden",
+        "dusk"
+      ],
+      "photographer": "Kash",
+      "photographerUrl": "https://unsplash.com/@kash",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/G3JsoE2CAvw",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-T5miyV835tI",
+      "url": "https://images.unsplash.com/photo-1775547754264-8c7f455d1b85",
+      "title": "Sunset over Haystack Rock, Cannon Beach",
+      "categories": [
+        "ocean",
+        "sunsets"
+      ],
+      "slots": [
+        "golden"
+      ],
+      "photographer": "Tim Mossholder",
+      "photographerUrl": "https://unsplash.com/@timmossholder",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/dramatic-sunset-over-a-rocky-coastline-with-wet-sand-T5miyV835tI",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-79YMPHNc51Y",
+      "url": "https://images.unsplash.com/photo-1559619301-2ee4ea78fb36",
+      "title": "Golden sun over a calm sea",
+      "categories": [
+        "ocean",
+        "sunsets"
+      ],
+      "slots": [
+        "golden"
+      ],
+      "photographer": "katie c.",
+      "photographerUrl": "https://unsplash.com/@gracecundy",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/sunset-ocean-scenery-79YMPHNc51Y",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-DY5cv04E42I",
+      "url": "https://images.unsplash.com/photo-1694152363060-cc26bde73872",
+      "title": "Sun low over a terraced valley",
+      "categories": [
+        "sunsets",
+        "mountains",
+        "nature"
+      ],
+      "slots": [
+        "golden",
+        "dawn"
+      ],
+      "photographer": "Denis Sobnakov",
+      "photographerUrl": "https://unsplash.com/@sobden",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/the-sun-is-setting-over-a-green-valley-DY5cv04E42I",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-SV3V-D1G2q4",
+      "url": "https://images.unsplash.com/flagged/photo-1554443883-83db889b4007",
+      "title": "Blue hour over still water",
+      "categories": [
+        "sunsets",
+        "mountains"
+      ],
+      "slots": [
+        "dusk"
+      ],
+      "photographer": "freezydreamin",
+      "photographerUrl": "https://unsplash.com/@freezydreamin",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/body-of-water-near-mountain-during-blue-hour-SV3V-D1G2q4",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-xu9ck-3xTvI",
+      "url": "https://images.unsplash.com/photo-1598469598566-f55fbc9ded59",
+      "title": "Milky Way over a mountain lake",
+      "categories": [
+        "night",
+        "mountains",
+        "space"
+      ],
+      "slots": [
+        "dusk",
+        "night"
+      ],
+      "photographer": "Pascal Debrunner",
+      "photographerUrl": "https://unsplash.com/@debrupas",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/lake-near-mountain-under-blue-sky-during-night-time-xu9ck-3xTvI",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-UeRIcbTthwE",
+      "url": "https://images.unsplash.com/photo-1765825365130-52e276bca060",
+      "title": "Milky Way over silhouetted mountains",
+      "categories": [
+        "space",
+        "mountains",
+        "night"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Filip Kvasnak",
+      "photographerUrl": "https://unsplash.com/@filipkvasnak",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/milky-way-galaxy-over-silhouetted-mountains-at-night-UeRIcbTthwE",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-kEH7ljKWDOM",
+      "url": "https://images.unsplash.com/photo-1566065920027-68b070b9a7c5",
+      "title": "Milky Way above a glowing tent",
+      "categories": [
+        "space",
+        "night"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Guillaume Gouin",
+      "photographerUrl": "https://unsplash.com/@guilllaumeg",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/milky-way-at-night-kEH7ljKWDOM",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-skcFiBu91AA",
+      "url": "https://images.unsplash.com/photo-1519810755548-39cd217da494",
+      "title": "The Milky Way in deep violet",
+      "categories": [
+        "space",
+        "night"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Ferenc Horvath",
+      "photographerUrl": "https://unsplash.com/@designhorf",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/milky-way-galaxy-skcFiBu91AA",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-UoDu6mKB_I4",
+      "url": "https://images.unsplash.com/photo-1771885124792-119a9daa556b",
+      "title": "The Crab Nebula",
+      "categories": [
+        "space"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Steve Busch",
+      "photographerUrl": "https://unsplash.com/@sdbusch77",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/colorful-nebula-surrounded-by-stars-in-deep-space-UoDu6mKB_I4",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-aMC_8t7gRWk",
+      "url": "https://images.unsplash.com/photo-1757514055001-dcf00bd64a06",
+      "title": "The Veil Nebula",
+      "categories": [
+        "space"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Steve Busch",
+      "photographerUrl": "https://unsplash.com/@sdbusch77",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/colorful-nebula-clouds-in-deep-space-with-stars-aMC_8t7gRWk",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-Knwea-mLGAg",
+      "url": "https://images.unsplash.com/photo-1528818955841-a7f1425131b5",
+      "title": "A sky full of stars",
+      "categories": [
+        "space",
+        "night"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Felix Mittermeier",
+      "photographerUrl": "https://unsplash.com/@felix_mittermeier",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/milky-way-Knwea-mLGAg",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-2vVhfhbj5-s",
+      "url": "https://images.unsplash.com/photo-1759675739458-6e5a4a60a117",
+      "title": "Aurora over Vestrahorn, Iceland",
+      "categories": [
+        "night",
+        "mountains"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Jonny Gios",
+      "photographerUrl": "https://unsplash.com/@supergios",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/aurora-borealis-over-snow-capped-mountains-and-starry-sky-2vVhfhbj5-s",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-mgF-LowMuZY",
+      "url": "https://images.unsplash.com/photo-1739793669620-2ca4dc1e2742",
+      "title": "Aurora over a lake in Lofoten",
+      "categories": [
+        "night"
+      ],
+      "slots": [
+        "night",
+        "dusk"
+      ],
+      "photographer": "Kevin Charit",
+      "photographerUrl": "https://unsplash.com/@kevin_charit",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-green-and-white-aurora-bore-over-a-lake-mgF-LowMuZY",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-JpBrBQYftII",
+      "url": "https://images.unsplash.com/photo-1508234562163-534667a7e3ea",
+      "title": "Aurora reflected in an Icelandic lake",
+      "categories": [
+        "night"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Jonatan Pie",
+      "photographerUrl": "https://unsplash.com/@r3dmax",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/scenery-of-aurora-JpBrBQYftII",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-EvKBHBGgaUo",
+      "url": "https://images.unsplash.com/photo-1488415032361-b7e238421f1b",
+      "title": "Aurora over snowy mountains in Thórsmörk",
+      "categories": [
+        "night",
+        "mountains"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Jonatan Pie",
+      "photographerUrl": "https://unsplash.com/@r3dmax",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/snow-mountain-with-aurora-borealis-EvKBHBGgaUo",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-gD7KrKqYZFk",
+      "url": "https://images.unsplash.com/photo-1473711409856-39138e48cb9b",
+      "title": "Aurora rising above a snowy ridge",
+      "categories": [
+        "night",
+        "mountains"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Vincent Guth",
+      "photographerUrl": "https://unsplash.com/@vingtcent",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/aurora-lights-above-mountain-gD7KrKqYZFk",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-O6mbkFtuGMM",
+      "url": "https://images.unsplash.com/photo-1721851386583-382f97c36c32",
+      "title": "Full moon behind clouds over the sea",
+      "categories": [
+        "ocean",
+        "night"
+      ],
+      "slots": [
+        "dusk",
+        "night"
+      ],
+      "photographer": "Bernd Dittrich",
+      "photographerUrl": "https://unsplash.com/@hdbernd",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-full-moon-shining-through-the-clouds-over-the-ocean-O6mbkFtuGMM",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-7wyAJ2aZ544",
+      "url": "https://images.unsplash.com/photo-1632768190052-3610ce76eb8a",
+      "title": "Stars over the ocean at night",
+      "categories": [
+        "ocean",
+        "night"
+      ],
+      "slots": [
+        "dusk",
+        "night"
+      ],
+      "photographer": "Marek Piwnicki",
+      "photographerUrl": "https://unsplash.com/@marekpiwnicki",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-view-of-the-ocean-at-night-with-stars-in-the-sky-7wyAJ2aZ544",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-N_NFolZUgZY",
+      "url": "https://images.unsplash.com/photo-1568233823082-873ab0156ad7",
+      "title": "Full moon over a calm sea",
+      "categories": [
+        "ocean",
+        "night"
+      ],
+      "slots": [
+        "night",
+        "dusk"
+      ],
+      "photographer": "Patrick Schöpflin",
+      "photographerUrl": "https://unsplash.com/@patrickschoepflin",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/gray-full-moon-over-the-sea-N_NFolZUgZY",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-ApDv6VwCyH8",
+      "url": "https://images.unsplash.com/photo-1529358340873-8e5557db67b8",
+      "title": "Moody rocky coastline",
+      "categories": [
+        "rain",
+        "ocean"
+      ],
+      "slots": [
+        "dusk",
+        "day"
+      ],
+      "photographer": "Tim Mossholder",
+      "photographerUrl": "https://unsplash.com/@timmossholder",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/rock-formations-in-body-of-water-ApDv6VwCyH8",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-NoX5vJcC6_k",
+      "url": "https://images.unsplash.com/photo-1775228156775-ba33ca5b2b9b",
+      "title": "A shelf cloud rolling over open land",
+      "categories": [
+        "rain"
+      ],
+      "slots": [
+        "day",
+        "dusk"
+      ],
+      "photographer": "Patrick Donnelly",
+      "photographerUrl": "https://unsplash.com/@patrick",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-dramatic-shelf-cloud-hangs-over-a-rural-landscape-NoX5vJcC6_k",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-q7z-AUlHPaw",
+      "url": "https://images.unsplash.com/photo-1493130952181-47e36589f64d",
+      "title": "Storm clouds lit by golden light",
+      "categories": [
+        "rain",
+        "sunsets"
+      ],
+      "slots": [
+        "golden",
+        "dusk"
+      ],
+      "photographer": "Łukasz Łada",
+      "photographerUrl": "https://unsplash.com/@lukaszlada",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/storm-clouds-with-golden-light-q7z-AUlHPaw",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-NRQV-hBF10M",
+      "url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      "title": "Misty morning in Yosemite Valley",
+      "categories": [
+        "fog",
+        "mountains",
+        "nature"
+      ],
+      "slots": [
+        "dawn",
+        "morning"
+      ],
+      "photographer": "Bailey Zindel",
+      "photographerUrl": "https://unsplash.com/@baileyzindel",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/body-of-water-surrounded-by-trees-NRQV-hBF10M",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-sp-p7uuT0tw",
+      "url": "https://images.unsplash.com/photo-1448375240586-882707db888b",
+      "title": "A misty, moody forest",
+      "categories": [
+        "fog",
+        "nature",
+        "rain"
+      ],
+      "slots": [
+        "dawn",
+        "dusk"
+      ],
+      "photographer": "Sebastian Unrau",
+      "photographerUrl": "https://unsplash.com/@sebastian_unrau",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/trees-on-forest-with-sun-rays-sp-p7uuT0tw",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-SE0lk4tp0j0",
+      "url": "https://images.unsplash.com/photo-1725824821320-db900e3f341c",
+      "title": "Raindrops on a window under a dark sky",
+      "categories": [
+        "rain"
+      ],
+      "slots": [
+        "dusk"
+      ],
+      "photographer": "Maxence Ambert",
+      "photographerUrl": "https://unsplash.com/@max420",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/rain-drops-on-a-window-with-a-dark-sky-in-the-background-SE0lk4tp0j0",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-E2i7Hftb_rI",
+      "url": "https://images.unsplash.com/photo-1564296786842-4fc88fb50485",
+      "title": "Rain on glass in deep blue",
+      "categories": [
+        "rain",
+        "night"
+      ],
+      "slots": [
+        "dusk",
+        "night"
+      ],
+      "photographer": "Jr Korpa",
+      "photographerUrl": "https://unsplash.com/@jrkorpa",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/a-window-with-rain-drops-on-the-glass-E2i7Hftb_rI",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-89L2tnEyw3A",
+      "url": "https://images.unsplash.com/photo-1767946460537-a9b7dfcb5ada",
+      "title": "City lights reflected in water",
+      "categories": [
+        "night"
+      ],
+      "slots": [
+        "dusk"
+      ],
+      "photographer": "Mago Brown",
+      "photographerUrl": "https://unsplash.com/@magobrown",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/city-skyline-with-illuminated-skyscrapers-reflected-in-water-89L2tnEyw3A",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-OhQHS76C7BM",
+      "url": "https://images.unsplash.com/photo-1756267434715-0e8f77cbd9eb",
+      "title": "City lights at dusk",
+      "categories": [
+        "night"
+      ],
+      "slots": [
+        "dusk"
+      ],
+      "photographer": "Kevin Zhong",
+      "photographerUrl": "https://unsplash.com/@clck0622",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/blurred-city-lights-at-dusk-with-a-dark-sky-OhQHS76C7BM",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-8QmAPjeZEjs",
+      "url": "https://images.unsplash.com/photo-1591686224641-2e07b13c0b51",
+      "title": "Star trails over a lake",
+      "categories": [
+        "night",
+        "space"
+      ],
+      "slots": [
+        "dusk",
+        "night"
+      ],
+      "photographer": "Silas Hao",
+      "photographerUrl": "https://unsplash.com/@taeyeonstar",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/blue-and-white-sky-over-lake-8QmAPjeZEjs",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-RwHv7LgeC7s",
+      "url": "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843",
+      "title": "Autumn forest in warm sunbeams",
+      "categories": [
+        "nature"
+      ],
+      "slots": [
+        "golden",
+        "morning"
+      ],
+      "photographer": "Johannes Plenio",
+      "photographerUrl": "https://unsplash.com/@jplenio",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/forest-heat-by-sunbeam-RwHv7LgeC7s",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-HorrsnVSFmQ",
+      "url": "https://images.unsplash.com/photo-1786968104475-18466c56037e",
+      "title": "Mountains above a turquoise lake",
+      "categories": [
+        "mountains"
+      ],
+      "slots": [
+        "day"
+      ],
+      "photographer": "Julian Kraus",
+      "photographerUrl": "https://unsplash.com/@juliankraus",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/mountains-and-turquoise-lake-landscape-HorrsnVSFmQ",
+      "license": "Unsplash License"
+    },
+    {
+      "id": "unsplash-TdoxXD7aGv8",
+      "url": "https://images.unsplash.com/photo-1496088789575-149c94104db5",
+      "title": "Green aurora above a snowy mountain",
+      "categories": [
+        "night",
+        "mountains"
+      ],
+      "slots": [
+        "night"
+      ],
+      "photographer": "Warren Sammut",
+      "photographerUrl": "https://unsplash.com/@warrensammut",
+      "source": "Unsplash",
+      "sourceUrl": "https://unsplash.com/photos/green-aurora-lights-above-snow-capped-mountain-TdoxXD7aGv8",
+      "license": "Unsplash License"
+    }
+  ]
+}

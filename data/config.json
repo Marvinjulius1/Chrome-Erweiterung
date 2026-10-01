@@ -1,0 +1,31 @@
+{
+  "_readme": "Core configuration for Zenith. Time slots are evaluated in the selected time zone. 'start' and 'end' are inclusive (HH:MM, 24h). A slot whose end is earlier than its start wraps past midnight.",
+  "slots": [
+    { "id": "dawn",    "label": "Dawn",        "start": "05:00", "end": "07:59" },
+    { "id": "morning", "label": "Morning",     "start": "08:00", "end": "11:59" },
+    { "id": "day",     "label": "Day",         "start": "12:00", "end": "16:59" },
+    { "id": "golden",  "label": "Golden Hour", "start": "17:00", "end": "19:59" },
+    { "id": "dusk",    "label": "Dusk",        "start": "20:00", "end": "22:59" },
+    { "id": "night",   "label": "Night",       "start": "23:00", "end": "04:59" }
+  ],
+  "categories": [
+    { "id": "space",     "label": "Space" },
+    { "id": "mountains", "label": "Mountains" },
+    { "id": "nature",    "label": "Nature & Forest" },
+    { "id": "ocean",     "label": "Ocean & Beach" },
+    { "id": "sunsets",   "label": "Sunrises & Sunsets" },
+    { "id": "fog",       "label": "Fog & Morning Mist" },
+    { "id": "rain",      "label": "Rain & Moody Weather" },
+    { "id": "night",     "label": "Night Sky" }
+  ],
+  "image": {
+    "widths": [1280, 1920, 2560, 3840],
+    "quality": 80,
+    "maxCached": 40,
+    "recentMemory": 12,
+    "historyLength": 20
+  },
+  "quote": {
+    "delaySeconds": 10
+  }
+}

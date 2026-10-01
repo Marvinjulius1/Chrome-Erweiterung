@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Zenith - feature styles (onboarding; more features are added here later)
+   ========================================================================== */
+
+/* ---------- Onboarding ---------- */
+.onboarding {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 0 var(--edge);
+  text-align: center;
+  text-shadow: var(--shadow-text);
+  background: rgba(5, 8, 15, 0.28);
+  opacity: 0;
+  transition: opacity var(--slow) var(--ease);
+}
+
+.onboarding[hidden] {
+  display: none;
+}
+
+.onboarding.is-visible {
+  opacity: 1;
+}
+
+/* While onboarding, the main content stays out of the way */
+body.is-onboarding .center,
+body.is-onboarding .photo-info {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.onboarding__question {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(30px, 4.6vw, 60px);
+  line-height: 1.15;
+}
+
+.onboarding__input {
+  width: min(520px, 86vw);
+  padding: 6px 4px 10px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(28px, 4vw, 52px);
+  text-align: center;
+  text-shadow: var(--shadow-text);
+  outline: none;
+  caret-color: rgba(255, 255, 255, 0.85);
+  user-select: text;
+  transition: border-color var(--medium) var(--ease);
+}
+
+.onboarding__input:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.9);
+}
+
+.onboarding__hint {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  opacity: 0;
+  transition: opacity var(--medium) var(--ease);
+}
+
+.onboarding__hint.is-visible {
+  opacity: 1;
+}
+
+.shake {
+  animation: shake 360ms var(--ease);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}

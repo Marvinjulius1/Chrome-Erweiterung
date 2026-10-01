@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>New Tab</title>
+  <link rel="preload" href="fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin-200-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/clock.css">
+  <link rel="stylesheet" href="css/features.css">
+</head>
+<body class="is-loading">
+
+  <!-- Background: two stacked layers for a soft cross-fade, plus a readability overlay -->
+  <div class="bg" aria-hidden="true">
+    <img class="bg__img" alt="" decoding="async">
+    <img class="bg__img" alt="" decoding="async">
+  </div>
+  <div class="bg__overlay" aria-hidden="true"></div>
+
+  <!-- Center stage: clock + greeting -->
+  <main id="center" class="center" data-clock-position="above">
+    <div id="clock" class="clock" role="timer" aria-live="off"></div>
+    <div class="message">
+      <h1 id="greeting" class="greeting"></h1>
+    </div>
+  </main>
+
+  <!-- Photo credit + image controls (bottom left, visible on hover) -->
+  <footer class="photo-info">
+    <div class="photo-info__text">
+      <p id="photo-title" class="photo-info__title"></p>
+      <p id="photo-credit" class="photo-info__credit"></p>
+    </div>
+    <div class="photo-info__controls" role="toolbar" aria-label="Background image">
+      <button id="img-prev" class="icon-btn" type="button" title="Previous image" aria-label="Previous image">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <button id="img-new" class="icon-btn" type="button" title="New image" aria-label="New image">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>
+      </button>
+      <button id="img-next" class="icon-btn" type="button" title="Next image" aria-label="Next image">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <button id="img-favorite" class="icon-btn icon-btn--toggle" type="button" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg>
+      </button>
+      <button id="img-pin" class="icon-btn icon-btn--toggle" type="button" title="Pin this image" aria-label="Pin this image" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6l-1 6 3 3H7l3-3-1-6z"/><path d="M12 13v7"/></svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- First run -->
+  <section id="onboarding" class="onboarding" hidden>
+    <label class="onboarding__question" for="onboarding-name">What should I call you?</label>
+    <input id="onboarding-name" class="onboarding__input" type="text" maxlength="40"
+           autocomplete="given-name" spellcheck="false">
+    <p class="onboarding__hint">Press Enter</p>
+  </section>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

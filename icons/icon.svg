@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1530"/>
+      <stop offset="0.62" stop-color="#3b2c5a"/>
+      <stop offset="1" stop-color="#e08a62"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.36" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#sky)"/>
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#glow)"/>
+  <!-- the sun at its zenith -->
+  <circle cx="64" cy="50" r="17" fill="#fff7ea"/>
+  <!-- calm horizon and its reflection on still water -->
+  <line x1="24" y1="88" x2="104" y2="88" stroke="#fff7ea" stroke-opacity="0.92" stroke-width="5" stroke-linecap="round"/>
+  <line x1="46" y1="101" x2="82" y2="101" stroke="#fff7ea" stroke-opacity="0.55" stroke-width="4" stroke-linecap="round"/>
+</svg>

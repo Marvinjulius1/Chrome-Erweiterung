@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Zenith - clock styles and clock position relative to the greeting
+   ========================================================================== */
+
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.clock__face {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.clock__date {
+  margin: clamp(2px, 0.6vh, 8px) 0 clamp(8px, 2vh, 22px);
+  font-size: clamp(12px, 1.15vw, 15px);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.86);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- Digital minimal / digital with seconds ---------- */
+.clock--digital .clock__time,
+.clock--digital-seconds .clock__time {
+  font-family: var(--font-sans);
+  font-weight: 200;
+  font-size: clamp(84px, 15vw, 220px);
+  letter-spacing: -0.035em;
+  color: var(--text);
+}
+
+.clock--digital-seconds .clock__time {
+  font-size: clamp(64px, 11.5vw, 170px);
+}
+
+.clock__period {
+  margin-left: 0.4em;
+  font-size: clamp(14px, 1.6vw, 22px);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.clock__period:empty {
+  display: none;
+}
+
+/* ---------- Position of the clock relative to the greeting ---------- */
+.center[data-clock-position='below'] {
+  flex-direction: column-reverse;
+}
+
+.center[data-clock-position='beside'] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: clamp(20px, 3.5vw, 56px);
+}
+
+.center[data-clock-position='beside'] .clock__time {
+  font-size: clamp(60px, 9vw, 140px);
+}
+
+.center[data-clock-position='beside'] .message {
+  max-width: min(46vw, 640px);
+  padding-left: clamp(20px, 3.5vw, 56px);
+  border-left: 1px solid rgba(255, 255, 255, 0.28);
+  text-align: left;
+}
+
+/* On narrow windows "beside" falls back to stacked */
+@media (max-width: 720px) {
+  .center[data-clock-position='beside'] {
+    flex-direction: column;
+    gap: clamp(4px, 1.2vh, 14px);
+  }
+
+  .center[data-clock-position='beside'] .message {
+    max-width: 92vw;
+    padding-left: 0;
+    border-left: 0;
+    text-align: center;
+  }
+}
