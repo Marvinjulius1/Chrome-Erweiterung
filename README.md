@@ -8,6 +8,7 @@ unless you ask for it.
 - No tracking, no analytics, no accounts
 - Works offline once photos are cached
 - Vanilla HTML, CSS and JavaScript. No framework, no build step.
+- Apple-inspired design: SF Pro on macOS, glass panels, iOS-style controls
 
 ![Icon](icons/icon128.png)
 
@@ -181,7 +182,7 @@ js/
   features/            focus, focus-core, intention, todo, notes, links,
                        sounds, breathing, zen, help
 data/                  config, images, greetings, quotes, sounds
-fonts/                 Inter + Cormorant Garamond (woff2) and their licenses
+fonts/                 Inter (woff2, fallback for systems without SF Pro) and its license
 icons/                 icon16/48/128.png and icon.svg (source)
 sounds/                Optional own recordings
 ```
@@ -211,12 +212,20 @@ Network requests go only to the Unsplash image CDN (and to the Unsplash API
 if you add your own key). No analytics, no tracking, no remote code, no
 external fonts.
 
+## Design
+
+Zenith follows Apple's design language: the system font (SF Pro on macOS
+and iOS) with tight tracking, the date above the time like the iPhone lock
+screen, translucent "vibrancy" glass, grouped settings cards, segmented
+controls, green switches and Apple's system colors. SF Pro may not be
+redistributed, so it is used only where the system provides it; on Windows
+and Linux, Inter (bundled) is the fallback.
+
 ## Credits and licenses
 
 - Photos: their photographers on [Unsplash](https://unsplash.com), under the
   [Unsplash License](https://unsplash.com/license). Each photo is credited in
   the app.
-- Fonts: [Inter](https://rsms.me/inter/) and
-  [Cormorant Garamond](https://github.com/CatharsisFonts/Cormorant), both under
-  the SIL Open Font License 1.1 (see `fonts/`).
+- Fonts: Apple's system font where available; [Inter](https://rsms.me/inter/)
+  under the SIL Open Font License 1.1 as the bundled fallback (see `fonts/`).
 - Quotes: attributed only where the attribution is well documented.

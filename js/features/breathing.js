@@ -54,7 +54,7 @@ export function startBreathing() {
 
 function showPhase(phase) {
   els.cue.textContent = phase.cue;
-  els.circle.style.transitionDuration = `${phase.seconds}s`;
+  els.circle.style.setProperty('--dur', `${phase.seconds}s`);
   els.circle.classList.remove('is-in', 'is-hold', 'is-out');
   els.circle.classList.add(phase.className);
 }

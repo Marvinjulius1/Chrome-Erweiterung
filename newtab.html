@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <title>New Tab</title>
-  <link rel="preload" href="fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/inter-latin-200-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Inter is the fallback for systems without Apple's SF Pro -->
+  <link rel="preload" href="fonts/inter-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/clock.css">
   <link rel="stylesheet" href="css/panel.css">
@@ -97,7 +98,14 @@
 
   <!-- Breathing exercise -->
   <section id="breathing" class="breathing" aria-label="Breathing exercise" hidden>
-    <div class="breathing__circle" aria-hidden="true"></div>
+    <div class="breathing__circle" aria-hidden="true">
+      <span class="breathing__petal" style="--i: 0"></span>
+      <span class="breathing__petal" style="--i: 1"></span>
+      <span class="breathing__petal" style="--i: 2"></span>
+      <span class="breathing__petal" style="--i: 3"></span>
+      <span class="breathing__petal" style="--i: 4"></span>
+      <span class="breathing__petal" style="--i: 5"></span>
+    </div>
     <p id="breathing-cue" class="breathing__cue" aria-live="polite">Breathe in</p>
     <p id="breathing-left" class="breathing__left"></p>
     <button id="breathing-close" class="breathing__close" type="button">End · Esc</button>
@@ -141,6 +149,7 @@
       <div id="pane-today" class="pane" role="tabpanel" aria-labelledby="tab-today">
         <section class="panel-section">
           <h3 class="panel-section__title">Quick links</h3>
+          <div class="group">
           <div id="links" class="links"></div>
           <form id="link-form" class="link-form" hidden>
             <input id="link-title" class="input" type="text" maxlength="30" placeholder="Name" autocomplete="off">
@@ -151,30 +160,37 @@
             </div>
             <p id="link-error" class="hint" data-state="error" hidden></p>
           </form>
+          </div>
         </section>
 
         <section class="panel-section">
           <h3 class="panel-section__title">Daily intention</h3>
+          <div class="group">
           <label class="field">
             <span class="field__label">What's your main focus today?</span>
             <input id="intention-input" class="input" type="text" maxlength="80" autocomplete="off" placeholder="One thing that matters">
           </label>
           <p class="hint">Shown quietly under the clock. Resets at midnight.</p>
+          </div>
         </section>
 
         <section class="panel-section">
           <h3 class="panel-section__title">Today's tasks</h3>
+          <div class="group">
           <ul id="todo-list" class="todo"></ul>
           <form id="todo-form" class="todo-form">
             <input id="todo-input" class="input" type="text" maxlength="80" autocomplete="off" placeholder="Add a task">
           </form>
           <p id="todo-hint" class="hint">Keep it to five. Finished tasks clear at midnight.</p>
+          </div>
         </section>
 
         <section class="panel-section">
           <h3 class="panel-section__title">Notes</h3>
+          <div class="group">
           <textarea id="notes" class="input notes" rows="6" maxlength="5000" placeholder="A thought, a number, an idea…"></textarea>
           <p id="notes-status" class="hint">Saved on this device.</p>
+          </div>
         </section>
       </div>
 
@@ -182,6 +198,7 @@
       <div id="pane-tools" class="pane" role="tabpanel" aria-labelledby="tab-tools" hidden>
         <section class="panel-section">
           <h3 class="panel-section__title">Focus mode</h3>
+          <div class="group">
           <p id="focus-status" class="focus-status"></p>
           <div class="field-grid">
             <label class="field">
@@ -199,22 +216,27 @@
           </label>
           <button id="focus-start" class="btn btn--wide" type="button">Start focus</button>
           <p class="hint">Everything but the clock and the timer fades away. You get a notification when the session ends.</p>
+          </div>
         </section>
 
         <section class="panel-section">
           <h3 class="panel-section__title">Breathing</h3>
+          <div class="group">
           <p class="hint hint--top">One calm minute: in for 4, hold for 2, out for 6.</p>
           <button id="breathing-start" class="btn btn--wide" type="button">Start breathing</button>
+          </div>
         </section>
 
         <section class="panel-section">
           <h3 class="panel-section__title">Ambient sound</h3>
+          <div class="group">
           <div id="sound-list" class="sound-list" role="group" aria-label="Ambient sounds"></div>
           <label class="field field--range">
             <span class="field__label">Volume</span>
             <input id="sound-volume" type="range" min="0" max="100" step="1" data-setting="ambientVolume">
           </label>
           <p class="hint">Plays while this tab stays open.</p>
+          </div>
         </section>
       </div>
 
@@ -222,14 +244,17 @@
       <div id="pane-settings" class="pane" role="tabpanel" aria-labelledby="tab-settings" hidden>
       <section class="panel-section">
         <h3 class="panel-section__title">General</h3>
+          <div class="group">
         <label class="field">
           <span class="field__label">Your name</span>
           <input id="set-name" class="input" type="text" maxlength="40" autocomplete="off" spellcheck="false">
         </label>
+          </div>
       </section>
 
       <section class="panel-section">
         <h3 class="panel-section__title">Clock</h3>
+          <div class="group">
         <div id="clock-picker" class="clock-picker" role="radiogroup" aria-label="Clock style"></div>
 
         <div class="field">
@@ -258,10 +283,12 @@
           <span>Show date</span>
           <input type="checkbox" data-setting="showDate"><span class="switch__track" aria-hidden="true"></span>
         </label>
+          </div>
       </section>
 
       <section class="panel-section">
         <h3 class="panel-section__title">Time zone</h3>
+          <div class="group">
         <div class="combobox" id="tz-combobox">
           <input id="tz-input" class="input" type="text" role="combobox" autocomplete="off" spellcheck="false"
                  aria-autocomplete="list" aria-expanded="false" aria-controls="tz-list"
@@ -269,10 +296,12 @@
           <ul id="tz-list" class="combobox__list" role="listbox" aria-label="Time zones" hidden></ul>
         </div>
         <p id="tz-current" class="hint"></p>
+          </div>
       </section>
 
       <section class="panel-section">
         <h3 class="panel-section__title">Background</h3>
+          <div class="group">
         <div class="field">
           <span class="field__label">Image behavior</span>
           <div class="options" role="radiogroup" aria-label="Image behavior">
@@ -305,10 +334,12 @@
           </div>
           <p id="unsplash-status" class="hint">Without a key, Zenith uses its built-in photo collection.</p>
         </div>
+          </div>
       </section>
 
       <section class="panel-section">
         <h3 class="panel-section__title">Thought of the Day</h3>
+          <div class="group">
         <label class="switch">
           <span>Switch from greeting automatically</span>
           <input type="checkbox" data-setting="quoteAutoSwitch"><span class="switch__track" aria-hidden="true"></span>
@@ -317,11 +348,14 @@
           <span class="field__label">After <output id="quote-delay-value">10</output> seconds</span>
           <input type="range" min="3" max="60" step="1" data-setting="quoteDelaySeconds">
         </label>
+          </div>
       </section>
 
       <section class="panel-section">
         <h3 class="panel-section__title">Shortcuts</h3>
+          <div class="group">
         <dl class="shortcuts" id="settings-shortcuts"></dl>
+          </div>
       </section>
       </div>
     </div>

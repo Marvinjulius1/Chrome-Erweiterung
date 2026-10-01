@@ -2,7 +2,10 @@
    Zenith - base styles: fonts, tokens, background, layout, photo credit
    ========================================================================== */
 
-/* ---------- Fonts (bundled, SIL Open Font License) ---------- */
+/* ---------- Fonts ----------
+   Apple's system font (SF Pro) is used where it exists (macOS, iOS). It may
+   not be bundled, so everywhere else Inter (SIL Open Font License), a close
+   relative in look and metrics, is the fallback. */
 @font-face {
   font-family: 'Inter';
   font-weight: 200;
@@ -28,43 +31,47 @@
   src: url('../fonts/inter-latin-500-normal.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Cormorant Garamond';
-  font-weight: 300;
+  font-family: 'Inter';
+  font-weight: 600;
   font-display: swap;
-  src: url('../fonts/cormorant-garamond-latin-300-normal.woff2') format('woff2');
+  src: url('../fonts/inter-latin-600-normal.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Cormorant Garamond';
-  font-weight: 400;
+  font-family: 'Inter';
+  font-weight: 700;
   font-display: swap;
-  src: url('../fonts/cormorant-garamond-latin-400-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: italic;
-  font-weight: 300;
-  font-display: swap;
-  src: url('../fonts/cormorant-garamond-latin-300-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../fonts/cormorant-garamond-latin-400-italic.woff2') format('woff2');
+  src: url('../fonts/inter-latin-700-normal.woff2') format('woff2');
 }
 
 /* ---------- Design tokens ---------- */
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  --font-serif: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
+  --font-text: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --font-sans: var(--font-text);
 
-  --text: rgba(255, 255, 255, 0.96);
+  /* Apple system colors (dark appearance) */
+  --accent: #0a84ff;
+  --green: #30d158;
+  --orange: #ff9f0a;
+  --pink: #ff375f;
+  --mint: #63e6e2;
+  --teal: #40c8e0;
+
+  --text: rgba(255, 255, 255, 0.97);
   --text-soft: rgba(255, 255, 255, 0.72);
   --text-faint: rgba(255, 255, 255, 0.5);
-  --shadow-text: 0 1px 2px rgba(0, 0, 0, 0.18), 0 2px 24px rgba(0, 0, 0, 0.28);
+  --hairline: rgba(255, 255, 255, 0.12);
+  --shadow-text: 0 1px 2px rgba(0, 0, 0, 0.16), 0 2px 18px rgba(0, 0, 0, 0.24);
 
-  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Glass materials (macOS / iOS "vibrancy") */
+  --glass: rgba(30, 30, 34, 0.5);
+  --glass-strong: rgba(28, 28, 32, 0.72);
+  --glass-blur: blur(40px) saturate(180%);
+  --fill: rgba(118, 118, 128, 0.24);
+  --fill-soft: rgba(118, 118, 128, 0.16);
+
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --spring: cubic-bezier(0.32, 0.72, 0, 1);
   --fast: 200ms;
   --medium: 400ms;
   --slow: 600ms;
@@ -93,8 +100,10 @@ body {
   overflow: hidden;
   background: #0d1117;
   color: var(--text);
-  font-family: var(--font-sans);
+  font-family: var(--font-text);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'kern';
   text-rendering: optimizeLegibility;
   user-select: none;
 }
@@ -182,11 +191,11 @@ body[data-slot='night']   { --slot-gradient: linear-gradient(170deg, #05070d 0%,
 
 .greeting {
   margin: 0;
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-size: clamp(30px, min(5.2vw, 8.5vh), 84px);
-  line-height: 1.12;
-  letter-spacing: 0.005em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(26px, min(3.9vw, 6.4vh), 60px);
+  line-height: 1.1;
+  letter-spacing: -0.022em;
   color: var(--text);
 }
 
@@ -234,9 +243,9 @@ body.is-loading .photo-info {
 
 .photo-info p {
   margin: 0;
-  font-size: 12px;
-  line-height: 1.5;
-  letter-spacing: 0.01em;
+  font-size: 12.5px;
+  line-height: 1.45;
+  letter-spacing: -0.005em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -244,12 +253,12 @@ body.is-loading .photo-info {
 
 .photo-info__title {
   color: var(--text);
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .photo-info__credit {
   color: var(--text-soft);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .photo-info__credit a {
@@ -317,6 +326,12 @@ body.is-loading .photo-info {
 
 .icon-btn--toggle[aria-pressed='true'] svg {
   fill: currentColor;
+}
+
+/* Favorites use Apple's pink heart */
+#img-favorite[aria-pressed='true'],
+.quote__favorite[aria-pressed='true'] {
+  color: var(--pink);
 }
 
 /* ---------- Small screens ---------- */

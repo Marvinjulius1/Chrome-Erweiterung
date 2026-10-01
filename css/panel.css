@@ -1,5 +1,7 @@
 /* ==========================================================================
-   Zenith - corner button, glass panel and settings controls
+   Zenith - corner button, glass panel and its controls
+   Styled after macOS System Settings / iOS: vibrant glass, grouped cards,
+   segmented controls, green switches and blue primary buttons.
    ========================================================================== */
 
 /* ---------- Corner button ---------- */
@@ -10,41 +12,45 @@
   z-index: 31;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 0.5px solid rgba(255, 255, 255, 0.22);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.12);
   color: var(--text);
   cursor: pointer;
-  opacity: 0.32;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: opacity var(--medium) var(--ease), background var(--fast) var(--ease), transform var(--fast) var(--ease);
+  opacity: 0.35;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  transition: opacity var(--medium) var(--ease), background var(--fast) var(--ease), transform var(--fast) var(--spring);
 }
 
 .corner-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.6;
+  stroke-width: 1.8;
   stroke-linecap: round;
 }
 
 body.is-active .corner-btn {
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 .corner-btn:hover,
 .corner-btn:focus-visible {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.corner-btn:active {
+  transform: scale(0.92);
 }
 
 .corner-btn:focus-visible {
-  outline: 1px solid rgba(255, 255, 255, 0.7);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -59,7 +65,7 @@ body.panel-open .corner-btn {
 /* On wide screens the center content glides left so the open panel never covers it */
 @media (min-width: 900px) {
   .center {
-    transition: opacity var(--slow) var(--ease), transform 450ms var(--ease);
+    transition: opacity var(--slow) var(--ease), transform 500ms var(--spring);
   }
 
   body.panel-open .center {
@@ -77,23 +83,25 @@ body.panel-open .corner-btn {
   display: flex;
   flex-direction: column;
   width: min(384px, calc(100vw - 24px));
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 22px;
-  background: rgba(16, 18, 26, 0.46);
-  backdrop-filter: blur(28px) saturate(150%);
-  -webkit-backdrop-filter: blur(28px) saturate(150%);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 26px;
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35), inset 0 0.5px 0 rgba(255, 255, 255, 0.14);
   color: var(--text);
+  font-size: 14px;
+  letter-spacing: -0.01em;
   text-shadow: none;
   user-select: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(18px) scale(0.985);
+  transform: translateX(24px) scale(0.98);
   transform-origin: 100% 100%;
   transition:
     opacity 300ms var(--ease),
-    transform 450ms var(--ease),
-    visibility 0s linear 450ms;
+    transform 500ms var(--spring),
+    visibility 0s linear 500ms;
 }
 
 .panel.is-open {
@@ -102,7 +110,7 @@ body.panel-open .corner-btn {
   transform: none;
   transition:
     opacity 300ms var(--ease),
-    transform 450ms var(--ease),
+    transform 500ms var(--spring),
     visibility 0s;
 }
 
@@ -110,49 +118,106 @@ body.panel-open .corner-btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 14px 8px 18px;
+  padding: 14px 12px 6px 16px;
 }
 
 .panel__body {
   flex: 1;
   overflow-y: auto;
-  padding: 4px 22px 22px;
+  padding: 2px 16px 20px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
-.panel-section {
-  padding: 16px 0 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+/* Close button: a small filled circle, like iOS sheets */
+#panel-close {
+  width: 28px;
+  height: 28px;
+  background: var(--fill);
+  color: var(--text-soft);
 }
 
-.panel-section:first-child {
-  border-top: 0;
+#panel-close svg {
+  width: 13px;
+  height: 13px;
+  stroke-width: 2.4;
+  filter: none;
+}
+
+#panel-close:hover {
+  color: var(--text);
+  background: rgba(118, 118, 128, 0.36);
+}
+
+/* ---------- Tabs (segmented control) ---------- */
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 10px;
+  background: var(--fill);
+}
+
+.tab {
+  padding: 5px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--fast) var(--ease);
+}
+
+.tab[aria-selected='true'] {
+  background: rgba(99, 99, 102, 0.9);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+  font-weight: 600;
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ---------- Sections: title above a grouped card ---------- */
+.panel-section {
+  padding: 18px 0 0;
 }
 
 .panel-section__title {
-  margin: 0 0 12px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  margin: 0 0 7px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   color: var(--text-faint);
+}
+
+.group {
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--fill-soft);
+}
+
+.group > .field:first-child,
+.group > .switch:first-child,
+.group > .hint:first-child {
+  margin-top: 0;
 }
 
 /* ---------- Fields ---------- */
 .field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   margin-top: 14px;
-}
-
-.field:first-of-type {
-  margin-top: 0;
 }
 
 .field__label {
   font-size: 13px;
+  font-weight: 500;
   color: var(--text-soft);
 }
 
@@ -164,24 +229,25 @@ body.panel-open .corner-btn {
 .input {
   width: 100%;
   padding: 9px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 0;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(118, 118, 128, 0.24);
   color: var(--text);
   font: inherit;
-  font-size: 14px;
+  font-size: 15px;
   outline: none;
   user-select: text;
-  transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
+  caret-color: var(--accent);
+  transition: background var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
 }
 
 .input::placeholder {
-  color: var(--text-faint);
+  color: rgba(235, 235, 245, 0.4);
 }
 
 .input:focus {
-  border-color: rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.11);
+  background: rgba(118, 118, 128, 0.32);
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.55);
 }
 
 .input-row {
@@ -189,24 +255,43 @@ body.panel-open .corner-btn {
   gap: 8px;
 }
 
+/* ---------- Buttons ---------- */
 .btn {
   flex-shrink: 0;
-  padding: 0 14px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 9px 16px;
+  border: 0;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.12);
-  font-size: 13px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background var(--fast) var(--ease);
+  transition: filter var(--fast) var(--ease), transform var(--fast) var(--spring), opacity var(--fast);
 }
 
 .btn:hover {
-  background: rgba(255, 255, 255, 0.22);
+  filter: brightness(1.12);
+}
+
+.btn:active {
+  transform: scale(0.97);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: default;
+}
+
+.btn--ghost {
+  background: var(--fill);
+  color: var(--text);
+}
+
+.btn--wide {
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px 16px;
+  border-radius: 12px;
 }
 
 .btn:focus-visible,
@@ -215,23 +300,27 @@ body.panel-open .corner-btn {
 .option input:focus-visible + span,
 .clock-option input:focus-visible ~ .clock-option__preview,
 .switch input:focus-visible + .switch__track {
-  outline: 1px solid rgba(255, 255, 255, 0.75);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
 .hint {
-  margin: 8px 0 0;
-  font-size: 12px;
+  margin: 10px 0 0;
+  font-size: 12.5px;
   line-height: 1.45;
   color: var(--text-faint);
 }
 
+.hint--top {
+  margin: 0;
+}
+
 .hint[data-state='ok'] {
-  color: #b9f0c9;
+  color: var(--green);
 }
 
 .hint[data-state='error'] {
-  color: #ffc2b8;
+  color: #ff6961;
 }
 
 /* Visually hidden native inputs inside custom controls */
@@ -250,9 +339,9 @@ body.panel-open .corner-btn {
 /* ---------- Segmented control ---------- */
 .segmented {
   display: flex;
-  padding: 3px;
-  border-radius: 11px;
-  background: rgba(255, 255, 255, 0.07);
+  padding: 2px;
+  border-radius: 9px;
+  background: var(--fill);
 }
 
 .segmented label {
@@ -262,21 +351,23 @@ body.panel-open .corner-btn {
 
 .segmented span {
   display: block;
-  padding: 7px 4px;
-  border-radius: 8px;
+  padding: 6px 4px;
+  border-radius: 7px;
   font-size: 13px;
+  font-weight: 500;
   text-align: center;
-  color: var(--text-soft);
+  color: var(--text);
   cursor: pointer;
-  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+  transition: background var(--fast) var(--ease);
 }
 
 .segmented input:checked + span {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text);
+  background: rgba(99, 99, 102, 0.9);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+  font-weight: 600;
 }
 
-/* ---------- Switch ---------- */
+/* ---------- Switch (iOS) ---------- */
 .switch {
   position: relative;
   display: flex;
@@ -284,90 +375,101 @@ body.panel-open .corner-btn {
   justify-content: space-between;
   gap: 12px;
   margin-top: 14px;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
 }
 
 .switch__track {
   position: relative;
   flex-shrink: 0;
-  width: 38px;
-  height: 22px;
-  border-radius: 11px;
-  background: rgba(255, 255, 255, 0.18);
-  transition: background var(--fast) var(--ease);
+  width: 46px;
+  height: 28px;
+  border-radius: 14px;
+  background: rgba(120, 120, 128, 0.36);
+  transition: background 250ms var(--ease);
 }
 
 .switch__track::after {
   content: '';
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  transition: transform var(--medium) var(--ease);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 3px 1px rgba(0, 0, 0, 0.06);
+  transition: transform 300ms var(--spring);
 }
 
 .switch input:checked + .switch__track {
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--green);
 }
 
 .switch input:checked + .switch__track::after {
-  transform: translateX(16px);
+  transform: translateX(18px);
 }
 
 /* ---------- Range ---------- */
 .field--range input[type='range'] {
   width: 100%;
-  accent-color: #fff;
+  accent-color: var(--accent);
 }
 
 .field--range input:disabled {
   opacity: 0.35;
 }
 
-/* ---------- Option list (image behavior) ---------- */
+/* ---------- Option list (image behavior): iOS checkmark rows ---------- */
 .options {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(118, 118, 128, 0.12);
 }
 
 .option {
   position: relative;
 }
 
+.option + .option span {
+  border-top: 0.5px solid var(--hairline);
+}
+
 .option span {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 9px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 11px;
+  gap: 1px;
+  padding: 10px 40px 10px 12px;
   cursor: pointer;
-  transition: background var(--fast) var(--ease), border-color var(--fast) var(--ease);
+  transition: background var(--fast) var(--ease);
 }
 
 .option strong {
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .option small {
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--text-faint);
 }
 
 .option:hover span {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.option input:checked + span {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.12);
+.option input:checked + span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2 7.4l3.2 3.1L12 3.6' fill='none' stroke='%230a84ff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 /* ---------- Chips (categories) ---------- */
@@ -383,19 +485,19 @@ body.panel-open .corner-btn {
 
 .chip span {
   display: inline-block;
-  padding: 6px 11px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 6px 12px;
   border-radius: 999px;
-  font-size: 12.5px;
+  background: var(--fill);
+  font-size: 13px;
+  font-weight: 500;
   color: var(--text-soft);
   cursor: pointer;
-  transition: background var(--fast) var(--ease), color var(--fast) var(--ease), border-color var(--fast) var(--ease);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
 }
 
 .chip input:checked + span {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.18);
-  color: var(--text);
+  background: var(--accent);
+  color: #fff;
 }
 
 /* ---------- Clock style picker ---------- */
@@ -419,29 +521,30 @@ body.panel-open .corner-btn {
   place-items: center;
   height: 86px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.18);
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.22);
   transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
 }
 
 .clock-option:hover .clock-option__preview {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .clock-option input:checked ~ .clock-option__preview {
-  border-color: rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
 }
 
 .clock-option__label {
-  font-size: 12px;
+  font-size: 12.5px;
+  font-weight: 500;
   text-align: center;
   color: var(--text-soft);
 }
 
 .clock-option input:checked ~ .clock-option__label {
-  color: var(--text);
+  color: var(--accent);
+  font-weight: 600;
 }
 
 /* Mini versions of each clock style */
@@ -495,15 +598,15 @@ body.panel-open .corner-btn {
   z-index: 2;
   max-height: 240px;
   margin: 0;
-  padding: 4px;
+  padding: 5px;
   overflow-y: auto;
   list-style: none;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
   border-radius: 12px;
-  background: rgba(22, 24, 32, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  background: rgba(40, 40, 44, 0.94);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
   scrollbar-width: thin;
 }
 
@@ -511,23 +614,28 @@ body.panel-open .corner-btn {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 7px 10px;
+  border-radius: 7px;
   cursor: pointer;
 }
 
 .combobox__option.is-active,
 .combobox__option:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--accent);
+}
+
+.combobox__option.is-active .combobox__meta,
+.combobox__option:hover .combobox__meta {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .combobox__option[aria-selected='true'] .combobox__city::after {
   content: ' ✓';
-  color: var(--text-soft);
 }
 
 .combobox__city {
   font-size: 14px;
+  font-weight: 500;
   white-space: nowrap;
 }
 
@@ -548,9 +656,9 @@ body.panel-open .corner-btn {
 /* ---------- Shortcut list ---------- */
 .shortcuts {
   display: grid;
-  gap: 8px;
+  gap: 9px;
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .shortcuts div {
@@ -572,80 +680,19 @@ body.panel-open .corner-btn {
 
 kbd {
   display: inline-block;
-  min-width: 24px;
-  padding: 2px 7px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom-width: 2px;
+  min-width: 26px;
+  padding: 3px 7px;
   border-radius: 6px;
-  font-family: var(--font-sans);
-  font-size: 11px;
+  background: var(--fill);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 500;
   text-align: center;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
 }
 
-/* Bottom-left photo info should not sit under the open panel on small screens */
-@media (max-width: 720px) {
-  body.panel-open .photo-info {
-    opacity: 0 !important;
-    pointer-events: none;
-  }
-}
-
-/* ---------- Tabs ---------- */
-.tabs {
-  display: flex;
-  gap: 2px;
-  padding: 3px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.07);
-}
-
-.tab {
-  padding: 6px 13px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
-  font-size: 13px;
-  color: var(--text-soft);
-  cursor: pointer;
-  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
-}
-
-.tab:hover {
-  color: var(--text);
-}
-
-.tab[aria-selected='true'] {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text);
-}
-
-.tab:focus-visible {
-  outline: 1px solid rgba(255, 255, 255, 0.75);
-  outline-offset: 1px;
-}
-
-/* ---------- Generic additions ---------- */
-.btn {
-  padding: 9px 14px;
-}
-
-.btn--wide {
-  width: 100%;
-  margin-top: 14px;
-  padding: 10px 14px;
-  font-size: 14px;
-}
-
-.btn--ghost {
-  background: transparent;
-}
-
-.hint--top {
-  margin: 0;
-}
-
+/* ---------- Layout helpers ---------- */
 .field-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -658,19 +705,21 @@ kbd {
 
 .focus-status {
   margin: 0 0 12px;
-  padding: 8px 12px;
+  padding: 9px 12px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  font-size: 13px;
+  background: rgba(255, 159, 10, 0.18);
+  color: var(--orange);
+  font-size: 14px;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Quick links ---------- */
+/* ---------- Quick links: app-icon style tiles ---------- */
 .links {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
 }
 
 .link {
@@ -679,7 +728,7 @@ kbd {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  width: 52px;
+  width: 54px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -691,32 +740,39 @@ kbd {
 .link__icon {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 13px;
-  background: hsla(var(--hue, 220), 45%, 55%, 0.32);
-  font-size: 17px;
-  font-weight: 500;
-  color: var(--text);
-  transition: transform var(--fast) var(--ease), background var(--fast) var(--ease);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;  /* squircle-like, as on iOS */
+  background: linear-gradient(160deg, hsl(var(--hue, 220), 65%, 58%), hsl(calc(var(--hue, 220) + 25), 70%, 42%));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  color: #fff;
+  transition: transform var(--fast) var(--spring);
 }
 
 .link:hover .link__icon {
-  transform: translateY(-2px);
+  transform: scale(1.06);
+}
+
+.link:active .link__icon {
+  transform: scale(0.94);
 }
 
 .link--add .link__icon {
-  background: rgba(255, 255, 255, 0.06);
-  border-style: dashed;
-  font-weight: 300;
-  font-size: 20px;
+  background: var(--fill);
+  box-shadow: none;
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--text-soft);
 }
 
 .link__label {
   max-width: 100%;
   overflow: hidden;
-  font-size: 11px;
+  font-size: 11.5px;
+  font-weight: 500;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -724,26 +780,26 @@ kbd {
 .link__remove {
   position: absolute;
   top: -6px;
-  right: -2px;
+  left: -4px;
   width: 20px;
   height: 20px;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.85);
-  color: #111;
+  background: rgba(60, 60, 64, 0.95);
+  color: #fff;
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;
 }
 
 .links.is-editing .link__icon {
-  animation: wiggle 900ms ease-in-out infinite;
+  animation: wiggle 300ms ease-in-out infinite;
 }
 
 @keyframes wiggle {
-  25% { transform: rotate(-2deg); }
-  75% { transform: rotate(2deg); }
+  25% { transform: rotate(-2.5deg); }
+  75% { transform: rotate(2.5deg); }
 }
 
 .links__edit {
@@ -753,13 +809,10 @@ kbd {
   border: 0;
   border-radius: 7px;
   background: transparent;
-  font-size: 12px;
-  color: var(--text-faint);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
   cursor: pointer;
-}
-
-.links__edit:hover {
-  color: var(--text);
 }
 
 .link-form {
@@ -769,37 +822,59 @@ kbd {
   margin-top: 14px;
 }
 
-/* ---------- To-do ---------- */
+/* ---------- To-do: round checkmarks like Reminders ---------- */
 .todo {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   padding: 0;
   list-style: none;
+}
+
+.todo:empty {
+  display: none;
 }
 
 .todo__item {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 8px 0;
+}
+
+.todo__item + .todo__item {
+  border-top: 0.5px solid var(--hairline);
 }
 
 .todo__label {
   display: flex;
   flex: 1;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   min-width: 0;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
 }
 
 .todo__label input {
   flex-shrink: 0;
-  width: 16px;
-  height: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 21px;
+  height: 21px;
   margin: 0;
-  accent-color: #fff;
+  border: 1.5px solid rgba(235, 235, 245, 0.35);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--fast) var(--ease), border-color var(--fast) var(--ease);
+}
+
+.todo__label input:checked {
+  border-color: var(--accent);
+  background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 21'%3E%3Cpath d='M6 10.8l3 3 6-6.6' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+
+.todo__label input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .todo__label span {
@@ -807,7 +882,6 @@ kbd {
 }
 
 .todo__item.is-done .todo__label span {
-  text-decoration: line-through;
   color: var(--text-faint);
 }
 
@@ -816,10 +890,11 @@ kbd {
   height: 24px;
   padding: 0;
   border: 0;
-  border-radius: 6px;
-  background: transparent;
-  font-size: 16px;
-  color: var(--text-faint);
+  border-radius: 50%;
+  background: var(--fill);
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--text-soft);
   cursor: pointer;
   opacity: 0;
   transition: opacity var(--fast) var(--ease);
@@ -850,32 +925,45 @@ kbd {
 }
 
 .sound {
-  padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 11px;
-  background: rgba(255, 255, 255, 0.05);
-  font-size: 13px;
+  padding: 11px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--fill);
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background var(--fast) var(--ease), border-color var(--fast) var(--ease);
+  transition: background var(--fast) var(--ease), transform var(--fast) var(--spring);
 }
 
 .sound:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(118, 118, 128, 0.34);
+}
+
+.sound:active {
+  transform: scale(0.97);
 }
 
 .sound[aria-pressed='true'] {
-  border-color: rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--accent);
+  color: #fff;
 }
 
 .sound[aria-pressed='true']::before {
   content: '';
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   margin-right: 8px;
   border-radius: 50%;
   background: #fff;
   vertical-align: 0.1em;
   animation: breathe-opacity 1.6s ease-in-out infinite;
+}
+
+/* Bottom-left photo info should not sit under the open panel on small screens */
+@media (max-width: 720px) {
+  body.panel-open .photo-info {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
 }

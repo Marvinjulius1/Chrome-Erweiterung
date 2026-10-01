@@ -37,40 +37,45 @@ body.is-onboarding .photo-info {
 }
 
 .onboarding__question {
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-size: clamp(30px, 4.6vw, 60px);
-  line-height: 1.15;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(30px, 4.2vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
+/* An iOS-style glass text field */
 .onboarding__input {
-  width: min(520px, 86vw);
-  padding: 6px 4px 10px;
-  border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
-  border-radius: 0;
-  background: transparent;
+  width: min(440px, 86vw);
+  padding: 14px 20px;
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   color: var(--text);
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-size: clamp(28px, 4vw, 52px);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, 2.6vw, 30px);
+  letter-spacing: -0.02em;
   text-align: center;
-  text-shadow: var(--shadow-text);
   outline: none;
-  caret-color: rgba(255, 255, 255, 0.85);
+  caret-color: var(--accent);
   user-select: text;
-  transition: border-color var(--medium) var(--ease);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+  transition: border-color var(--medium) var(--ease), background var(--medium) var(--ease);
 }
 
 .onboarding__input:focus {
-  border-bottom-color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .onboarding__hint {
   margin: 0;
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--text-faint);
   opacity: 0;
   transition: opacity var(--medium) var(--ease);
@@ -127,12 +132,11 @@ body.is-onboarding .photo-info {
 
 .quote__text {
   margin: 0;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(24px, min(3.3vw, 5.4vh), 54px);
-  line-height: 1.22;
-  letter-spacing: 0.005em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, min(2.9vw, 4.8vh), 46px);
+  line-height: 1.18;
+  letter-spacing: -0.022em;
   text-wrap: balance;
 }
 
@@ -146,22 +150,10 @@ body.is-onboarding .photo-info {
 }
 
 .quote__author {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-size: clamp(14px, 1.2vw, 17px);
+  font-weight: 500;
+  letter-spacing: -0.005em;
   color: var(--text-soft);
-}
-
-.quote__author::before {
-  content: '';
-  width: 22px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
 }
 
 /* The heart only appears when the quote is hovered (or already saved) */
@@ -204,17 +196,20 @@ body.is-onboarding .photo-info {
   align-items: center;
 }
 
+/* A small glass pill, like an iOS lock screen widget */
 .intention {
   max-width: min(80vw, 560px);
-  margin: clamp(2px, 0.6vh, 8px) 0 clamp(6px, 1.4vh, 16px);
-  padding: 4px 10px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  font-size: clamp(14px, 1.3vw, 17px);
-  font-weight: 300;
-  letter-spacing: 0.02em;
-  color: var(--text-soft);
+  margin: clamp(4px, 1vh, 12px) 0 clamp(8px, 1.6vh, 18px);
+  padding: 7px 14px;
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
   text-shadow: var(--shadow-text);
   cursor: pointer;
   transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
@@ -223,28 +218,26 @@ body.is-onboarding .photo-info {
 .intention::before {
   content: '';
   display: inline-block;
-  width: 7px;
-  height: 7px;
-  margin-right: 10px;
-  border: 1px solid currentColor;
+  width: 12px;
+  height: 12px;
+  margin-right: 9px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 50%;
-  vertical-align: 0.12em;
-  transition: background var(--fast) var(--ease);
+  vertical-align: -0.12em;
+  transition: background var(--fast) var(--ease), border-color var(--fast) var(--ease);
 }
 
 .intention:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .intention.is-done {
-  text-decoration: line-through;
-  text-decoration-color: rgba(255, 255, 255, 0.5);
-  color: var(--text-faint);
+  color: var(--text-soft);
 }
 
 .intention.is-done::before {
-  background: currentColor;
+  border-color: var(--green);
+  background: var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6.2l2 2 4-4.4' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
 }
 
 .center[data-clock-position='beside'] .clock-block {
@@ -276,25 +269,25 @@ body.is-onboarding .photo-info {
   overflow: visible;
 }
 
+/* Apple Clock timer style: an orange ring for focus, mint for the break */
 .focus__track,
 .focus__progress {
   fill: none;
-  stroke-width: 2.5;
+  stroke-width: 5;
 }
 
 .focus__track {
-  stroke: rgba(255, 255, 255, 0.18);
+  stroke: rgba(255, 255, 255, 0.16);
 }
 
 .focus__progress {
-  stroke: rgba(255, 255, 255, 0.92);
+  stroke: var(--orange);
   stroke-linecap: round;
   transition: stroke-dashoffset 300ms linear;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.25));
 }
 
 .focus[data-phase='break'] .focus__progress {
-  stroke: rgba(190, 230, 255, 0.9);
+  stroke: var(--mint);
 }
 
 .focus__readout {
@@ -308,17 +301,21 @@ body.is-onboarding .photo-info {
 }
 
 .focus__time {
+  font-family: var(--font-display);
   font-size: clamp(30px, 3.4vw, 44px);
-  font-weight: 200;
+  font-weight: 300;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .focus__label {
-  font-size: 11px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--text-soft);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.focus[data-phase='break'] .focus__label {
+  color: var(--mint);
 }
 
 .focus.is-paused .focus__time {
@@ -358,9 +355,9 @@ body.is-active .focus__controls {
 
 .focus__count {
   margin: 0;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: var(--text-faint);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-soft);
 }
 
 /* In focus mode only the clock and the timer remain */
@@ -407,10 +404,9 @@ body.zen-mode .corner-btn {
   align-items: center;
   justify-content: center;
   gap: 22px;
-  background: rgba(5, 8, 15, 0.38);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  text-shadow: var(--shadow-text);
+  background: rgba(4, 22, 28, 0.55);
+  backdrop-filter: blur(30px) saturate(140%);
+  -webkit-backdrop-filter: blur(30px) saturate(140%);
   opacity: 0;
   transition: opacity var(--slow) var(--ease);
 }
@@ -426,40 +422,57 @@ body.is-breathing .corner-btn {
   pointer-events: none;
 }
 
+/* Like Apple's Mindfulness app: six translucent petals that bloom and rotate */
 .breathing__circle {
-  width: clamp(110px, 14vw, 170px);
+  position: relative;
+  width: clamp(130px, 15vw, 190px);
   aspect-ratio: 1;
-  margin-bottom: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 70%);
-  box-shadow: 0 0 60px rgba(255, 255, 255, 0.15);
-  transform: scale(0.7);
+  margin-bottom: 56px;
+  transform: rotate(0deg) scale(0.55);
   transition-property: transform;
   transition-timing-function: ease-in-out;
+  transition-duration: var(--dur, 4s);
+}
+
+.breathing__petal {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(99, 230, 226, 0.55), rgba(64, 200, 224, 0.28) 70%);
+  mix-blend-mode: screen;
+  transform: rotate(calc(var(--i) * 60deg)) translateX(0);
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
+  transition-duration: var(--dur, 4s);
 }
 
 .breathing__circle.is-in,
 .breathing__circle.is-hold {
-  transform: scale(1.6);
+  transform: rotate(60deg) scale(1);
+}
+
+.breathing__circle.is-in .breathing__petal,
+.breathing__circle.is-hold .breathing__petal {
+  transform: rotate(calc(var(--i) * 60deg)) translateX(36%);
 }
 
 .breathing__circle.is-out {
-  transform: scale(0.7);
+  transform: rotate(0deg) scale(0.55);
 }
 
 .breathing__cue {
   margin: 0;
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-size: clamp(30px, 3.6vw, 48px);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 3.2vw, 42px);
+  letter-spacing: -0.025em;
 }
 
 .breathing__left {
   margin: 0;
   min-height: 1.4em;
-  font-size: 13px;
-  letter-spacing: 0.16em;
+  font-size: 15px;
+  font-weight: 500;
   color: var(--text-soft);
   font-variant-numeric: tabular-nums;
 }
@@ -467,13 +480,13 @@ body.is-breathing .corner-btn {
 .breathing__close {
   position: absolute;
   bottom: var(--edge);
-  padding: 8px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: var(--text-soft);
+  background: var(--fill);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
   cursor: pointer;
   transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
 }
@@ -507,20 +520,21 @@ body.is-breathing .corner-btn {
 
 .help__card {
   width: min(420px, 100%);
-  padding: 22px 24px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 20px;
-  background: rgba(16, 18, 26, 0.72);
-  backdrop-filter: blur(28px) saturate(150%);
-  -webkit-backdrop-filter: blur(28px) saturate(150%);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  padding: 24px;
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 26px;
+  background: var(--glass-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), inset 0 0.5px 0 rgba(255, 255, 255, 0.12);
 }
 
 .help__title {
   margin: 0 0 16px;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 24px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
 }
 
 .toast {
@@ -528,12 +542,15 @@ body.is-breathing .corner-btn {
   left: 50%;
   bottom: calc(var(--edge) + 6px);
   z-index: 50;
-  padding: 8px 16px;
+  padding: 10px 18px;
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
-  background: rgba(16, 18, 26, 0.55);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  font-size: 13px;
+  background: var(--glass-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  font-weight: 500;
   color: var(--text);
   opacity: 0;
   transform: translate(-50%, 8px);

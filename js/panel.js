@@ -7,6 +7,7 @@
 let panel;
 let toggleBtn;
 let lastFocus = null;
+let openedByPointer = false;
 let suppressNextClick = false;
 let tabs = [];
 let activeTab = 'today';
@@ -17,6 +18,8 @@ export function initPanel({ panel: panelEl, toggle, close }) {
   panel = panelEl;
   toggleBtn = toggle;
 
+  toggleBtn.addEventListener('pointerdown', () => { openedByPointer = true; });
+  toggleBtn.addEventListener('keydown', () => { openedByPointer = false; });
   toggleBtn.addEventListener('click', () => (isOpen() ? closePanel() : openPanel()));
   close.addEventListener('click', () => closePanel());
   bindTabs();
@@ -120,7 +123,12 @@ export function closePanel({ restoreFocus = true } = {}) {
   toggleBtn.setAttribute('aria-expanded', 'false');
   toggleBtn.setAttribute('aria-label', 'Open menu');
   closeListeners.forEach((fn) => fn());
-  if (restoreFocus && lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus({ preventScroll: true });
+  // Keyboard users get their focus back; after a mouse click there is no
+  // reason to leave a focus ring on the menu button.
+  if (restoreFocus && openedByPointer && lastFocus === toggleBtn) toggleBtn.blur();
+  else if (restoreFocus && lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus({ preventScroll: true });
+  if (document.activeElement && panel.contains(document.activeElement)) document.activeElement.blur();
+  openedByPointer = false;
 }
 
 /** "S": opens the Settings tab, or closes the panel if Settings is showing. */
