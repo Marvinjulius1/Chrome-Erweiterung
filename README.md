@@ -20,13 +20,16 @@ No build step, no dependencies.
 ```
 manifest.json        Extension manifest (Manifest V3)
 newtab.html          The new tab page
+background.js        Service worker: finishes focus sessions and notifies
 css/                 Styles (base, clock, panel, features)
 js/                  ES modules (main, storage, time, background image, unsplash, greeting, quote,
-                     clock, panel, settings, shortcuts, onboarding)
+                     clock, panel, settings, shortcuts, onboarding, audio)
+js/features/         Focus mode, intention, to-do, notes, links, sounds, breathing, zen, help
 data/config.json     Time slots, image categories, image settings
 data/images.json     Background photos (Unsplash License)
 data/greetings.json  Greetings per time slot ({name} is replaced)
 data/quotes.json     Thoughts of the day (author only when the attribution is reliable)
+data/sounds.json     Ambient sounds (synthesized, or your own files in /sounds)
 fonts/               Inter + Cormorant Garamond (SIL Open Font License)
 icons/               Extension icons (16/48/128 px) and the SVG source
 ```
@@ -54,18 +57,46 @@ click the heart to save it as a favorite.
 
 ## Keyboard shortcuts
 
-| Key          | Action                            |
-|--------------|-----------------------------------|
-| Space        | Switch greeting / thought of the day |
-| N            | New background image              |
-| ← / →        | Previous / next background image  |
-| S            | Open or close settings            |
-| Esc          | Close                             |
+| Key          | Action                                          |
+|--------------|-------------------------------------------------|
+| Space        | Greeting / thought of the day (pause in focus)  |
+| F            | Start or end focus mode                         |
+| N            | New background image                            |
+| ← / →        | Previous / next background image                |
+| Z            | Zen mode (only image and clock)                 |
+| B            | Breathing exercise                              |
+| S            | Settings                                        |
+| ?            | Show all shortcuts                              |
+| Esc          | Close / leave                                   |
+
+## Extras (hidden until you need them)
+
+Open the menu with the small round button in the bottom-right corner.
+
+**Today**
+- **Quick links**: up to six favorite sites as small icons (only in the menu)
+- **Daily intention**: "What's your main focus today?" One line under the
+  clock; click it to mark it done. Resets at midnight.
+- **Today's tasks**: up to five. Finished tasks clear at midnight, open ones
+  carry over.
+- **Notes**: a small notepad, saved on this device
+
+**Tools**
+- **Focus mode**: Pomodoro timer (25/5 by default, adjustable) with a
+  progress ring. Everything except the clock and the timer fades away.
+  A chime and a notification mark the end of each phase; completed sessions
+  are counted per day. The timer runs in the background, so it also finishes
+  when no tab is open.
+- **Breathing**: a one-minute exercise (in 4, hold 2, out 6) with a calm,
+  animated circle
+- **Ambient sound**: Rain, Forest, Ocean, Wind. Synthesized live, so no audio
+  files are needed; see `sounds/README.md` to use your own recordings.
+
+**Zen mode** (Z) hides everything except the photo and the clock.
 
 ## Settings
 
-Move the mouse and a small round button appears in the bottom-right corner.
-It opens a glass panel with:
+The Settings tab of the menu (or press S) contains:
 
 - **General**: your name
 - **Clock**: six styles with live previews (Digital, Digital + seconds,
@@ -100,3 +131,6 @@ new tab also works offline.
 
 No tracking, no analytics, no external fonts. Settings live in
 `chrome.storage`; images are fetched directly from the Unsplash CDN.
+
+Permissions: `storage` (settings and your data), `alarms` and
+`notifications` (to finish a focus session on time and tell you about it).

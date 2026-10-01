@@ -21,9 +21,40 @@
   </div>
   <div class="bg__overlay" aria-hidden="true"></div>
 
-  <!-- Center stage: clock + greeting / thought of the day -->
+  <!-- Center stage: clock (+ daily intention), focus timer, greeting / thought of the day -->
   <main id="center" class="center" data-clock-position="above">
-    <div id="clock" class="clock" role="timer" aria-live="off"></div>
+    <div class="clock-block">
+      <div id="clock" class="clock" role="timer" aria-live="off"></div>
+      <button id="intention" class="intention" type="button" hidden
+              title="Click to mark as done" aria-pressed="false"></button>
+    </div>
+
+    <section id="focus" class="focus" aria-label="Focus timer" hidden>
+      <div class="focus__ring">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="focus__track" cx="60" cy="60" r="54"/>
+          <circle id="focus-progress" class="focus__progress" cx="60" cy="60" r="54"/>
+        </svg>
+        <div class="focus__readout">
+          <span id="focus-time" class="focus__time" role="timer">25:00</span>
+          <span id="focus-label" class="focus__label">Focus</span>
+        </div>
+      </div>
+      <div class="focus__controls">
+        <button id="focus-pause" class="icon-btn focus__pause" type="button" aria-label="Pause" title="Pause (Space)">
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z"/></svg>
+        </button>
+        <button id="focus-skip" class="icon-btn" type="button" aria-label="Skip to break" title="Skip to break">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l8 6-8 6zM17 6v12"/></svg>
+        </button>
+        <button id="focus-stop" class="icon-btn" type="button" aria-label="End focus" title="End focus (F)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/></svg>
+        </button>
+      </div>
+      <p id="focus-count" class="focus__count"></p>
+    </section>
+
     <div id="message" class="message" title="Click or press Space to switch">
       <h1 id="greeting" class="greeting message__layer is-current"></h1>
       <figure id="quote" class="quote message__layer" aria-hidden="true">
@@ -64,24 +95,131 @@
     </div>
   </footer>
 
+  <!-- Breathing exercise -->
+  <section id="breathing" class="breathing" aria-label="Breathing exercise" hidden>
+    <div class="breathing__circle" aria-hidden="true"></div>
+    <p id="breathing-cue" class="breathing__cue" aria-live="polite">Breathe in</p>
+    <p id="breathing-left" class="breathing__left"></p>
+    <button id="breathing-close" class="breathing__close" type="button">End · Esc</button>
+  </section>
+
+  <!-- Keyboard shortcut help (?) -->
+  <section id="help" class="help" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts" hidden>
+    <div class="help__card">
+      <h2 class="help__title">Keyboard shortcuts</h2>
+      <dl class="shortcuts" id="help-list"></dl>
+      <p class="hint">Press <kbd>?</kbd> or <kbd>Esc</kbd> to close.</p>
+    </div>
+  </section>
+
+  <!-- Small, temporary hints -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
   <!-- Corner button (bottom right) that opens the panel -->
-  <button id="panel-toggle" class="corner-btn" type="button" title="Settings (S)"
-          aria-label="Open settings" aria-expanded="false" aria-controls="panel">
+  <button id="panel-toggle" class="corner-btn" type="button" title="Menu"
+          aria-label="Open menu" aria-expanded="false" aria-controls="panel">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>
     </svg>
   </button>
 
-  <!-- Glass panel: settings (more features join here later) -->
-  <aside id="panel" class="panel" aria-label="Settings" inert>
+  <!-- Glass panel: Today, Tools, Settings -->
+  <aside id="panel" class="panel" aria-label="Zenith" inert>
     <header class="panel__header">
-      <h2 class="panel__title">Settings</h2>
-      <button id="panel-close" class="icon-btn" type="button" title="Close (Esc)" aria-label="Close settings">
+      <div class="tabs" role="tablist" aria-label="Panel sections">
+        <button id="tab-today" class="tab" type="button" role="tab" aria-selected="true" aria-controls="pane-today">Today</button>
+        <button id="tab-tools" class="tab" type="button" role="tab" aria-selected="false" aria-controls="pane-tools" tabindex="-1">Tools</button>
+        <button id="tab-settings" class="tab" type="button" role="tab" aria-selected="false" aria-controls="pane-settings" tabindex="-1">Settings</button>
+      </div>
+      <button id="panel-close" class="icon-btn" type="button" title="Close (Esc)" aria-label="Close menu">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </header>
 
     <div class="panel__body">
+      <!-- ============ Today ============ -->
+      <div id="pane-today" class="pane" role="tabpanel" aria-labelledby="tab-today">
+        <section class="panel-section">
+          <h3 class="panel-section__title">Quick links</h3>
+          <div id="links" class="links"></div>
+          <form id="link-form" class="link-form" hidden>
+            <input id="link-title" class="input" type="text" maxlength="30" placeholder="Name" autocomplete="off">
+            <input id="link-url" class="input" type="text" maxlength="500" placeholder="example.com" autocomplete="off" spellcheck="false">
+            <div class="input-row">
+              <button class="btn" type="submit">Add link</button>
+              <button id="link-cancel" class="btn btn--ghost" type="button">Cancel</button>
+            </div>
+            <p id="link-error" class="hint" data-state="error" hidden></p>
+          </form>
+        </section>
+
+        <section class="panel-section">
+          <h3 class="panel-section__title">Daily intention</h3>
+          <label class="field">
+            <span class="field__label">What's your main focus today?</span>
+            <input id="intention-input" class="input" type="text" maxlength="80" autocomplete="off" placeholder="One thing that matters">
+          </label>
+          <p class="hint">Shown quietly under the clock. Resets at midnight.</p>
+        </section>
+
+        <section class="panel-section">
+          <h3 class="panel-section__title">Today's tasks</h3>
+          <ul id="todo-list" class="todo"></ul>
+          <form id="todo-form" class="todo-form">
+            <input id="todo-input" class="input" type="text" maxlength="80" autocomplete="off" placeholder="Add a task">
+          </form>
+          <p id="todo-hint" class="hint">Keep it to five. Finished tasks clear at midnight.</p>
+        </section>
+
+        <section class="panel-section">
+          <h3 class="panel-section__title">Notes</h3>
+          <textarea id="notes" class="input notes" rows="6" maxlength="5000" placeholder="A thought, a number, an idea…"></textarea>
+          <p id="notes-status" class="hint">Saved on this device.</p>
+        </section>
+      </div>
+
+      <!-- ============ Tools ============ -->
+      <div id="pane-tools" class="pane" role="tabpanel" aria-labelledby="tab-tools" hidden>
+        <section class="panel-section">
+          <h3 class="panel-section__title">Focus mode</h3>
+          <p id="focus-status" class="focus-status"></p>
+          <div class="field-grid">
+            <label class="field">
+              <span class="field__label">Focus (min)</span>
+              <input class="input" type="number" min="1" max="180" step="1" data-setting="focusMinutes">
+            </label>
+            <label class="field">
+              <span class="field__label">Break (min)</span>
+              <input class="input" type="number" min="1" max="180" step="1" data-setting="breakMinutes">
+            </label>
+          </div>
+          <label class="switch">
+            <span>Chime when a phase ends</span>
+            <input type="checkbox" data-setting="focusSound"><span class="switch__track" aria-hidden="true"></span>
+          </label>
+          <button id="focus-start" class="btn btn--wide" type="button">Start focus</button>
+          <p class="hint">Everything but the clock and the timer fades away. You get a notification when the session ends.</p>
+        </section>
+
+        <section class="panel-section">
+          <h3 class="panel-section__title">Breathing</h3>
+          <p class="hint hint--top">One calm minute: in for 4, hold for 2, out for 6.</p>
+          <button id="breathing-start" class="btn btn--wide" type="button">Start breathing</button>
+        </section>
+
+        <section class="panel-section">
+          <h3 class="panel-section__title">Ambient sound</h3>
+          <div id="sound-list" class="sound-list" role="group" aria-label="Ambient sounds"></div>
+          <label class="field field--range">
+            <span class="field__label">Volume</span>
+            <input id="sound-volume" type="range" min="0" max="100" step="1" data-setting="ambientVolume">
+          </label>
+          <p class="hint">Plays while this tab stays open.</p>
+        </section>
+      </div>
+
+      <!-- ============ Settings ============ -->
+      <div id="pane-settings" class="pane" role="tabpanel" aria-labelledby="tab-settings" hidden>
       <section class="panel-section">
         <h3 class="panel-section__title">General</h3>
         <label class="field">
@@ -183,14 +321,9 @@
 
       <section class="panel-section">
         <h3 class="panel-section__title">Shortcuts</h3>
-        <dl class="shortcuts">
-          <div><dt><kbd>Space</kbd></dt><dd>Greeting / thought of the day</dd></div>
-          <div><dt><kbd>N</kbd></dt><dd>New image</dd></div>
-          <div><dt><kbd>&larr;</kbd> <kbd>&rarr;</kbd></dt><dd>Previous / next image</dd></div>
-          <div><dt><kbd>S</kbd></dt><dd>Open or close settings</dd></div>
-          <div><dt><kbd>Esc</kbd></dt><dd>Close</dd></div>
-        </dl>
+        <dl class="shortcuts" id="settings-shortcuts"></dl>
       </section>
+      </div>
     </div>
   </aside>
 

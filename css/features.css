@@ -188,3 +188,355 @@ body.is-onboarding .photo-info {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   Clock block + daily intention
+   ========================================================================== */
+
+.clock-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intention {
+  max-width: min(80vw, 560px);
+  margin: clamp(2px, 0.6vh, 8px) 0 clamp(6px, 1.4vh, 16px);
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-size: clamp(14px, 1.3vw, 17px);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--text-soft);
+  text-shadow: var(--shadow-text);
+  cursor: pointer;
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+
+.intention::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 10px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  vertical-align: 0.12em;
+  transition: background var(--fast) var(--ease);
+}
+
+.intention:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.intention.is-done {
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+  color: var(--text-faint);
+}
+
+.intention.is-done::before {
+  background: currentColor;
+}
+
+.center[data-clock-position='beside'] .clock-block {
+  align-items: flex-end;
+}
+
+/* ==========================================================================
+   Focus mode
+   ========================================================================== */
+
+.focus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: fade-in var(--slow) var(--ease) both;
+}
+
+.focus__ring {
+  position: relative;
+  width: clamp(150px, 17vw, 210px);
+  aspect-ratio: 1;
+}
+
+.focus__ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.focus__track,
+.focus__progress {
+  fill: none;
+  stroke-width: 2.5;
+}
+
+.focus__track {
+  stroke: rgba(255, 255, 255, 0.18);
+}
+
+.focus__progress {
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 300ms linear;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.25));
+}
+
+.focus[data-phase='break'] .focus__progress {
+  stroke: rgba(190, 230, 255, 0.9);
+}
+
+.focus__readout {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.focus__time {
+  font-size: clamp(30px, 3.4vw, 44px);
+  font-weight: 200;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.focus__label {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.focus.is-paused .focus__time {
+  animation: breathe-opacity 2.4s ease-in-out infinite;
+}
+
+@keyframes breathe-opacity {
+  50% { opacity: 0.45; }
+}
+
+.focus__controls {
+  display: flex;
+  gap: 6px;
+  opacity: 0.35;
+  transition: opacity var(--medium) var(--ease);
+}
+
+.focus:hover .focus__controls,
+.focus:focus-within .focus__controls,
+body.is-active .focus__controls {
+  opacity: 1;
+}
+
+.focus__pause .icon-play,
+.focus__pause[data-running='false'] .icon-pause {
+  display: none;
+}
+
+.focus__pause[data-running='false'] .icon-play {
+  display: block;
+}
+
+.focus__controls .icon-play,
+.focus__controls rect {
+  fill: currentColor;
+}
+
+.focus__count {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+
+/* In focus mode only the clock and the timer remain */
+body.focus-mode .message,
+body.focus-mode .intention,
+body.focus-mode .photo-info {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body.focus-mode .message {
+  display: none;
+}
+
+body.focus-mode .center[data-clock-position='below'] {
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Zen mode: only the image and the clock
+   ========================================================================== */
+
+body.zen-mode .message,
+body.zen-mode .intention,
+body.zen-mode .focus,
+body.zen-mode .photo-info,
+body.zen-mode .corner-btn {
+  opacity: 0 !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Breathing exercise
+   ========================================================================== */
+
+.breathing {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  background: rgba(5, 8, 15, 0.38);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-shadow: var(--shadow-text);
+  opacity: 0;
+  transition: opacity var(--slow) var(--ease);
+}
+
+.breathing.is-visible {
+  opacity: 1;
+}
+
+body.is-breathing .center,
+body.is-breathing .photo-info,
+body.is-breathing .corner-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.breathing__circle {
+  width: clamp(110px, 14vw, 170px);
+  aspect-ratio: 1;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 70%);
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.15);
+  transform: scale(0.7);
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
+}
+
+.breathing__circle.is-in,
+.breathing__circle.is-hold {
+  transform: scale(1.6);
+}
+
+.breathing__circle.is-out {
+  transform: scale(0.7);
+}
+
+.breathing__cue {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(30px, 3.6vw, 48px);
+}
+
+.breathing__left {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.breathing__close {
+  position: absolute;
+  bottom: var(--edge);
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.breathing__close:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--text);
+}
+
+/* ==========================================================================
+   Shortcut help + toast
+   ========================================================================== */
+
+.help {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  padding: var(--edge);
+  background: rgba(5, 8, 15, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 300ms var(--ease);
+}
+
+.help.is-visible {
+  opacity: 1;
+}
+
+.help__card {
+  width: min(420px, 100%);
+  padding: 22px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  background: rgba(16, 18, 26, 0.72);
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+.help__title {
+  margin: 0 0 16px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--edge) + 6px);
+  z-index: 50;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(16, 18, 26, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-size: 13px;
+  color: var(--text);
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity 300ms var(--ease), transform 300ms var(--ease);
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}

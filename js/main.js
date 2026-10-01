@@ -6,6 +6,7 @@
  *   2. Load data files + settings in parallel.
  *   3. Render clock and greeting, then fade the content in.
  *   4. Resolve the correct image for the current slot and preload ahead.
+ *   5. Set up the optional features (all hidden until used).
  */
 
 import {
@@ -20,9 +21,21 @@ import { pickGreeting, renderGreeting } from './greeting.js';
 import { createClock } from './clock.js';
 import { runOnboarding } from './onboarding.js';
 import { quoteForDate, createMessageSwitcher } from './quote.js';
-import { bindKey } from './shortcuts.js';
-import { initPanel, togglePanel } from './panel.js';
+import { bindKey, renderShortcuts } from './shortcuts.js';
+import { initPanel, togglePanel, closePanel, isOpen as isPanelOpen } from './panel.js';
 import { initSettings, updateSettingsForm, updateNameField } from './settings.js';
+import {
+  initFocus, setFocusSettings, handleFocusStorage, isFocusActive, toggleFocus,
+  togglePause, onFocusChange, formatFocusStatus
+} from './features/focus.js';
+import { initIntention, setIntentionDate, handleIntentionStorage } from './features/intention.js';
+import { initTodo, setTodoDate, handleTodoStorage } from './features/todo.js';
+import { initNotes, handleNotesStorage } from './features/notes.js';
+import { initLinks, handleLinksStorage } from './features/links.js';
+import { initBreathing, startBreathing, stopBreathing, isBreathing } from './features/breathing.js';
+import { initSounds, setSoundSettings } from './features/sounds.js';
+import { initZen, toggleZen, exitZen, isZen, handleZenStorage } from './features/zen.js';
+import { initHelp, toggleHelp, hideHelp, isHelpOpen } from './features/help.js';
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -57,7 +70,8 @@ const app = {
   slot: null,
   slotKey: '',
   clock: null,
-  greetingShown: false
+  greetingShown: false,
+  featuresReady: false
 };
 
 /* ---------------- 1. Snapshot: start the image right away ---------------- */
@@ -77,11 +91,12 @@ async function loadJSON(path) {
 }
 
 async function boot() {
-  const [config, greetings, quoteData, imageData, settings, name] = await Promise.all([
+  const [config, greetings, quoteData, imageData, soundData, settings, name] = await Promise.all([
     loadJSON('data/config.json'),
     loadJSON('data/greetings.json'),
     loadJSON('data/quotes.json'),
     loadJSON('data/images.json'),
+    loadJSON('data/sounds.json'),
     loadSettings(),
     getSync('name', '')
   ]);
@@ -121,6 +136,69 @@ async function boot() {
   app.message.scheduleAuto(app.settings);
 
   onStorageChange(handleStorageChange);
+
+  /* ---------------- 5. Optional features ---------------- */
+  await initFeatures(soundData.sounds || []);
+}
+
+async function initFeatures(sounds) {
+  await Promise.all([
+    initFocus({
+      settings: app.settings,
+      elements: {
+        root: $('#focus'), time: $('#focus-time'), label: $('#focus-label'), progress: $('#focus-progress'),
+        pause: $('#focus-pause'), skip: $('#focus-skip'), stop: $('#focus-stop'), count: $('#focus-count')
+      }
+    }),
+    initIntention({ display: $('#intention'), input: $('#intention-input'), dateKey: app.dateKey }),
+    initTodo({ list: $('#todo-list'), form: $('#todo-form'), input: $('#todo-input'), hint: $('#todo-hint'), dateKey: app.dateKey }),
+    initNotes({ textarea: $('#notes'), status: $('#notes-status') }),
+    initLinks({
+      container: $('#links'), form: $('#link-form'), title: $('#link-title'), url: $('#link-url'),
+      cancel: $('#link-cancel'), error: $('#link-error')
+    }),
+    initZen({ toast })
+  ]);
+  initBreathing({ root: $('#breathing'), cue: $('#breathing-cue'), left: $('#breathing-left'), close: $('#breathing-close') });
+  initSounds({ list: $('#sound-list'), volumeInput: $('#sound-volume'), sounds, settings: app.settings });
+  initHelp($('#help'));
+  renderShortcuts($('#help-list'));
+  renderShortcuts($('#settings-shortcuts'));
+
+  // Tools tab buttons
+  // These start a mode, so focus is not handed back to the menu button
+  // (otherwise Space would re-open the menu instead of pausing the timer).
+  const launch = (fn) => () => {
+    closePanel({ restoreFocus: false });
+    document.activeElement?.blur();
+    fn();
+  };
+  $('#focus-start').addEventListener('click', launch(toggleFocus));
+  $('#breathing-start').addEventListener('click', launch(startBreathing));
+  onFocusChange(renderFocusStatus);
+  renderFocusStatus();
+  setInterval(renderFocusStatus, 1000);
+  app.featuresReady = true;
+}
+
+/** Status line + start/stop button label in the Tools tab. */
+function renderFocusStatus() {
+  const active = isFocusActive();
+  const status = $('#focus-status');
+  status.textContent = active ? formatFocusStatus() : '';
+  status.hidden = !active;
+  $('#focus-start').textContent = active ? 'End focus' : 'Start focus';
+}
+
+/* ---------------- Toast ---------------- */
+
+let toastTimer = null;
+function toast(text) {
+  const el = $('#toast');
+  el.textContent = text;
+  el.classList.add('is-visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('is-visible'), 2200);
 }
 
 /* ---------------- Time + slots ---------------- */
@@ -159,8 +237,14 @@ function enterSlot(slot, key, now) {
 
 /** A new calendar day (in the selected time zone) brings a new thought of the day. */
 function enterDay(dateKey) {
+  const isNewDay = !!app.dateKey;
   app.dateKey = dateKey;
   app.message.setQuote(quoteForDate(app.quotes, dateKey));
+  // Daily features reset at midnight (they read the date themselves on init).
+  if (isNewDay && app.featuresReady) {
+    setIntentionDate(dateKey);
+    setTodoDate(dateKey);
+  }
 }
 
 /** Resolves the image for the current slot (also after image settings change). */
@@ -186,15 +270,28 @@ function applySettings() {
 }
 
 function handleStorageChange(changes, area) {
-  if (area === 'local' && changes.favoriteQuotes) {
-    app.message.setFavorites(changes.favoriteQuotes.newValue);
+  if (area === 'local') {
+    if (changes.favoriteQuotes) app.message.setFavorites(changes.favoriteQuotes.newValue);
+    if (app.featuresReady) {
+      handleFocusStorage(changes);
+      handleIntentionStorage(changes);
+      handleTodoStorage(changes);
+      handleNotesStorage(changes);
+      handleZenStorage(changes);
+    }
+    return;
   }
   if (area !== 'sync') return;
+  if (app.featuresReady) handleLinksStorage(changes);
   if (changes.settings) {
     const prev = app.settings;
     app.settings = { ...DEFAULT_SETTINGS, ...(changes.settings.newValue || {}) };
     applySettings();
     updateSettingsForm(app.settings);
+    if (app.featuresReady) {
+      setFocusSettings(app.settings);
+      setSoundSettings(app.settings);
+    }
     app.message.scheduleAuto(app.settings);
     if (prev.timeZone !== app.settings.timeZone) {
       app.slotKey = ''; // re-evaluate the slot in the new time zone
@@ -213,11 +310,26 @@ function handleStorageChange(changes, area) {
 /* ---------------- Keyboard ---------------- */
 
 function bindShortcuts() {
-  bindKey(' ', () => app.message.toggle());
+  // Space pauses the timer in focus mode, otherwise switches greeting/quote.
+  bindKey(' ', () => (isFocusActive() ? togglePause() : app.message.toggle()));
   bindKey('n', () => newImage());
   bindKey('ArrowLeft', () => previousImage());
   bindKey('ArrowRight', () => nextImage());
-  bindKey('s', () => togglePanel());
+  bindKey('s', () => togglePanel('settings'));
+  bindKey('f', () => toggleFocus());
+  bindKey('z', () => toggleZen());
+  bindKey('b', () => (isBreathing() ? stopBreathing() : startBreathing()));
+  bindKey('?', () => toggleHelp());
+
+  // Esc closes the topmost layer: help, breathing, panel (panel.js), then zen mode.
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    if (isHelpOpen()) hideHelp();
+    else if (isBreathing()) stopBreathing();
+    else if (!isPanelOpen() && isZen()) exitZen();
+    else return;
+    event.preventDefault();
+  }, true);
 }
 
 /* ---------------- Image controls + credit ---------------- */

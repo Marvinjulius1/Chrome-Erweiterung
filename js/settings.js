@@ -66,6 +66,14 @@ async function save(patch) {
 function parseValue(input) {
   if (input.type === 'checkbox') return input.checked;
   if (input.type === 'range') return Number(input.value);
+  if (input.type === 'number') {
+    const n = Math.round(Number(input.value));
+    const min = Number(input.min || 0);
+    const max = Number(input.max || 1000);
+    const value = Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : min;
+    input.value = String(value);
+    return value;
+  }
   if (input.value === 'null') return null;
   if (input.value === 'true') return true;
   if (input.value === 'false') return false;
@@ -93,7 +101,9 @@ function render() {
     const value = settings[input.dataset.setting];
     if (input.type === 'checkbox') input.checked = !!value;
     else if (input.type === 'radio') input.checked = input.value === String(value);
-    else if (input.type === 'range') input.value = String(value);
+    else if (input.type === 'range' || input.type === 'number') {
+      if (document.activeElement !== input) input.value = String(value);
+    }
   });
   $('#quote-delay-value').textContent = String(settings.quoteDelaySeconds);
   $('input[data-setting="quoteDelaySeconds"]').disabled = !settings.quoteAutoSwitch;

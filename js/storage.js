@@ -25,7 +25,13 @@ export const DEFAULT_SETTINGS = {
   unsplashKey: '',
   // Thought of the day
   quoteAutoSwitch: true,
-  quoteDelaySeconds: 10
+  quoteDelaySeconds: 10,
+  // Focus mode
+  focusMinutes: 25,
+  breakMinutes: 5,
+  focusSound: true,
+  // Ambient sound (0-100)
+  ambientVolume: 50
 };
 
 /** True when running as an extension (false when the page is opened as a plain file). */

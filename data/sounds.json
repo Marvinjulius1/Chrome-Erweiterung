@@ -1,0 +1,9 @@
+{
+  "_readme": "Ambient sounds. Without a 'file', Zenith synthesizes the sound live (no recordings needed). To use a real recording instead, put a license-free audio file (e.g. CC0) into /sounds and set 'file', for example \"sounds/rain.mp3\".",
+  "sounds": [
+    { "id": "rain",   "label": "Rain",   "file": null },
+    { "id": "forest", "label": "Forest", "file": null },
+    { "id": "ocean",  "label": "Ocean",  "file": null },
+    { "id": "wind",   "label": "Wind",   "file": null }
+  ]
+}
