@@ -9,6 +9,7 @@
   <link rel="preload" href="fonts/inter-latin-200-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/clock.css">
+  <link rel="stylesheet" href="css/panel.css">
   <link rel="stylesheet" href="css/features.css">
 </head>
 <body class="is-loading">
@@ -62,6 +63,136 @@
       </button>
     </div>
   </footer>
+
+  <!-- Corner button (bottom right) that opens the panel -->
+  <button id="panel-toggle" class="corner-btn" type="button" title="Settings (S)"
+          aria-label="Open settings" aria-expanded="false" aria-controls="panel">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>
+    </svg>
+  </button>
+
+  <!-- Glass panel: settings (more features join here later) -->
+  <aside id="panel" class="panel" aria-label="Settings" inert>
+    <header class="panel__header">
+      <h2 class="panel__title">Settings</h2>
+      <button id="panel-close" class="icon-btn" type="button" title="Close (Esc)" aria-label="Close settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="panel__body">
+      <section class="panel-section">
+        <h3 class="panel-section__title">General</h3>
+        <label class="field">
+          <span class="field__label">Your name</span>
+          <input id="set-name" class="input" type="text" maxlength="40" autocomplete="off" spellcheck="false">
+        </label>
+      </section>
+
+      <section class="panel-section">
+        <h3 class="panel-section__title">Clock</h3>
+        <div id="clock-picker" class="clock-picker" role="radiogroup" aria-label="Clock style"></div>
+
+        <div class="field">
+          <span class="field__label">Position</span>
+          <div class="segmented" role="radiogroup" aria-label="Clock position">
+            <label><input type="radio" name="clockPosition" value="above" data-setting="clockPosition"><span>Above</span></label>
+            <label><input type="radio" name="clockPosition" value="below" data-setting="clockPosition"><span>Below</span></label>
+            <label><input type="radio" name="clockPosition" value="beside" data-setting="clockPosition"><span>Beside</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field__label">Format</span>
+          <div class="segmented" role="radiogroup" aria-label="Time format">
+            <label><input type="radio" name="hour12" value="null" data-setting="hour12"><span>System</span></label>
+            <label><input type="radio" name="hour12" value="true" data-setting="hour12"><span>12-hour</span></label>
+            <label><input type="radio" name="hour12" value="false" data-setting="hour12"><span>24-hour</span></label>
+          </div>
+        </div>
+
+        <label class="switch">
+          <span>Show seconds</span>
+          <input type="checkbox" data-setting="showSeconds"><span class="switch__track" aria-hidden="true"></span>
+        </label>
+        <label class="switch">
+          <span>Show date</span>
+          <input type="checkbox" data-setting="showDate"><span class="switch__track" aria-hidden="true"></span>
+        </label>
+      </section>
+
+      <section class="panel-section">
+        <h3 class="panel-section__title">Time zone</h3>
+        <div class="combobox" id="tz-combobox">
+          <input id="tz-input" class="input" type="text" role="combobox" autocomplete="off" spellcheck="false"
+                 aria-autocomplete="list" aria-expanded="false" aria-controls="tz-list"
+                 placeholder="Search a city or time zone">
+          <ul id="tz-list" class="combobox__list" role="listbox" aria-label="Time zones" hidden></ul>
+        </div>
+        <p id="tz-current" class="hint"></p>
+      </section>
+
+      <section class="panel-section">
+        <h3 class="panel-section__title">Background</h3>
+        <div class="field">
+          <span class="field__label">Image behavior</span>
+          <div class="options" role="radiogroup" aria-label="Image behavior">
+            <label class="option">
+              <input type="radio" name="imageMode" value="auto" data-setting="imageMode">
+              <span><strong>Follow the time of day</strong><small>One calm image per time slot</small></span>
+            </label>
+            <label class="option">
+              <input type="radio" name="imageMode" value="every-tab" data-setting="imageMode">
+              <span><strong>New image every tab</strong><small>Fresh scenery each time</small></span>
+            </label>
+            <label class="option">
+              <input type="radio" name="imageMode" value="favorites" data-setting="imageMode">
+              <span><strong>Favorites only</strong><small>Rotate through the images you saved</small></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field__label">Categories</span>
+          <div id="category-list" class="chips"></div>
+        </div>
+
+        <div class="field">
+          <span class="field__label">Unsplash Access Key <em>(optional)</em></span>
+          <div class="input-row">
+            <input id="unsplash-key" class="input" type="password" autocomplete="off" spellcheck="false"
+                   placeholder="Paste your key">
+            <button id="unsplash-save" class="btn" type="button">Save</button>
+          </div>
+          <p id="unsplash-status" class="hint">Without a key, Zenith uses its built-in photo collection.</p>
+        </div>
+      </section>
+
+      <section class="panel-section">
+        <h3 class="panel-section__title">Thought of the Day</h3>
+        <label class="switch">
+          <span>Switch from greeting automatically</span>
+          <input type="checkbox" data-setting="quoteAutoSwitch"><span class="switch__track" aria-hidden="true"></span>
+        </label>
+        <label class="field field--range">
+          <span class="field__label">After <output id="quote-delay-value">10</output> seconds</span>
+          <input type="range" min="3" max="60" step="1" data-setting="quoteDelaySeconds">
+        </label>
+      </section>
+
+      <section class="panel-section">
+        <h3 class="panel-section__title">Shortcuts</h3>
+        <dl class="shortcuts">
+          <div><dt><kbd>Space</kbd></dt><dd>Greeting / thought of the day</dd></div>
+          <div><dt><kbd>N</kbd></dt><dd>New image</dd></div>
+          <div><dt><kbd>&larr;</kbd> <kbd>&rarr;</kbd></dt><dd>Previous / next image</dd></div>
+          <div><dt><kbd>S</kbd></dt><dd>Open or close settings</dd></div>
+          <div><dt><kbd>Esc</kbd></dt><dd>Close</dd></div>
+        </dl>
+      </section>
+    </div>
+  </aside>
 
   <!-- First run -->
   <section id="onboarding" class="onboarding" hidden>

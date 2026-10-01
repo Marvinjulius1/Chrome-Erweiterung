@@ -52,6 +52,183 @@
   display: none;
 }
 
+/* ---------- Analog (hands only) ---------- */
+.analog {
+  width: clamp(170px, 24vw, 320px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.35));
+}
+
+.analog line {
+  stroke: var(--text);
+  stroke-linecap: round;
+}
+
+.analog__ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 1.2;
+}
+
+.analog__hour   { stroke-width: 5; }
+.analog__minute { stroke-width: 3; }
+.analog__second { stroke-width: 1.2; opacity: 0.75; }
+
+.analog__pin {
+  fill: var(--text);
+}
+
+/* ---------- Flip clock ---------- */
+.clock--flip {
+  align-items: center;
+  gap: clamp(8px, 1vw, 14px);
+  --flip-size: clamp(64px, 10vw, 150px);
+}
+
+.flip {
+  position: relative;
+  width: 1.32em;
+  height: 1.18em;
+  font-size: var(--flip-size);
+  font-weight: 300;
+  line-height: 1.18em;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-shadow: none;
+  perspective: 3.2em;
+}
+
+.flip--seconds {
+  font-size: calc(var(--flip-size) * 0.5);
+  align-self: flex-end;
+}
+
+.flip__half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: rgba(14, 16, 22, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.flip__half span {
+  display: block;
+  height: 1.18em;
+  text-align: center;
+}
+
+.flip__top,
+.flip__flap--top {
+  top: 0;
+  border-radius: 0.09em 0.09em 0 0;
+  transform-origin: 50% 100%;
+}
+
+.flip__bottom,
+.flip__flap--bottom {
+  bottom: 0;
+  border-radius: 0 0 0.09em 0.09em;
+  transform-origin: 50% 0;
+}
+
+.flip__bottom span,
+.flip__flap--bottom span {
+  transform: translateY(-50%);
+}
+
+/* hairline between the two halves */
+.flip::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 3;
+}
+
+.flip__flap {
+  z-index: 2;
+  visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip.is-flipping .flip__flap {
+  visibility: visible;
+}
+
+.flip.is-flipping .flip__flap--top {
+  animation: flip-top 300ms ease-in both;
+}
+
+.flip.is-flipping .flip__flap--bottom {
+  transform: rotateX(90deg);
+  animation: flip-bottom 300ms ease-out 300ms both;
+}
+
+@keyframes flip-top {
+  from { transform: rotateX(0); }
+  to   { transform: rotateX(-90deg); }
+}
+
+@keyframes flip-bottom {
+  from { transform: rotateX(90deg); }
+  to   { transform: rotateX(0); }
+}
+
+.clock--flip .clock__period {
+  align-self: flex-end;
+  margin-left: 0;
+}
+
+/* ---------- Word clock ---------- */
+.clock__words {
+  display: block;
+  max-width: min(90vw, 900px);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(44px, 6.6vw, 104px);
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+/* ---------- Stacked (bold typographic) ---------- */
+.clock--stacked {
+  align-items: center;
+}
+
+.stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 500;
+  font-size: clamp(76px, 12vw, 180px);
+  line-height: 0.84;
+  letter-spacing: -0.05em;
+}
+
+.stacked__m {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.stacked__s {
+  margin-top: 0.12em;
+  font-size: 0.24em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--text-soft);
+}
+
+.clock--stacked .clock__period {
+  align-self: flex-end;
+}
+
 /* ---------- Position of the clock relative to the greeting ---------- */
 .center[data-clock-position='below'] {
   flex-direction: column-reverse;
@@ -65,6 +242,12 @@
 
 .center[data-clock-position='beside'] .clock__time {
   font-size: clamp(60px, 9vw, 140px);
+}
+
+.center[data-clock-position='beside'] .clock__words {
+  max-width: 38vw;
+  font-size: clamp(36px, 4.6vw, 72px);
+  text-align: right;
 }
 
 .center[data-clock-position='beside'] .message {

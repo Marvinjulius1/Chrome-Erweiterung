@@ -14,13 +14,15 @@ import {
 import { getZonedNow, getSlot, getSlotKey, getNextSlot } from './time.js';
 import {
   initBackground, showForSlot, showSnapshotImage, onImageChange,
-  newImage, previousImage, nextImage, toggleFavorite, togglePin, setCategories
+  newImage, previousImage, nextImage, toggleFavorite, togglePin, setCategories, setBehavior
 } from './background-image.js';
 import { pickGreeting, renderGreeting } from './greeting.js';
 import { createClock } from './clock.js';
 import { runOnboarding } from './onboarding.js';
 import { quoteForDate, createMessageSwitcher } from './quote.js';
 import { bindKey } from './shortcuts.js';
+import { initPanel, togglePanel } from './panel.js';
+import { initSettings, updateSettingsForm, updateNameField } from './settings.js';
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -94,12 +96,15 @@ async function boot() {
     images: imageData.images || [],
     config: config.image || {},
     elements: { layers: els.layers },
-    categories: settings.categories
+    categories: settings.categories,
+    behavior: { mode: settings.imageMode, apiKey: settings.unsplashKey }
   });
 
   /* ---------------- 3. First render ---------------- */
   app.clock = createClock(els.clock);
   app.message = createMessageSwitcher(els);
+  initPanel({ panel: $('#panel'), toggle: $('#panel-toggle'), close: $('#panel-close') });
+  initSettings({ settings: app.settings, name: app.name, categories: config.categories });
   applySettings();
   bindImageControls();
   bindShortcuts();
@@ -110,6 +115,7 @@ async function boot() {
   if (!app.name) {
     app.name = await runOnboarding(els.onboarding);
     await setSync('name', app.name);
+    updateNameField(app.name);
   }
   updateGreeting();
   app.message.scheduleAuto(app.settings);
@@ -145,9 +151,7 @@ function enterSlot(slot, key, now) {
   app.slot = slot;
   app.slotKey = key;
   document.body.dataset.slot = slot.id;
-
-  const next = getNextSlot(app.config.slots, slot, now, app.settings.timeZone);
-  showForSlot(slot, key, next.slot, next.key, next.startsAt);
+  showImageForCurrentSlot(now);
 
   // The greeting changes with the slot; on first load it is rendered after onboarding.
   if (app.greetingShown) updateGreeting();
@@ -157,6 +161,12 @@ function enterSlot(slot, key, now) {
 function enterDay(dateKey) {
   app.dateKey = dateKey;
   app.message.setQuote(quoteForDate(app.quotes, dateKey));
+}
+
+/** Resolves the image for the current slot (also after image settings change). */
+function showImageForCurrentSlot(now = getZonedNow(app.settings.timeZone)) {
+  const next = getNextSlot(app.config.slots, app.slot, now, app.settings.timeZone);
+  showForSlot(app.slot, app.slotKey, next.slot, next.key, next.startsAt);
 }
 
 function updateGreeting() {
@@ -172,6 +182,7 @@ function applySettings() {
   app.clock.configure(s);
   els.center.dataset.clockPosition = s.clockPosition;
   setCategories(s.categories);
+  setBehavior({ mode: s.imageMode, apiKey: s.unsplashKey });
 }
 
 function handleStorageChange(changes, area) {
@@ -180,15 +191,21 @@ function handleStorageChange(changes, area) {
   }
   if (area !== 'sync') return;
   if (changes.settings) {
-    const prevZone = app.settings.timeZone;
+    const prev = app.settings;
     app.settings = { ...DEFAULT_SETTINGS, ...(changes.settings.newValue || {}) };
     applySettings();
+    updateSettingsForm(app.settings);
     app.message.scheduleAuto(app.settings);
-    if (prevZone !== app.settings.timeZone) app.slotKey = ''; // re-evaluate the slot
+    if (prev.timeZone !== app.settings.timeZone) {
+      app.slotKey = ''; // re-evaluate the slot in the new time zone
+    } else if (prev.imageMode !== app.settings.imageMode || prev.unsplashKey !== app.settings.unsplashKey) {
+      showImageForCurrentSlot();
+    }
     tick();
   }
   if (changes.name && changes.name.newValue) {
     app.name = changes.name.newValue;
+    updateNameField(app.name);
     updateGreeting();
   }
 }
@@ -200,6 +217,7 @@ function bindShortcuts() {
   bindKey('n', () => newImage());
   bindKey('ArrowLeft', () => previousImage());
   bindKey('ArrowRight', () => nextImage());
+  bindKey('s', () => togglePanel());
 }
 
 /* ---------------- Image controls + credit ---------------- */

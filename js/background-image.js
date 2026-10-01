@@ -5,14 +5,26 @@
  * - One image per time-slot occurrence ("2026-10-01|dawn"). Opening new tabs
  *   shows the same image until the slot changes or the user asks for another.
  * - A pinned image overrides the automatic rotation until it is unpinned.
+ * - Image behavior (settings): "auto" (per time slot, default), "every-tab"
+ *   (a new image for each new tab) or "favorites" (rotate saved favorites).
+ * - With a personal Unsplash Access Key, new images come from the Unsplash
+ *   API; data/images.json is the fallback.
  * - Images are stored in the Cache Storage API, so they show up instantly and
  *   also work offline. The next image is preloaded while the browser is idle.
  */
 
 import { getLocal, setLocal, writeSnapshot } from './storage.js';
+import { fetchRandomPhoto, trackDownload } from './unsplash.js';
 
 const CACHE_NAME = 'zenith-images-v1';
+// The state is split into three storage keys so that a background write
+// (preload plans) can never overwrite a user's change (favorites) made in
+// another tab at the same moment.
 const STATE_KEY = 'imageState';
+const FAVORITES_KEY = 'imageFavorites';
+const PLANS_KEY = 'imagePlans';
+const API_IMAGES_KEY = 'apiImages';
+const MAX_API_IMAGES = 40;
 
 const DEFAULT_STATE = {
   slotKey: '',
@@ -25,7 +37,9 @@ const DEFAULT_STATE = {
   upcoming: {}        // slotKey -> id, picked ahead of time and preloaded
 };
 
-let images = [];
+let images = [];          // built-in images from data/images.json
+let apiImages = [];       // images fetched with the user's Unsplash key
+let behavior = { mode: 'auto', apiKey: '' };
 let imageConfig = {};
 let state = { ...DEFAULT_STATE };
 let enabledCategories = [];
@@ -49,13 +63,21 @@ const listeners = new Set();
  * @param {object} opts.config     the "image" section of data/config.json
  * @param {object} opts.elements   { layers: [img, img], root: HTMLElement }
  * @param {string[]} opts.categories enabled category ids
+ * @param {object} opts.behavior   { mode, apiKey }
  */
-export async function initBackground({ images: list, config, elements, categories }) {
+export async function initBackground({ images: list, config, elements, categories, behavior: b }) {
   images = list.filter((img) => img && img.url && !img.placeholder);
   imageConfig = config;
   els = elements;
   enabledCategories = categories;
+  if (b) behavior = { ...behavior, ...b };
+  apiImages = await getLocal(API_IMAGES_KEY, []);
   await refresh();
+}
+
+/** Updates image behavior and the optional Unsplash key. */
+export function setBehavior(b) {
+  behavior = { ...behavior, ...b };
 }
 
 /**
@@ -63,8 +85,100 @@ export async function initBackground({ images: list, config, elements, categorie
  * change starts from the stored state instead of this tab's (possibly stale) copy.
  */
 async function refresh() {
-  state = { ...DEFAULT_STATE, ...(await getLocal(STATE_KEY, {})) };
+  const [main, favorites, plans] = await Promise.all([
+    getLocal(STATE_KEY, {}),
+    getLocal(FAVORITES_KEY, null),
+    getLocal(PLANS_KEY, null)
+  ]);
+  state = {
+    ...DEFAULT_STATE,
+    ...main,
+    favorites: favorites || main.favorites || [],
+    upcoming: plans || main.upcoming || {}
+  };
+  saved = serialize(state);
+  // Older versions kept everything in one key: force a write of the split parts.
+  if (favorites === null) saved.favorites = '';
+  if (plans === null) saved.plans = '';
 }
+
+let saved = { main: '', favorites: '', plans: '' };
+
+function serialize(s) {
+  const { favorites, upcoming, ...main } = s;
+  return { main: JSON.stringify(main), favorites: JSON.stringify(favorites), plans: JSON.stringify(upcoming) };
+}
+
+let queue = Promise.resolve();
+
+/**
+ * Runs one state change at a time: re-read, apply fn, persist. fn is
+ * synchronous, so background preloading and user actions in this tab can
+ * never interleave and overwrite each other. Network calls happen outside.
+ */
+function mutate(fn) {
+  const run = queue.then(async () => {
+    await refresh();
+    const result = fn();
+    await persist();
+    return result;
+  });
+  queue = run.catch(() => {});
+  return run;
+}
+
+/* ---------------- Decisions (synchronous, used inside mutate) ---------------- */
+
+/** The image this slot keeps without choosing anything new, or null. */
+function existingChoice(slot, slotKey) {
+  const pinned = byId(state.pinnedId);
+  if (pinned) return { image: pinned, planned: false };
+
+  const everyTab = behavior.mode === 'every-tab';
+  if (state.slotKey === slotKey && !everyTab) {
+    const current = byId(state.currentId);
+    // In "favorites" mode a non-favorite current image is replaced right away.
+    if (current && (!favoritesMode() || state.favorites.includes(current.id))) {
+      return { image: current, planned: false };
+    }
+  }
+
+  // A new slot occurrence (or a new tab in "every-tab" mode): use the image
+  // picked and preloaded in advance if possible.
+  const planned = byId(state.upcoming[slotKey]) || (everyTab ? byId(state.upcoming.__next) : null);
+  if (planned && planned.id !== state.currentId && isEligible(planned, slot)) {
+    return { image: planned, planned: true };
+  }
+  return null;
+}
+
+/** A preloaded "next image" for the slot, if it is still a valid choice. */
+function plannedNext(slot) {
+  const next = byId(state.upcoming.__next);
+  return next && next.id !== state.currentId && isEligible(next, slot) ? next : null;
+}
+
+/** Records a newly chosen image as current. */
+function commitNew(image, slotKey) {
+  if (!image) return;
+  if (state.upcoming.__next === image.id) delete state.upcoming.__next;
+  state.slotKey = slotKey;
+  pushHistory(image);
+}
+
+/** Drops plans for slots that are over; keeps the ones that are still ahead. */
+function prunePlans(nextSlotKey) {
+  const plans = {};
+  if (byId(state.upcoming.__next)) plans.__next = state.upcoming.__next;
+  if (nextSlotKey && byId(state.upcoming[nextSlotKey])) plans[nextSlotKey] = state.upcoming[nextSlotKey];
+  state.upcoming = plans;
+}
+
+function wantsApi() {
+  return !!behavior.apiKey && !favoritesMode();
+}
+
+/* ---------------- Public actions ---------------- */
 
 /**
  * Shows the right image for the given slot. Called on load and on slot change.
@@ -74,27 +188,33 @@ export async function showForSlot(slot, slotKey, nextSlot, nextSlotKey, slotEnds
   currentSlot = slot;
   currentSlotKey = slotKey;
   currentSlotEndsAt = slotEndsAt || 0;
-  await refresh();
 
-  let image = null;
-  if (state.pinnedId) image = byId(state.pinnedId);
-
-  if (!image && state.slotKey === slotKey) image = byId(state.currentId);
+  let image = await mutate(() => {
+    const existing = existingChoice(slot, slotKey);
+    if (existing) {
+      if (existing.planned) commitNew(existing.image, slotKey);
+      prunePlans(nextSlotKey);
+      return existing.image;
+    }
+    if (wantsApi()) return null; // fetch from the API outside the lock first
+    const chosen = pick(slot);
+    commitNew(chosen, slotKey);
+    prunePlans(nextSlotKey);
+    return chosen;
+  });
 
   if (!image) {
-    // A new slot occurrence: use the image picked (and preloaded) in advance if possible.
-    const planned = byId(state.upcoming[slotKey]);
-    image = planned && isEligible(planned, slot) ? planned : pick(slot);
-    state.slotKey = slotKey;
-    pushHistory(image);
+    const candidate = await fetchCandidate(slot);
+    image = await mutate(() => {
+      const existing = existingChoice(slot, slotKey); // another tab may have chosen meanwhile
+      if (existing && !existing.planned) return existing.image;
+      const chosen = existing ? existing.image : chooseFrom(candidate, slot);
+      commitNew(chosen, slotKey);
+      prunePlans(nextSlotKey);
+      return chosen;
+    });
   }
 
-  // Drop plans for slots that are over; keep the ones that are still ahead.
-  const plans = {};
-  if (byId(state.upcoming.__next)) plans.__next = state.upcoming.__next;
-  if (nextSlotKey && byId(state.upcoming[nextSlotKey])) plans[nextSlotKey] = state.upcoming[nextSlotKey];
-  state.upcoming = plans;
-  await persist();
   await display(image);
   scheduleIdle(() => preloadAhead(nextSlot, nextSlotKey));
 }
@@ -102,63 +222,69 @@ export async function showForSlot(slot, slotKey, nextSlot, nextSlotKey, slotEnds
 /** Picks a fresh image for the current slot ("New image"). */
 export async function newImage() {
   if (!currentSlot) return;
-  await refresh();
-  state.pinnedId = '';
-  const planned = byId(state.upcoming.__next);
-  const usable = planned && planned.id !== state.currentId && isEligible(planned, currentSlot);
-  const image = usable ? planned : pick(currentSlot);
-  delete state.upcoming.__next;
-  state.slotKey = currentSlotKey;
-  pushHistory(image);
-  await persist();
+  const slot = currentSlot;
+  const choose = (candidate) => {
+    const chosen = plannedNext(slot) || chooseFrom(candidate, slot);
+    state.pinnedId = '';
+    delete state.upcoming.__next;
+    commitNew(chosen, currentSlotKey);
+    return chosen;
+  };
+
+  let image = await mutate(() => (!plannedNext(slot) && wantsApi() ? null : choose(null)));
+  if (!image) {
+    const candidate = await fetchCandidate(slot);
+    image = await mutate(() => choose(candidate));
+  }
   await display(image);
   scheduleIdle(() => preloadNextInSlot());
 }
 
 /** Goes back in the image history. */
 export async function previousImage() {
-  await refresh();
-  if (state.index <= 0) return;
-  state.pinnedId = '';
-  state.index -= 1;
-  state.currentId = state.history[state.index];
-  state.slotKey = currentSlotKey;
-  await persist();
-  await display(byId(state.currentId));
+  const id = await mutate(() => {
+    if (state.index <= 0) return null;
+    state.pinnedId = '';
+    state.index -= 1;
+    state.currentId = state.history[state.index];
+    state.slotKey = currentSlotKey;
+    return state.currentId;
+  });
+  if (id) await display(byId(id));
 }
 
 /** Goes forward in the history, or picks a new image at the end of it. */
 export async function nextImage() {
-  await refresh();
-  if (state.index < state.history.length - 1) {
+  const id = await mutate(() => {
+    if (state.index >= state.history.length - 1) return null;
     state.pinnedId = '';
     state.index += 1;
     state.currentId = state.history[state.index];
     state.slotKey = currentSlotKey;
-    await persist();
-    await display(byId(state.currentId));
-    return;
-  }
-  await newImage();
+    return state.currentId;
+  });
+  if (id) await display(byId(id));
+  else await newImage();
 }
 
 export async function toggleFavorite() {
-  await refresh();
-  const id = shownId || state.currentId;
-  if (!id) return;
-  const set = new Set(state.favorites);
-  if (set.has(id)) set.delete(id); else set.add(id);
-  state.favorites = [...set];
-  await persist();
+  await mutate(() => {
+    const id = shownId || state.currentId;
+    if (!id) return;
+    const set = new Set(state.favorites);
+    if (set.has(id)) set.delete(id); else set.add(id);
+    state.favorites = [...set];
+  });
   notify();
 }
 
 export async function togglePin() {
-  await refresh();
-  const id = shownId || state.currentId;
-  state.pinnedId = state.pinnedId === id ? '' : id;
-  await persist();
-  writeSnapshot({ validUntil: state.pinnedId ? 0 : currentSlotEndsAt });
+  const id = await mutate(() => {
+    const target = shownId || state.currentId;
+    state.pinnedId = state.pinnedId === target ? '' : target;
+    return target;
+  });
+  writeSnapshot({ validUntil: snapshotValidity(id) });
   notify();
 }
 
@@ -198,7 +324,12 @@ export function showSnapshotImage(snapshotImage, elements) {
 /* ------------------------------------------------------------------ */
 
 function byId(id) {
-  return id ? images.find((img) => img.id === id) || null : null;
+  if (!id) return null;
+  return images.find((img) => img.id === id) || apiImages.find((img) => img.id === id) || null;
+}
+
+function favoritesMode() {
+  return behavior.mode === 'favorites' && state.favorites.some((id) => byId(id));
 }
 
 function matchesCategories(image) {
@@ -207,11 +338,14 @@ function matchesCategories(image) {
 }
 
 function isEligible(image, slot) {
+  if (favoritesMode()) return state.favorites.includes(image.id);
+  if (image.api) return image.slots.includes(slot.id);
   return image.slots.includes(slot.id) && matchesCategories(image);
 }
 
 /** Candidate pool for a slot, relaxing filters if they leave nothing. */
 function poolFor(slot) {
+  if (favoritesMode()) return state.favorites.map(byId).filter(Boolean);
   let pool = images.filter((img) => isEligible(img, slot));
   if (pool.length === 0) pool = images.filter(matchesCategories);     // categories over slot
   if (pool.length === 0) pool = images.filter((img) => img.slots.includes(slot.id));
@@ -229,6 +363,42 @@ function pick(slot, exclude = []) {
   return candidates[Math.floor(Math.random() * candidates.length)] || null;
 }
 
+/**
+ * Network half of choosing a new image: with a personal Unsplash key, fetch a
+ * photo from the API. Returns null without a key or on any error, in which
+ * case the built-in list is used.
+ */
+async function fetchCandidate(slot) {
+  if (!wantsApi()) return null;
+  try {
+    const photo = await fetchRandomPhoto(behavior.apiKey, slot.query || slot.label, slot.id);
+    await rememberApiImage(photo);
+    return photo;
+  } catch (err) {
+    console.warn('[zenith] Unsplash API unavailable, using built-in images:', err.message);
+    return null;
+  }
+}
+
+/** Synchronous half: the API candidate if usable, otherwise a built-in pick. */
+function chooseFrom(candidate, slot, exclude = []) {
+  if (candidate && wantsApi() && candidate.id !== state.currentId && !exclude.includes(candidate.id)) {
+    return candidate;
+  }
+  return pick(slot, exclude);
+}
+
+/** Stores an API image so it survives reloads; keeps favorites and the pinned image. */
+async function rememberApiImage(photo) {
+  const stored = await getLocal(API_IMAGES_KEY, []);
+  const keep = new Set([state.pinnedId, ...state.favorites, ...state.history]);
+  const others = stored.filter((img) => img.id !== photo.id);
+  const recent = others.slice(0, MAX_API_IMAGES - 1);
+  const protectedOld = others.slice(MAX_API_IMAGES - 1).filter((img) => keep.has(img.id));
+  apiImages = [photo, ...recent, ...protectedOld];
+  await setLocal(API_IMAGES_KEY, apiImages);
+}
+
 function pushHistory(image) {
   if (!image) return;
   const max = imageConfig.historyLength || 20;
@@ -242,8 +412,15 @@ function pushHistory(image) {
     .slice(0, imageConfig.recentMemory || 12);
 }
 
+/** Writes only the parts of the state that actually changed. */
 async function persist() {
-  await setLocal(STATE_KEY, state);
+  const next = serialize(state);
+  const writes = [];
+  if (next.main !== saved.main) writes.push(setLocal(STATE_KEY, JSON.parse(next.main)));
+  if (next.favorites !== saved.favorites) writes.push(setLocal(FAVORITES_KEY, state.favorites));
+  if (next.plans !== saved.plans) writes.push(setLocal(PLANS_KEY, state.upcoming));
+  saved = next;
+  await Promise.all(writes);
 }
 
 /* ------------------------------------------------------------------ */
@@ -264,10 +441,17 @@ export function sizedUrl(image) {
   const quality = imageConfig.quality || 80;
   try {
     const url = new URL(image.url);
+    // set() keeps existing parameters (e.g. Unsplash's ixid tracking id).
+    const params = url.searchParams;
     if (url.hostname === 'images.unsplash.com') {
-      url.search = `auto=format&fit=crop&w=${width}&q=${quality}`;
+      params.set('auto', 'format');
+      params.set('fit', 'crop');
+      params.set('w', String(width));
+      params.set('q', String(quality));
     } else if (url.hostname === 'images.pexels.com') {
-      url.search = `auto=compress&cs=tinysrgb&w=${width}`;
+      params.set('auto', 'compress');
+      params.set('cs', 'tinysrgb');
+      params.set('w', String(width));
     }
     return url.toString();
   } catch {
@@ -339,36 +523,45 @@ async function cachedFallback() {
   const cache = await openCache();
   if (!cache) return null;
   const keys = new Set((await cache.keys()).map((r) => r.url));
-  const ordered = currentSlot ? [...poolFor(currentSlot), ...images] : images;
+  const all = [...images, ...apiImages];
+  const ordered = currentSlot ? [...poolFor(currentSlot), ...all] : all;
   return ordered.find((img) => keys.has(sizedUrl(img))) || null;
 }
 
 /** Plans and preloads the next "New image" and the first image of the next slot. */
 async function preloadAhead(nextSlot, nextSlotKey) {
   await preloadNextInSlot();
-  if (nextSlot && nextSlotKey) {
-    await refresh();
-    if (state.pinnedId) return;
-    let planned = byId(state.upcoming[nextSlotKey]);
-    if (!planned) {
-      planned = pick(nextSlot, [state.upcoming.__next]);
-      if (!planned) return;
-      state.upcoming[nextSlotKey] = planned.id;
-      await persist();
-    }
-    await preload(planned);
+  if (!nextSlot || !nextSlotKey) return;
+
+  const plannedFor = () => (state.pinnedId ? null : byId(state.upcoming[nextSlotKey]));
+  let planned = await mutate(() => (state.pinnedId ? 'pinned' : plannedFor()));
+  if (planned === 'pinned') return;
+  if (!planned) {
+    const candidate = await fetchCandidate(nextSlot);
+    planned = await mutate(() => {
+      const existing = plannedFor();
+      if (existing || state.pinnedId) return existing;
+      const chosen = chooseFrom(candidate, nextSlot, [state.upcoming.__next]);
+      if (chosen) state.upcoming[nextSlotKey] = chosen.id;
+      return chosen;
+    });
   }
+  await preload(planned);
 }
 
 async function preloadNextInSlot() {
   if (!currentSlot) return;
-  await refresh();
-  let next = byId(state.upcoming.__next);
-  if (!next || next.id === state.currentId || !isEligible(next, currentSlot)) {
-    next = pick(currentSlot);
-    if (!next) return;
-    state.upcoming.__next = next.id;
-    await persist();
+  const slot = currentSlot;
+  let next = await mutate(() => plannedNext(slot));
+  if (!next) {
+    const candidate = await fetchCandidate(slot);
+    next = await mutate(() => {
+      const existing = plannedNext(slot);
+      if (existing) return existing;
+      const chosen = chooseFrom(candidate, slot);
+      if (chosen) state.upcoming.__next = chosen.id;
+      return chosen;
+    });
   }
   await preload(next);
 }
@@ -435,9 +628,11 @@ async function display(image, { silent = false } = {}) {
   if (image.id) shownId = image.id;
 
   if (!silent) {
+    reportApiUse(image);
     writeSnapshot({
-      // A pinned image stays valid; otherwise only until the slot ends.
-      validUntil: state.pinnedId === image.id ? 0 : currentSlotEndsAt,
+      // A pinned image stays valid; otherwise only until the slot ends
+      // (or not at all when every new tab gets a new image).
+      validUntil: snapshotValidity(image.id),
       image: {
         id: image.id,
         src: url,
@@ -450,6 +645,21 @@ async function display(image, { silent = false } = {}) {
     });
     notify();
   }
+}
+
+function snapshotValidity(id) {
+  if (state.pinnedId && state.pinnedId === id) return 0;
+  if (behavior.mode === 'every-tab') return 1;
+  return currentSlotEndsAt;
+}
+
+/** Unsplash asks API clients to report when a photo is actually used. */
+async function reportApiUse(image) {
+  if (!image.api || image.tracked) return;
+  trackDownload(behavior.apiKey, image.downloadLocation);
+  image.tracked = true;
+  const stored = await getLocal(API_IMAGES_KEY, []);
+  await setLocal(API_IMAGES_KEY, stored.map((img) => (img.id === image.id ? { ...img, tracked: true } : img)));
 }
 
 function notify() {

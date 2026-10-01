@@ -98,6 +98,16 @@ export async function saveSettings(settings) {
   await setSync('settings', settings);
 }
 
+/**
+ * Merges a partial update into the stored settings. Reading first means two
+ * open tabs never overwrite each other's changes.
+ */
+export async function patchSettings(patch) {
+  const next = { ...(await loadSettings()), ...patch };
+  await saveSettings(next);
+  return next;
+}
+
 /** Subscribes to changes made in other tabs (or by the panel in this tab). */
 export function onStorageChange(callback) {
   if (hasChrome && chrome.storage.onChanged) {
