@@ -31,13 +31,14 @@
 .clock--digital-seconds .clock__time {
   font-family: var(--font-sans);
   font-weight: 200;
-  font-size: clamp(84px, 15vw, 220px);
+  /* Scales with width and height, so wide and short screens both look balanced */
+  font-size: clamp(84px, min(15vw, 25vh), 270px);
   letter-spacing: -0.035em;
   color: var(--text);
 }
 
 .clock--digital-seconds .clock__time {
-  font-size: clamp(64px, 11.5vw, 170px);
+  font-size: clamp(64px, min(11.5vw, 19vh), 210px);
 }
 
 .clock__period {
@@ -54,7 +55,7 @@
 
 /* ---------- Analog (hands only) ---------- */
 .analog {
-  width: clamp(170px, 24vw, 320px);
+  width: clamp(170px, min(24vw, 36vh), 360px);
   height: auto;
   overflow: visible;
   filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.35));
@@ -83,7 +84,7 @@
 .clock--flip {
   align-items: center;
   gap: clamp(8px, 1vw, 14px);
-  --flip-size: clamp(64px, 10vw, 150px);
+  --flip-size: clamp(64px, min(10vw, 17vh), 180px);
 }
 
 .flip {
@@ -192,7 +193,7 @@
   max-width: min(90vw, 900px);
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(44px, 6.6vw, 104px);
+  font-size: clamp(44px, min(6.6vw, 11vh), 120px);
   line-height: 1.05;
   letter-spacing: -0.005em;
   text-wrap: balance;
@@ -208,7 +209,7 @@
   flex-direction: column;
   align-items: center;
   font-weight: 500;
-  font-size: clamp(76px, 12vw, 180px);
+  font-size: clamp(76px, min(12vw, 20vh), 210px);
   line-height: 0.84;
   letter-spacing: -0.05em;
 }
@@ -244,6 +245,10 @@
   font-size: clamp(60px, 9vw, 140px);
 }
 
+.center[data-clock-position='beside'] .clock {
+  align-items: flex-end;
+}
+
 .center[data-clock-position='beside'] .clock__words {
   max-width: 38vw;
   font-size: clamp(36px, 4.6vw, 72px);
@@ -262,6 +267,16 @@
   .center[data-clock-position='beside'] {
     flex-direction: column;
     gap: clamp(4px, 1.2vh, 14px);
+  }
+
+  .center[data-clock-position='beside'] .clock,
+  .center[data-clock-position='beside'] .clock-block {
+    align-items: center;
+  }
+
+  .center[data-clock-position='beside'] .clock__words {
+    max-width: 90vw;
+    text-align: center;
   }
 
   .center[data-clock-position='beside'] .message {

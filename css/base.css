@@ -184,7 +184,7 @@ body[data-slot='night']   { --slot-gradient: linear-gradient(170deg, #05070d 0%,
   margin: 0;
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: clamp(30px, 5.2vw, 72px);
+  font-size: clamp(30px, min(5.2vw, 8.5vh), 84px);
   line-height: 1.12;
   letter-spacing: 0.005em;
   color: var(--text);

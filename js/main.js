@@ -6,7 +6,10 @@
  *   2. Load data files + settings in parallel.
  *   3. Render clock and greeting, then fade the content in.
  *   4. Resolve the correct image for the current slot and preload ahead.
- *   5. Set up the optional features (all hidden until used).
+ *   5. Load the optional features (dynamic import, after the first render).
+ *
+ * Focus mode and zen mode are imported statically and set up before the
+ * content fades in, so a running session never flashes the greeting.
  */
 
 import {
@@ -15,7 +18,8 @@ import {
 import { getZonedNow, getSlot, getSlotKey, getNextSlot } from './time.js';
 import {
   initBackground, showForSlot, showSnapshotImage, onImageChange,
-  newImage, previousImage, nextImage, toggleFavorite, togglePin, setCategories, setBehavior
+  newImage, previousImage, nextImage, toggleFavorite, togglePin, setCategories, setBehavior,
+  followStoredImage
 } from './background-image.js';
 import { pickGreeting, renderGreeting } from './greeting.js';
 import { createClock } from './clock.js';
@@ -28,14 +32,10 @@ import {
   initFocus, setFocusSettings, handleFocusStorage, isFocusActive, toggleFocus,
   togglePause, onFocusChange, formatFocusStatus
 } from './features/focus.js';
-import { initIntention, setIntentionDate, handleIntentionStorage } from './features/intention.js';
-import { initTodo, setTodoDate, handleTodoStorage } from './features/todo.js';
-import { initNotes, handleNotesStorage } from './features/notes.js';
-import { initLinks, handleLinksStorage } from './features/links.js';
-import { initBreathing, startBreathing, stopBreathing, isBreathing } from './features/breathing.js';
-import { initSounds, setSoundSettings } from './features/sounds.js';
 import { initZen, toggleZen, exitZen, isZen, handleZenStorage } from './features/zen.js';
-import { initHelp, toggleHelp, hideHelp, isHelpOpen } from './features/help.js';
+
+/** Feature modules loaded after the first render (see loadFeatures). */
+const lazy = {};
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -71,7 +71,8 @@ const app = {
   slotKey: '',
   clock: null,
   greetingShown: false,
-  featuresReady: false
+  modesReady: false,     // focus + zen (set up before the first render)
+  featuresReady: false   // everything loaded lazily
 };
 
 /* ---------------- 1. Snapshot: start the image right away ---------------- */
@@ -124,8 +125,10 @@ async function boot() {
   bindImageControls();
   bindShortcuts();
   startTicking();
+  await initModes();
 
   document.body.classList.remove('is-loading');
+  performance.mark('zenith:content-visible');
 
   if (!app.name) {
     app.name = await runOnboarding(els.onboarding);
@@ -138,10 +141,11 @@ async function boot() {
   onStorageChange(handleStorageChange);
 
   /* ---------------- 5. Optional features ---------------- */
-  await initFeatures(soundData.sounds || []);
+  await loadFeatures(soundData.sounds || []);
 }
 
-async function initFeatures(sounds) {
+/** Focus mode and zen mode: needed for the very first frame. */
+async function initModes() {
   await Promise.all([
     initFocus({
       settings: app.settings,
@@ -150,31 +154,49 @@ async function initFeatures(sounds) {
         pause: $('#focus-pause'), skip: $('#focus-skip'), stop: $('#focus-stop'), count: $('#focus-count')
       }
     }),
-    initIntention({ display: $('#intention'), input: $('#intention-input'), dateKey: app.dateKey }),
-    initTodo({ list: $('#todo-list'), form: $('#todo-form'), input: $('#todo-input'), hint: $('#todo-hint'), dateKey: app.dateKey }),
-    initNotes({ textarea: $('#notes'), status: $('#notes-status') }),
-    initLinks({
-      container: $('#links'), form: $('#link-form'), title: $('#link-title'), url: $('#link-url'),
-      cancel: $('#link-cancel'), error: $('#link-error')
-    }),
     initZen({ toast })
   ]);
-  initBreathing({ root: $('#breathing'), cue: $('#breathing-cue'), left: $('#breathing-left'), close: $('#breathing-close') });
-  initSounds({ list: $('#sound-list'), volumeInput: $('#sound-volume'), sounds, settings: app.settings });
-  initHelp($('#help'));
+  app.modesReady = true;
+}
+
+// Tools tab buttons start a mode, so focus is not handed back to the menu
+// button (otherwise Space would re-open the menu instead of pausing the timer).
+const launch = (fn) => () => {
+  closePanel({ restoreFocus: false });
+  document.activeElement?.blur();
+  fn();
+};
+
+/** Everything else is imported only after the first render. */
+async function loadFeatures(sounds) {
+  const [intention, todo, notes, links, breathing, soundsModule, help] = await Promise.all([
+    import('./features/intention.js'),
+    import('./features/todo.js'),
+    import('./features/notes.js'),
+    import('./features/links.js'),
+    import('./features/breathing.js'),
+    import('./features/sounds.js'),
+    import('./features/help.js')
+  ]);
+  Object.assign(lazy, { intention, todo, notes, links, breathing, sounds: soundsModule, help });
+
+  await Promise.all([
+    intention.initIntention({ display: $('#intention'), input: $('#intention-input'), dateKey: app.dateKey }),
+    todo.initTodo({ list: $('#todo-list'), form: $('#todo-form'), input: $('#todo-input'), hint: $('#todo-hint'), dateKey: app.dateKey }),
+    notes.initNotes({ textarea: $('#notes'), status: $('#notes-status') }),
+    links.initLinks({
+      container: $('#links'), form: $('#link-form'), title: $('#link-title'), url: $('#link-url'),
+      cancel: $('#link-cancel'), error: $('#link-error')
+    })
+  ]);
+  breathing.initBreathing({ root: $('#breathing'), cue: $('#breathing-cue'), left: $('#breathing-left'), close: $('#breathing-close') });
+  soundsModule.initSounds({ list: $('#sound-list'), volumeInput: $('#sound-volume'), sounds, settings: app.settings });
+  help.initHelp($('#help'));
   renderShortcuts($('#help-list'));
   renderShortcuts($('#settings-shortcuts'));
 
-  // Tools tab buttons
-  // These start a mode, so focus is not handed back to the menu button
-  // (otherwise Space would re-open the menu instead of pausing the timer).
-  const launch = (fn) => () => {
-    closePanel({ restoreFocus: false });
-    document.activeElement?.blur();
-    fn();
-  };
   $('#focus-start').addEventListener('click', launch(toggleFocus));
-  $('#breathing-start').addEventListener('click', launch(startBreathing));
+  $('#breathing-start').addEventListener('click', launch(breathing.startBreathing));
   onFocusChange(renderFocusStatus);
   renderFocusStatus();
   setInterval(renderFocusStatus, 1000);
@@ -242,8 +264,8 @@ function enterDay(dateKey) {
   app.message.setQuote(quoteForDate(app.quotes, dateKey));
   // Daily features reset at midnight (they read the date themselves on init).
   if (isNewDay && app.featuresReady) {
-    setIntentionDate(dateKey);
-    setTodoDate(dateKey);
+    lazy.intention.setIntentionDate(dateKey);
+    lazy.todo.setTodoDate(dateKey);
   }
 }
 
@@ -272,26 +294,27 @@ function applySettings() {
 function handleStorageChange(changes, area) {
   if (area === 'local') {
     if (changes.favoriteQuotes) app.message.setFavorites(changes.favoriteQuotes.newValue);
-    if (app.featuresReady) {
+    if (changes.imageState) followStoredImage(changes.imageState.newValue);
+    if (app.modesReady) {
       handleFocusStorage(changes);
-      handleIntentionStorage(changes);
-      handleTodoStorage(changes);
-      handleNotesStorage(changes);
       handleZenStorage(changes);
+    }
+    if (app.featuresReady) {
+      lazy.intention.handleIntentionStorage(changes);
+      lazy.todo.handleTodoStorage(changes);
+      lazy.notes.handleNotesStorage(changes);
     }
     return;
   }
   if (area !== 'sync') return;
-  if (app.featuresReady) handleLinksStorage(changes);
+  if (app.featuresReady) lazy.links.handleLinksStorage(changes);
   if (changes.settings) {
     const prev = app.settings;
     app.settings = { ...DEFAULT_SETTINGS, ...(changes.settings.newValue || {}) };
     applySettings();
     updateSettingsForm(app.settings);
-    if (app.featuresReady) {
-      setFocusSettings(app.settings);
-      setSoundSettings(app.settings);
-    }
+    if (app.modesReady) setFocusSettings(app.settings);
+    if (app.featuresReady) lazy.sounds.setSoundSettings(app.settings);
     app.message.scheduleAuto(app.settings);
     if (prev.timeZone !== app.settings.timeZone) {
       app.slotKey = ''; // re-evaluate the slot in the new time zone
@@ -311,22 +334,25 @@ function handleStorageChange(changes, area) {
 
 function bindShortcuts() {
   // Space pauses the timer in focus mode, otherwise switches greeting/quote.
-  bindKey(' ', () => (isFocusActive() ? togglePause() : app.message.toggle()));
+  bindKey(' ', () => (app.modesReady && isFocusActive() ? togglePause() : app.message.toggle()));
   bindKey('n', () => newImage());
   bindKey('ArrowLeft', () => previousImage());
   bindKey('ArrowRight', () => nextImage());
   bindKey('s', () => togglePanel('settings'));
-  bindKey('f', () => toggleFocus());
-  bindKey('z', () => toggleZen());
-  bindKey('b', () => (isBreathing() ? stopBreathing() : startBreathing()));
-  bindKey('?', () => toggleHelp());
+  bindKey('f', () => app.modesReady && toggleFocus());
+  bindKey('z', () => app.modesReady && toggleZen());
+  bindKey('b', () => {
+    const b = lazy.breathing;
+    if (b) (b.isBreathing() ? b.stopBreathing() : b.startBreathing());
+  });
+  bindKey('?', () => lazy.help?.toggleHelp());
 
   // Esc closes the topmost layer: help, breathing, panel (panel.js), then zen mode.
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
-    if (isHelpOpen()) hideHelp();
-    else if (isBreathing()) stopBreathing();
-    else if (!isPanelOpen() && isZen()) exitZen();
+    if (lazy.help?.isHelpOpen()) lazy.help.hideHelp();
+    else if (lazy.breathing?.isBreathing()) lazy.breathing.stopBreathing();
+    else if (!isPanelOpen() && app.modesReady && isZen()) exitZen();
     else return;
     event.preventDefault();
   }, true);

@@ -150,10 +150,6 @@ function renderTick() {
     : `Paused · ${state.phase === 'break' ? 'Break' : 'Focus'}`;
 }
 
-export function getFocusState() {
-  return state;
-}
-
 export function formatFocusStatus() {
   if (!isFocusActive()) return '';
   const left = formatRemaining(remainingMs(state));

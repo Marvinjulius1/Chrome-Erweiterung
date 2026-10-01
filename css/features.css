@@ -24,6 +24,11 @@
   opacity: 1;
 }
 
+/* While fading out it must not catch clicks meant for the page */
+.onboarding:not(.is-visible) {
+  pointer-events: none;
+}
+
 /* While onboarding, the main content stays out of the way */
 body.is-onboarding .center,
 body.is-onboarding .photo-info {
@@ -125,7 +130,7 @@ body.is-onboarding .photo-info {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(24px, 3.3vw, 46px);
+  font-size: clamp(24px, min(3.3vw, 5.4vh), 54px);
   line-height: 1.22;
   letter-spacing: 0.005em;
   text-wrap: balance;

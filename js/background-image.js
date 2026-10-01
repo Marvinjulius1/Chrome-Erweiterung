@@ -50,6 +50,8 @@ let els = {};
 let activeLayer = 0;
 let shownUrl = '';
 let shownId = '';       // the image this tab is displaying
+let requestedId = '';   // the image this tab is currently loading or showing
+let displaySeq = 0;     // newest display request wins
 const objectUrls = new Map(); // layer index -> object URL (revoked when replaced)
 const listeners = new Set();
 
@@ -286,6 +288,31 @@ export async function togglePin() {
   });
   writeSnapshot({ validUntil: snapshotValidity(id) });
   notify();
+}
+
+/**
+ * Another tab chose a different image (new image, back/forward, slot change):
+ * follow it, so all open tabs agree. Not in "every-tab" mode, where each tab
+ * deliberately has its own image.
+ */
+export function followStoredImage(stored) {
+  if (behavior.mode === 'every-tab' || !stored) return;
+  const id = storedChoice(stored);
+  if (!id || id === requestedId) return;
+  const image = byId(id);
+  if (image) display(image);
+}
+
+/** The image a stored state asks for: the pinned one if any, else the current one. */
+function storedChoice(stored) {
+  return stored.pinnedId && byId(stored.pinnedId) ? stored.pinnedId : stored.currentId;
+}
+
+/** After showing an image, make sure no other tab changed the choice meanwhile. */
+async function reconcile(id) {
+  if (behavior.mode === 'every-tab') return;
+  const wanted = storedChoice(await getLocal(STATE_KEY, {}));
+  if (wanted && wanted !== id && wanted !== requestedId && byId(wanted)) display(byId(wanted));
 }
 
 /** Updates the category filter. The current image stays until the user changes it. */
@@ -579,6 +606,8 @@ function scheduleIdle(fn) {
 /** Cross-fades to the given image using the two stacked <img> layers. */
 async function display(image, { silent = false } = {}) {
   if (!image || !els.layers) return;
+  if (image.id) requestedId = image.id;
+  const seq = ++displaySeq;
   const url = sizedUrl(image);
   if (url === shownUrl) {
     if (!silent) notify();
@@ -599,6 +628,9 @@ async function display(image, { silent = false } = {}) {
     return;
   }
 
+  // A newer request was made while this one was loading: let it win.
+  if (seq !== displaySeq) return;
+
   const objectUrl = URL.createObjectURL(blob);
   const nextLayer = 1 - activeLayer;
   const img = els.layers[nextLayer];
@@ -611,13 +643,14 @@ async function display(image, { silent = false } = {}) {
   }
 
   // A newer request may have won the race in the meantime.
-  if (img.src !== objectUrl) {
+  if (seq !== displaySeq || img.src !== objectUrl) {
     URL.revokeObjectURL(objectUrl);
     return;
   }
 
   img.classList.add('is-visible');
   els.layers[activeLayer].classList.remove('is-visible');
+  if (!performance.getEntriesByName('zenith:image-visible').length) performance.mark('zenith:image-visible');
   document.body.classList.remove('no-image');
 
   const old = objectUrls.get(activeLayer);
@@ -644,6 +677,7 @@ async function display(image, { silent = false } = {}) {
       }
     });
     notify();
+    reconcile(image.id);
   }
 }
 

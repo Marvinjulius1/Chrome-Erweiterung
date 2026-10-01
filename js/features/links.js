@@ -119,26 +119,26 @@ function render() {
     label.textContent = link.title;
     a.append(icon, label);
     if (editing) {
-      const remove = document.createElement('button');
-      remove.type = 'button';
-      remove.className = 'link__remove';
-      remove.dataset.action = 'remove';
-      remove.dataset.id = link.id;
-      remove.setAttribute('aria-label', `Remove ${link.title}`);
-      remove.textContent = '×';
-      a.append(remove);
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'link__remove';
+      removeBtn.dataset.action = 'remove';
+      removeBtn.dataset.id = link.id;
+      removeBtn.setAttribute('aria-label', `Remove ${link.title}`);
+      removeBtn.textContent = '×';
+      a.append(removeBtn);
     }
     return a;
   });
 
   if (links.length < MAX_LINKS && !editing) {
-    const add = document.createElement('button');
-    add.type = 'button';
-    add.className = 'link link--add';
-    add.dataset.action = 'add';
-    add.title = 'Add a link';
-    add.innerHTML = '<span class="link__icon">+</span><span class="link__label">Add</span>';
-    nodes.push(add);
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'link link--add';
+    addBtn.dataset.action = 'add';
+    addBtn.title = 'Add a link';
+    addBtn.innerHTML = '<span class="link__icon">+</span><span class="link__label">Add</span>';
+    nodes.push(addBtn);
   }
 
   if (links.length > 0) {
