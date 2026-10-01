@@ -20,11 +20,21 @@
   </div>
   <div class="bg__overlay" aria-hidden="true"></div>
 
-  <!-- Center stage: clock + greeting -->
+  <!-- Center stage: clock + greeting / thought of the day -->
   <main id="center" class="center" data-clock-position="above">
     <div id="clock" class="clock" role="timer" aria-live="off"></div>
-    <div class="message">
-      <h1 id="greeting" class="greeting"></h1>
+    <div id="message" class="message" title="Click or press Space to switch">
+      <h1 id="greeting" class="greeting message__layer is-current"></h1>
+      <figure id="quote" class="quote message__layer" aria-hidden="true">
+        <blockquote id="quote-text" class="quote__text"></blockquote>
+        <figcaption class="quote__meta">
+          <span id="quote-author" class="quote__author"></span>
+          <button id="quote-favorite" class="icon-btn icon-btn--toggle quote__favorite" type="button"
+                  title="Save to favorites" aria-label="Save to favorites" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg>
+          </button>
+        </figcaption>
+      </figure>
     </div>
   </main>
 

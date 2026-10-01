@@ -1,0 +1,561 @@
+{
+  "_readme": "Thought of the Day. One quote per day, chosen deterministically from the date. 'author' is only set when the attribution is well documented; otherwise it is null. Add, remove or reorder freely.",
+  "quotes": [
+    {
+      "text": "The impediment to action advances action. What stands in the way becomes the way.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "Waste no more time arguing about what a good man should be. Be one.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "If it is not right, do not do it; if it is not true, do not say it.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "Very little is needed to make a happy life.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "Such as are your habitual thoughts, such also will be the character of your mind.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "Dwell on the beauty of life. Watch the stars, and see yourself running with them.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "The best revenge is not to be like your enemy.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "If you seek tranquility, do less.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "Loss is nothing else but change, and change is Nature's delight.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "The universe is change; our life is what our thoughts make it.",
+      "author": "Marcus Aurelius"
+    },
+    {
+      "text": "We suffer more often in imagination than in reality.",
+      "author": "Seneca"
+    },
+    {
+      "text": "It is not that we have a short time to live, but that we waste a lot of it.",
+      "author": "Seneca"
+    },
+    {
+      "text": "Begin at once to live, and count each separate day as a separate life.",
+      "author": "Seneca"
+    },
+    {
+      "text": "While we are postponing, life speeds by.",
+      "author": "Seneca"
+    },
+    {
+      "text": "He suffers more than necessary, who suffers before it is necessary.",
+      "author": "Seneca"
+    },
+    {
+      "text": "If a man knows not to which port he sails, no wind is favorable.",
+      "author": "Seneca"
+    },
+    {
+      "text": "No man was ever wise by chance.",
+      "author": "Seneca"
+    },
+    {
+      "text": "First say to yourself what you would be; and then do what you have to do.",
+      "author": "Epictetus"
+    },
+    {
+      "text": "No man is free who is not master of himself.",
+      "author": "Epictetus"
+    },
+    {
+      "text": "Men are disturbed not by things, but by the opinions about things.",
+      "author": "Epictetus"
+    },
+    {
+      "text": "Make the best use of what is in your power, and take the rest as it happens.",
+      "author": "Epictetus"
+    },
+    {
+      "text": "No great thing is created suddenly.",
+      "author": "Epictetus"
+    },
+    {
+      "text": "Carpe diem.",
+      "author": "Horace"
+    },
+    {
+      "text": "The unexamined life is not worth living.",
+      "author": "Socrates"
+    },
+    {
+      "text": "Character is destiny.",
+      "author": "Heraclitus"
+    },
+    {
+      "text": "No man ever steps in the same river twice.",
+      "author": "Heraclitus"
+    },
+    {
+      "text": "The journey of a thousand miles begins with a single step.",
+      "author": "Laozi"
+    },
+    {
+      "text": "Knowing others is intelligence; knowing yourself is true wisdom.",
+      "author": "Laozi"
+    },
+    {
+      "text": "Mastering others is strength; mastering yourself is true power.",
+      "author": "Laozi"
+    },
+    {
+      "text": "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win.",
+      "author": "Sun Tzu"
+    },
+    {
+      "text": "He who has a why to live can bear almost any how.",
+      "author": "Friedrich Nietzsche"
+    },
+    {
+      "text": "Amor fati. Love your fate.",
+      "author": "Friedrich Nietzsche"
+    },
+    {
+      "text": "Life can only be understood backwards; but it must be lived forwards.",
+      "author": "Søren Kierkegaard"
+    },
+    {
+      "text": "All of humanity's problems stem from man's inability to sit quietly in a room alone.",
+      "author": "Blaise Pascal"
+    },
+    {
+      "text": "Knowing is not enough; we must apply. Willing is not enough; we must do.",
+      "author": "Johann Wolfgang von Goethe"
+    },
+    {
+      "text": "Our life is frittered away by detail. Simplify, simplify.",
+      "author": "Henry David Thoreau"
+    },
+    {
+      "text": "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+      "author": "Will Durant"
+    },
+    {
+      "text": "Everything can be taken from a man but one thing: the last of the human freedoms, to choose one's attitude in any given set of circumstances.",
+      "author": "Viktor E. Frankl"
+    },
+    {
+      "text": "When we are no longer able to change a situation, we are challenged to change ourselves.",
+      "author": "Viktor E. Frankl"
+    },
+    {
+      "text": "Act as if what you do makes a difference. It does.",
+      "author": "William James"
+    },
+    {
+      "text": "Discipline equals freedom.",
+      "author": "Jocko Willink"
+    },
+    {
+      "text": "Pressure is a privilege.",
+      "author": "Billie Jean King"
+    },
+    {
+      "text": "Hard choices, easy life. Easy choices, hard life.",
+      "author": "Jerzy Gregorek"
+    },
+    {
+      "text": "Be water, my friend.",
+      "author": "Bruce Lee"
+    },
+    {
+      "text": "Absorb what is useful, discard what is useless, add what is specifically your own.",
+      "author": "Bruce Lee"
+    },
+    {
+      "text": "Don't quit. Suffer now and live the rest of your life as a champion.",
+      "author": "Muhammad Ali"
+    },
+    {
+      "text": "I've failed over and over and over again in my life. And that is why I succeed.",
+      "author": "Michael Jordan"
+    },
+    {
+      "text": "Everybody has a plan until they get punched in the mouth.",
+      "author": "Mike Tyson"
+    },
+    {
+      "text": "Be quick, but don't hurry.",
+      "author": "John Wooden"
+    },
+    {
+      "text": "Don't let what you cannot do interfere with what you can do.",
+      "author": "John Wooden"
+    },
+    {
+      "text": "The score takes care of itself.",
+      "author": "Bill Walsh"
+    },
+    {
+      "text": "Start where you are. Use what you have. Do what you can.",
+      "author": "Arthur Ashe"
+    },
+    {
+      "text": "Genius is one percent inspiration, ninety-nine percent perspiration.",
+      "author": "Thomas Edison"
+    },
+    {
+      "text": "Inspiration is for amateurs. The rest of us just show up and get to work.",
+      "author": "Chuck Close"
+    },
+    {
+      "text": "Chance favors only the prepared mind.",
+      "author": "Louis Pasteur"
+    },
+    {
+      "text": "Less, but better.",
+      "author": "Dieter Rams"
+    },
+    {
+      "text": "Real artists ship.",
+      "author": "Steve Jobs"
+    },
+    {
+      "text": "We are stubborn on vision. We are flexible on details.",
+      "author": "Jeff Bezos"
+    },
+    {
+      "text": "You do not rise to the level of your goals. You fall to the level of your systems.",
+      "author": "James Clear"
+    },
+    {
+      "text": "Every action you take is a vote for the type of person you wish to become.",
+      "author": "James Clear"
+    },
+    {
+      "text": "The credit belongs to the man who is actually in the arena.",
+      "author": "Theodore Roosevelt"
+    },
+    {
+      "text": "Price is what you pay. Value is what you get.",
+      "author": "Warren Buffett"
+    },
+    {
+      "text": "Someone's sitting in the shade today because someone planted a tree a long time ago.",
+      "author": "Warren Buffett"
+    },
+    {
+      "text": "Rule No. 1: Never lose money. Rule No. 2: Never forget rule No. 1.",
+      "author": "Warren Buffett"
+    },
+    {
+      "text": "Spend each day trying to be a little wiser than you were when you woke up.",
+      "author": "Charlie Munger"
+    },
+    {
+      "text": "The first rule of compounding is to never interrupt it unnecessarily.",
+      "author": "Charlie Munger"
+    },
+    {
+      "text": "Play long-term games with long-term people.",
+      "author": "Naval Ravikant"
+    },
+    {
+      "text": "Desire is a contract you make with yourself to be unhappy until you get what you want.",
+      "author": "Naval Ravikant"
+    },
+    {
+      "text": "Earn with your mind, not your time.",
+      "author": "Naval Ravikant"
+    },
+    {
+      "text": "Well done is better than well said.",
+      "author": "Benjamin Franklin"
+    },
+    {
+      "text": "Lost time is never found again.",
+      "author": "Benjamin Franklin"
+    },
+    {
+      "text": "Either write something worth reading or do something worth writing.",
+      "author": "Benjamin Franklin"
+    },
+    {
+      "text": "The best way out is always through.",
+      "author": "Robert Frost"
+    },
+    {
+      "text": "I am not afraid of storms, for I am learning how to sail my ship.",
+      "author": "Louisa May Alcott"
+    },
+    {
+      "text": "The two most powerful warriors are patience and time.",
+      "author": "Leo Tolstoy"
+    },
+    {
+      "text": "Not all those who wander are lost.",
+      "author": "J.R.R. Tolkien"
+    },
+    {
+      "text": "All we have to decide is what to do with the time that is given us.",
+      "author": "J.R.R. Tolkien"
+    },
+    {
+      "text": "The world breaks everyone and afterward many are strong at the broken places.",
+      "author": "Ernest Hemingway"
+    },
+    {
+      "text": "Courage is grace under pressure.",
+      "author": "Ernest Hemingway"
+    },
+    {
+      "text": "How we spend our days is, of course, how we spend our lives.",
+      "author": "Annie Dillard"
+    },
+    {
+      "text": "Tell me, what is it you plan to do with your one wild and precious life?",
+      "author": "Mary Oliver"
+    },
+    {
+      "text": "We may encounter many defeats but we must not be defeated.",
+      "author": "Maya Angelou"
+    },
+    {
+      "text": "The secret of change is to focus all of your energy not on fighting the old, but on building the new.",
+      "author": "Dan Millman"
+    },
+    {
+      "text": "In every walk with nature one receives far more than he seeks.",
+      "author": "John Muir"
+    },
+    {
+      "text": "The mountains are calling and I must go.",
+      "author": "John Muir"
+    },
+    {
+      "text": "There is no joy without pain.",
+      "author": null
+    },
+    {
+      "text": "Memento mori.",
+      "author": null
+    },
+    {
+      "text": "Festina lente. Make haste slowly.",
+      "author": null
+    },
+    {
+      "text": "Per aspera ad astra. Through hardship to the stars.",
+      "author": null
+    },
+    {
+      "text": "Dum spiro, spero. While I breathe, I hope.",
+      "author": null
+    },
+    {
+      "text": "Fortune favors the bold.",
+      "author": null
+    },
+    {
+      "text": "Know thyself.",
+      "author": null
+    },
+    {
+      "text": "Nothing in excess.",
+      "author": null
+    },
+    {
+      "text": "Fall seven times, stand up eight.",
+      "author": null
+    },
+    {
+      "text": "A smooth sea never made a skilled sailor.",
+      "author": null
+    },
+    {
+      "text": "Well begun is half done.",
+      "author": null
+    },
+    {
+      "text": "The best time to plant a tree was twenty years ago. The second best time is now.",
+      "author": null
+    },
+    {
+      "text": "Measure twice, cut once.",
+      "author": null
+    },
+    {
+      "text": "Slow is smooth, smooth is fast.",
+      "author": null
+    },
+    {
+      "text": "Hope is not a strategy.",
+      "author": null
+    },
+    {
+      "text": "Choose the harder right over the easier wrong.",
+      "author": null
+    },
+    {
+      "text": "Done is better than perfect.",
+      "author": null
+    },
+    {
+      "text": "Nature does not hurry, yet everything is accomplished.",
+      "author": null
+    },
+    {
+      "text": "Calm is a superpower.",
+      "author": null
+    },
+    {
+      "text": "Do the hard thing first.",
+      "author": null
+    },
+    {
+      "text": "Be so consistent it looks like talent.",
+      "author": null
+    },
+    {
+      "text": "Quiet work. Loud results.",
+      "author": null
+    },
+    {
+      "text": "Earn your rest.",
+      "author": null
+    },
+    {
+      "text": "Hold the standard when no one is watching.",
+      "author": null
+    },
+    {
+      "text": "The work is the reward.",
+      "author": null
+    },
+    {
+      "text": "Focus is the art of saying no.",
+      "author": null
+    },
+    {
+      "text": "Discomfort is the price of admission.",
+      "author": null
+    },
+    {
+      "text": "Your future self is watching.",
+      "author": null
+    },
+    {
+      "text": "Feelings follow action.",
+      "author": null
+    },
+    {
+      "text": "Consistency beats intensity.",
+      "author": null
+    },
+    {
+      "text": "Nobody is coming. Build it yourself.",
+      "author": null
+    },
+    {
+      "text": "Stay patient. Trust the compounding.",
+      "author": null
+    },
+    {
+      "text": "Clarity comes from doing.",
+      "author": null
+    },
+    {
+      "text": "Strong body, clear mind.",
+      "author": null
+    },
+    {
+      "text": "Ambition, with patience.",
+      "author": null
+    },
+    {
+      "text": "Be the calm in the room.",
+      "author": null
+    },
+    {
+      "text": "Respect the process.",
+      "author": null
+    },
+    {
+      "text": "Train the mind like you train the body.",
+      "author": null
+    },
+    {
+      "text": "Protect your attention.",
+      "author": null
+    },
+    {
+      "text": "Excellence is quiet.",
+      "author": null
+    },
+    {
+      "text": "Rest if you must, but never quit.",
+      "author": null
+    },
+    {
+      "text": "Become undeniable.",
+      "author": null
+    },
+    {
+      "text": "Build in silence.",
+      "author": null
+    },
+    {
+      "text": "Short-term pain, long-term gain.",
+      "author": null
+    },
+    {
+      "text": "The best investment is in yourself.",
+      "author": null
+    },
+    {
+      "text": "Read more. Talk less. Decide faster.",
+      "author": null
+    },
+    {
+      "text": "Let the work speak.",
+      "author": null
+    },
+    {
+      "text": "No zero days.",
+      "author": null
+    },
+    {
+      "text": "Every master was once a beginner.",
+      "author": null
+    },
+    {
+      "text": "Do less, but do it better.",
+      "author": null
+    },
+    {
+      "text": "Breathe. Then decide.",
+      "author": null
+    },
+    {
+      "text": "Small hinges swing big doors.",
+      "author": null
+    },
+    {
+      "text": "True nobility is being superior to your former self.",
+      "author": null
+    },
+    {
+      "text": "Make today count, then let it go.",
+      "author": null
+    }
+  ]
+}

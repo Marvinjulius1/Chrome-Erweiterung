@@ -19,6 +19,8 @@ import {
 import { pickGreeting, renderGreeting } from './greeting.js';
 import { createClock } from './clock.js';
 import { runOnboarding } from './onboarding.js';
+import { quoteForDate, createMessageSwitcher } from './quote.js';
+import { bindKey } from './shortcuts.js';
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -26,7 +28,12 @@ const els = {
   layers: [...document.querySelectorAll('.bg__img')],
   center: $('#center'),
   clock: $('#clock'),
+  message: $('#message'),
   greeting: $('#greeting'),
+  quote: $('#quote'),
+  quoteText: $('#quote-text'),
+  quoteAuthor: $('#quote-author'),
+  quoteFavorite: $('#quote-favorite'),
   credit: $('#photo-credit'),
   title: $('#photo-title'),
   btnPrev: $('#img-prev'),
@@ -40,6 +47,9 @@ const els = {
 const app = {
   config: null,
   greetings: {},
+  quotes: [],
+  dateKey: '',
+  message: null,
   settings: { ...DEFAULT_SETTINGS },
   name: '',
   slot: null,
@@ -65,9 +75,10 @@ async function loadJSON(path) {
 }
 
 async function boot() {
-  const [config, greetings, imageData, settings, name] = await Promise.all([
+  const [config, greetings, quoteData, imageData, settings, name] = await Promise.all([
     loadJSON('data/config.json'),
     loadJSON('data/greetings.json'),
+    loadJSON('data/quotes.json'),
     loadJSON('data/images.json'),
     loadSettings(),
     getSync('name', '')
@@ -75,6 +86,7 @@ async function boot() {
 
   app.config = config;
   app.greetings = greetings;
+  app.quotes = (quoteData.quotes || []).filter((q) => q && q.text);
   app.settings = settings;
   app.name = name;
 
@@ -87,8 +99,10 @@ async function boot() {
 
   /* ---------------- 3. First render ---------------- */
   app.clock = createClock(els.clock);
+  app.message = createMessageSwitcher(els);
   applySettings();
   bindImageControls();
+  bindShortcuts();
   startTicking();
 
   document.body.classList.remove('is-loading');
@@ -98,6 +112,7 @@ async function boot() {
     await setSync('name', app.name);
   }
   updateGreeting();
+  app.message.scheduleAuto(app.settings);
 
   onStorageChange(handleStorageChange);
 }
@@ -118,6 +133,8 @@ function tick() {
   const now = getZonedNow(app.settings.timeZone);
   app.clock.update(now);
 
+  if (now.dateKey !== app.dateKey) enterDay(now.dateKey);
+
   const slot = getSlot(app.config.slots, now);
   const key = getSlotKey(slot, now);
   if (key !== app.slotKey) enterSlot(slot, key, now);
@@ -136,6 +153,12 @@ function enterSlot(slot, key, now) {
   if (app.greetingShown) updateGreeting();
 }
 
+/** A new calendar day (in the selected time zone) brings a new thought of the day. */
+function enterDay(dateKey) {
+  app.dateKey = dateKey;
+  app.message.setQuote(quoteForDate(app.quotes, dateKey));
+}
+
 function updateGreeting() {
   if (!app.slot) return;
   app.greetingShown = true;
@@ -152,11 +175,15 @@ function applySettings() {
 }
 
 function handleStorageChange(changes, area) {
+  if (area === 'local' && changes.favoriteQuotes) {
+    app.message.setFavorites(changes.favoriteQuotes.newValue);
+  }
   if (area !== 'sync') return;
   if (changes.settings) {
     const prevZone = app.settings.timeZone;
     app.settings = { ...DEFAULT_SETTINGS, ...(changes.settings.newValue || {}) };
     applySettings();
+    app.message.scheduleAuto(app.settings);
     if (prevZone !== app.settings.timeZone) app.slotKey = ''; // re-evaluate the slot
     tick();
   }
@@ -164,6 +191,15 @@ function handleStorageChange(changes, area) {
     app.name = changes.name.newValue;
     updateGreeting();
   }
+}
+
+/* ---------------- Keyboard ---------------- */
+
+function bindShortcuts() {
+  bindKey(' ', () => app.message.toggle());
+  bindKey('n', () => newImage());
+  bindKey('ArrowLeft', () => previousImage());
+  bindKey('ArrowRight', () => nextImage());
 }
 
 /* ---------------- Image controls + credit ---------------- */

@@ -20,10 +20,6 @@
   transition: opacity var(--slow) var(--ease);
 }
 
-.onboarding[hidden] {
-  display: none;
-}
-
 .onboarding.is-visible {
   opacity: 1;
 }
@@ -87,4 +83,108 @@ body.is-onboarding .photo-info {
   0%, 100% { transform: translateX(0); }
   25%      { transform: translateX(-6px); }
   75%      { transform: translateX(6px); }
+}
+
+/* ---------- Greeting <-> Thought of the Day ---------- */
+
+/* Both layers share one grid cell, so they cross-fade without layout jumps */
+.message {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.message__layer {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition:
+    opacity var(--slow) var(--ease),
+    transform var(--slow) var(--ease),
+    visibility 0s linear var(--slow);
+}
+
+.message__layer.is-current {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity var(--slow) var(--ease) 120ms,
+    transform var(--slow) var(--ease) 120ms,
+    visibility 0s;
+}
+
+.quote {
+  margin: 0;
+  max-width: min(88vw, 900px);
+}
+
+.quote__text {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(24px, 3.3vw, 46px);
+  line-height: 1.22;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+
+.quote__meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 30px;
+  margin-top: clamp(10px, 1.8vh, 18px);
+}
+
+.quote__author {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.quote__author::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* The heart only appears when the quote is hovered (or already saved) */
+.quote__favorite {
+  opacity: 0;
+  transition: opacity var(--medium) var(--ease), background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.quote:hover .quote__favorite,
+.quote__favorite:focus-visible,
+.quote__favorite[aria-pressed='true'] {
+  opacity: 1;
+}
+
+.center[data-clock-position='beside'] .quote__meta {
+  justify-content: flex-start;
+}
+
+.center[data-clock-position='beside'] .message {
+  place-items: center start;
+}
+
+@media (max-width: 720px) {
+  .center[data-clock-position='beside'] .message {
+    place-items: center;
+  }
+
+  .center[data-clock-position='beside'] .quote__meta {
+    justify-content: center;
+  }
 }

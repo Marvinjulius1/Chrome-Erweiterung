@@ -24,8 +24,5 @@
     "maxCached": 40,
     "recentMemory": 12,
     "historyLength": 20
-  },
-  "quote": {
-    "delaySeconds": 10
   }
 }

@@ -21,10 +21,11 @@ No build step, no dependencies.
 manifest.json        Extension manifest (Manifest V3)
 newtab.html          The new tab page
 css/                 Styles (base, clock, features)
-js/                  ES modules (main, storage, time, background image, greeting, clock, onboarding)
+js/                  ES modules (main, storage, time, background image, greeting, quote, clock, shortcuts, onboarding)
 data/config.json     Time slots, image categories, image + quote settings
 data/images.json     Background photos (Unsplash License)
 data/greetings.json  Greetings per time slot ({name} is replaced)
+data/quotes.json     Thoughts of the day (author only when the attribution is reliable)
 fonts/               Inter + Cormorant Garamond (SIL Open Font License)
 icons/               Extension icons (16/48/128 px) and the SVG source
 ```
@@ -41,6 +42,22 @@ icons/               Extension icons (16/48/128 px) and the SVG source
 | Night       | 23:00 – 04:59 |
 
 Edit them in `data/config.json`.
+
+## Thought of the Day
+
+About 10 seconds after the tab opens, the greeting cross-fades into the
+thought of the day. Click the text or press Space to switch back and forth.
+The quote is chosen from the date, so it stays the same all day; every quote
+in `data/quotes.json` is shown once before any repeats. Hover the quote and
+click the heart to save it as a favorite.
+
+## Keyboard shortcuts
+
+| Key          | Action                            |
+|--------------|-----------------------------------|
+| Space        | Switch greeting / thought of the day |
+| N            | New background image              |
+| ← / →        | Previous / next background image  |
 
 ## Photos
 
