@@ -22,7 +22,7 @@ manifest.json        Extension manifest (Manifest V3)
 newtab.html          The new tab page
 css/                 Styles (base, clock, features)
 js/                  ES modules (main, storage, time, background image, greeting, quote, clock, shortcuts, onboarding)
-data/config.json     Time slots, image categories, image + quote settings
+data/config.json     Time slots, image categories, image settings
 data/images.json     Background photos (Unsplash License)
 data/greetings.json  Greetings per time slot ({name} is replaced)
 data/quotes.json     Thoughts of the day (author only when the attribution is reliable)
