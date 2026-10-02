@@ -14,6 +14,9 @@ unless you ask for it.
 
 ## Install
 
+Zenith is being prepared for the Chrome Web Store (see `store/PUBLISHING.md`).
+Until it is listed, install it in developer mode:
+
 1. Download or clone this folder.
 2. Open `chrome://extensions` in Chrome (or any Chromium browser: Edge, Brave, Arc).
 3. Turn on **Developer mode** (top right).
@@ -210,6 +213,8 @@ Measured in Chromium over 10 new tabs (1440 × 900): text and clock visible
 after about 120 ms, photo after about 210–240 ms (median), well under the 300 ms target.
 
 ## Privacy and permissions
+
+Full privacy policy: [PRIVACY.md](PRIVACY.md)
 
 - `storage`: your name, settings, tasks, notes and favorites
   (`chrome.storage.sync` for settings, name and links; everything else stays

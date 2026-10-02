@@ -1,0 +1,2 @@
+# Built store packages (create with store/build-zip.sh)
+store/*.zip
