@@ -33,7 +33,7 @@ To update after editing files, click the reload icon on the Zenith card in
 | Clock               | Six styles, above / below / beside the greeting                                           |
 | Greeting            | 16 lines per time slot, never the same line twice in a row                                |
 | Thought of the Day  | After about 10 seconds the greeting cross-fades into the day's quote (Space switches)     |
-| Photo credit        | Bottom left, only on hover, with previous / new / next / favorite / pin                   |
+| Photo place         | Bottom left, always visible (e.g. "Vestrahorn, Iceland"); credit and controls on hover    |
 | Menu button         | Bottom right, small and translucent, clearer when you move the mouse                      |
 
 ### Time slots
@@ -105,15 +105,21 @@ Every entry looks like this:
 
 ```json
 {
-  "id": "unsplash-Knwea-mLGAg",
-  "url": "https://images.unsplash.com/photo-1528818955841-a7f1425131b5",
-  "title": "A sky full of stars",
-  "categories": ["space", "night"],
-  "slots": ["night"],
-  "photographer": "Felix Mittermeier",
-  "photographerUrl": "https://unsplash.com/@felix_mittermeier",
+  "id": "unsplash-dI7vfR1Bqcg",
+  "url": "https://images.unsplash.com/photo-1542224566-6e85f2e6772f",
+  "title": "Sunrise over the mountains of Lofoten",
+  "location": "Lofoten, Norway",
+  "categories": [
+    "mountains"
+  ],
+  "slots": [
+    "dawn",
+    "morning"
+  ],
+  "photographer": "Luke Richardson",
+  "photographerUrl": "https://unsplash.com/@lukealrich",
   "source": "Unsplash",
-  "sourceUrl": "https://unsplash.com/photos/milky-way-Knwea-mLGAg",
+  "sourceUrl": "https://unsplash.com/photos/mountain-range-dI7vfR1Bqcg",
   "license": "Unsplash License"
 }
 ```
@@ -127,6 +133,8 @@ To add or replace a photo:
    Zenith adds the right size parameters itself.
 3. Fill in `title`, `photographer`, `photographerUrl` and `sourceUrl`
    (the photo page). `id` can be any unique text.
+   `location` is optional: copy the place listed on the photo page. Without
+   it, the title is shown bottom left instead.
 4. `slots`: one or more of `dawn`, `morning`, `day`, `golden`, `dusk`, `night`.
 5. `categories`: one or more of `space`, `mountains`, `nature`, `ocean`,
    `sunsets`, `fog`, `rain`, `night`.

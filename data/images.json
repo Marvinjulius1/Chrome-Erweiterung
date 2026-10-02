@@ -1,5 +1,5 @@
 {
-  "_readme": "Background images for Zenith. Every entry must be a photo under the Unsplash License or the Pexels License. 'url' is the base image URL without query parameters; Zenith appends size parameters for Unsplash URLs. Set \"placeholder\": true on entries whose URL is not filled in yet; they are skipped.",
+  "_readme": "Background images for Zenith. Every entry must be a photo under the Unsplash License or the Pexels License. 'url' is the base image URL without query parameters; Zenith appends size parameters for Unsplash URLs. Set \"placeholder\": true on entries whose URL is not filled in yet; they are skipped. 'location' is the place listed on the photo page (shown bottom left); without it the title is shown.",
   "images": [
     {
       "id": "unsplash-aN8IMFIpg1c",
@@ -60,6 +60,7 @@
       "id": "unsplash-IRUOF57vT-Y",
       "url": "https://images.unsplash.com/photo-1563431453247-75de8bddeaef",
       "title": "Sea of fog under an orange horizon",
+      "location": "Raigad, India",
       "categories": [
         "fog",
         "mountains"
@@ -78,6 +79,7 @@
       "id": "unsplash-IZbIpqpeUaA",
       "url": "https://images.unsplash.com/photo-1576017609857-da8426c5af3e",
       "title": "Mist drifting over a forested ridge",
+      "location": "Lauterbrunnen, Switzerland",
       "categories": [
         "fog",
         "mountains"
@@ -96,6 +98,7 @@
       "id": "unsplash-peHDKDWUfXs",
       "url": "https://images.unsplash.com/photo-1675652202189-d33f7fa075f0",
       "title": "Layered hills covered in fog",
+      "location": "Candler, NC, USA",
       "categories": [
         "fog",
         "mountains"
@@ -132,6 +135,7 @@
       "id": "unsplash-dI7vfR1Bqcg",
       "url": "https://images.unsplash.com/photo-1542224566-6e85f2e6772f",
       "title": "Sunrise over the mountains of Lofoten",
+      "location": "Lofoten, Norway",
       "categories": [
         "mountains"
       ],
@@ -149,6 +153,7 @@
       "id": "unsplash-CJIzia8PdV4",
       "url": "https://images.unsplash.com/photo-1542384781206-d07657226fe7",
       "title": "Morning light at Passo Fedaia",
+      "location": "Passo Fedaia, Italy",
       "categories": [
         "mountains"
       ],
@@ -216,6 +221,7 @@
       "id": "unsplash-Y5p_0LW1xQg",
       "url": "https://images.unsplash.com/photo-1743878206228-5f36b5f5c830",
       "title": "A quiet path through the forest",
+      "location": "Latvia",
       "categories": [
         "nature"
       ],
@@ -233,6 +239,7 @@
       "id": "unsplash-Kb-Cpr5dZXo",
       "url": "https://images.unsplash.com/photo-1438179152657-8ce7dfda4f0b",
       "title": "Low sun through trees and tall grass",
+      "location": "Victor",
       "categories": [
         "nature"
       ],
@@ -250,6 +257,7 @@
       "id": "unsplash-ELGDJBMKNMI",
       "url": "https://images.unsplash.com/photo-1779551363999-707505ab4102",
       "title": "Turquoise water and rocks from above",
+      "location": "Sagres, Portugal",
       "categories": [
         "ocean"
       ],
@@ -266,6 +274,7 @@
       "id": "unsplash-nnwF1gHIRCU",
       "url": "https://images.unsplash.com/photo-1714414638521-7b56a97ec5e2",
       "title": "Waves meeting the sand from above",
+      "location": "Costa Rica",
       "categories": [
         "ocean"
       ],
@@ -282,6 +291,7 @@
       "id": "unsplash-cJY0advK23A",
       "url": "https://images.unsplash.com/photo-1751818430682-67a0a48d7a9b",
       "title": "Coastline and turquoise water from above",
+      "location": "Philippines",
       "categories": [
         "ocean"
       ],
@@ -298,6 +308,7 @@
       "id": "unsplash-ZeGQ22v9Zhk",
       "url": "https://images.unsplash.com/photo-1783586879543-3378ba2eede0",
       "title": "Alpine lake between forested mountains",
+      "location": "Gosauseen, Austria",
       "categories": [
         "mountains",
         "nature"
@@ -316,6 +327,7 @@
       "id": "unsplash-jAAk__SlP8U",
       "url": "https://images.unsplash.com/photo-1624239364354-93ae3e590f66",
       "title": "Mountains mirrored in a clear lake",
+      "location": "June Lake, CA, USA",
       "categories": [
         "mountains"
       ],
@@ -332,6 +344,7 @@
       "id": "unsplash-nkMLcbvIuuE",
       "url": "https://images.unsplash.com/photo-1702912092980-05aca31e5243",
       "title": "A lush green valley",
+      "location": "Cambrian Mountains, Llanidloes, UK",
       "categories": [
         "nature"
       ],
@@ -348,6 +361,7 @@
       "id": "unsplash-2hgS5tpMfgY",
       "url": "https://images.unsplash.com/photo-1772215842318-356e3767b734",
       "title": "Green valley in the Lake District",
+      "location": "Lake District National Park, United Kingdom",
       "categories": [
         "nature",
         "mountains"
@@ -400,6 +414,7 @@
       "id": "unsplash-n5c2IPdFJSU",
       "url": "https://images.unsplash.com/photo-1495215871224-568f5124ca61",
       "title": "Last light on a lone peak",
+      "location": "Silverthorne, United States",
       "categories": [
         "mountains",
         "sunsets"
@@ -418,6 +433,7 @@
       "id": "unsplash-G3JsoE2CAvw",
       "url": "https://images.unsplash.com/photo-1489471100131-98c2ab4036c1",
       "title": "Sunset glow behind dark ridges",
+      "location": "Rattlesnake Ridge, United States",
       "categories": [
         "sunsets",
         "mountains"
@@ -436,6 +452,7 @@
       "id": "unsplash-T5miyV835tI",
       "url": "https://images.unsplash.com/photo-1775547754264-8c7f455d1b85",
       "title": "Sunset over Haystack Rock, Cannon Beach",
+      "location": "Cannon Beach, OR, USA",
       "categories": [
         "ocean",
         "sunsets"
@@ -560,6 +577,7 @@
       "id": "unsplash-skcFiBu91AA",
       "url": "https://images.unsplash.com/photo-1519810755548-39cd217da494",
       "title": "The Milky Way in deep violet",
+      "location": "Malta",
       "categories": [
         "space",
         "night"
@@ -626,6 +644,7 @@
       "id": "unsplash-2vVhfhbj5-s",
       "url": "https://images.unsplash.com/photo-1759675739458-6e5a4a60a117",
       "title": "Aurora over Vestrahorn, Iceland",
+      "location": "Vestrahorn, Iceland",
       "categories": [
         "night",
         "mountains"
@@ -643,6 +662,7 @@
       "id": "unsplash-mgF-LowMuZY",
       "url": "https://images.unsplash.com/photo-1739793669620-2ca4dc1e2742",
       "title": "Aurora over a lake in Lofoten",
+      "location": "Lofoten, Norway",
       "categories": [
         "night"
       ],
@@ -660,6 +680,7 @@
       "id": "unsplash-JpBrBQYftII",
       "url": "https://images.unsplash.com/photo-1508234562163-534667a7e3ea",
       "title": "Aurora reflected in an Icelandic lake",
+      "location": "Stakkholtsgjá, Iceland",
       "categories": [
         "night"
       ],
@@ -676,6 +697,7 @@
       "id": "unsplash-EvKBHBGgaUo",
       "url": "https://images.unsplash.com/photo-1488415032361-b7e238421f1b",
       "title": "Aurora over snowy mountains in Thórsmörk",
+      "location": "Thórsmörk, Iceland",
       "categories": [
         "night",
         "mountains"
@@ -693,6 +715,7 @@
       "id": "unsplash-gD7KrKqYZFk",
       "url": "https://images.unsplash.com/photo-1473711409856-39138e48cb9b",
       "title": "Aurora rising above a snowy ridge",
+      "location": "Sauðárkrókur, Iceland",
       "categories": [
         "night",
         "mountains"
@@ -710,6 +733,7 @@
       "id": "unsplash-O6mbkFtuGMM",
       "url": "https://images.unsplash.com/photo-1721851386583-382f97c36c32",
       "title": "Full moon behind clouds over the sea",
+      "location": "Uvita, Puntarenas Province, Costa Rica",
       "categories": [
         "ocean",
         "night"
@@ -728,6 +752,7 @@
       "id": "unsplash-7wyAJ2aZ544",
       "url": "https://images.unsplash.com/photo-1632768190052-3610ce76eb8a",
       "title": "Stars over the ocean at night",
+      "location": "Jantar, Poland",
       "categories": [
         "ocean",
         "night"
@@ -764,6 +789,7 @@
       "id": "unsplash-ApDv6VwCyH8",
       "url": "https://images.unsplash.com/photo-1529358340873-8e5557db67b8",
       "title": "Moody rocky coastline",
+      "location": "Pismo Beach, United States",
       "categories": [
         "rain",
         "ocean"
@@ -817,6 +843,7 @@
       "id": "unsplash-NRQV-hBF10M",
       "url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
       "title": "Misty morning in Yosemite Valley",
+      "location": "Yosemite Valley, United States",
       "categories": [
         "fog",
         "mountains",
@@ -836,6 +863,7 @@
       "id": "unsplash-sp-p7uuT0tw",
       "url": "https://images.unsplash.com/photo-1448375240586-882707db888b",
       "title": "A misty, moody forest",
+      "location": "Bad Pyrmont, Germany",
       "categories": [
         "fog",
         "nature",
@@ -956,6 +984,7 @@
       "id": "unsplash-HorrsnVSFmQ",
       "url": "https://images.unsplash.com/photo-1786968104475-18466c56037e",
       "title": "Mountains above a turquoise lake",
+      "location": "Schliersee, Germany",
       "categories": [
         "mountains"
       ],

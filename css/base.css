@@ -215,7 +215,7 @@ body.is-loading .photo-info {
   opacity: 0;
 }
 
-/* ---------- Photo credit + image controls (bottom left) ---------- */
+/* ---------- Photo place, credit + image controls (bottom left) ---------- */
 .photo-info {
   position: fixed;
   left: 0;
@@ -223,18 +223,57 @@ body.is-loading .photo-info {
   z-index: 3;
   display: flex;
   align-items: flex-end;
-  gap: 14px;
-  /* Generous hit area so the info appears when the pointer nears the corner */
+  gap: 12px;
+  /* Generous hit area so the credit appears when the pointer nears the corner */
   padding: 48px 48px var(--edge) var(--edge);
   max-width: min(640px, 80vw);
-  opacity: 0;
   transition: opacity var(--medium) var(--ease);
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
 }
 
-.photo-info:hover,
-.photo-info:focus-within {
+/* Credit and controls stay hidden until the corner is hovered; the place is always shown */
+.photo-info__credit,
+.photo-info__controls {
+  opacity: 0;
+  transition: opacity var(--medium) var(--ease), transform var(--medium) var(--ease);
+}
+
+.photo-info__credit {
+  transform: translateY(4px);
+}
+
+.photo-info:hover .photo-info__credit,
+.photo-info:hover .photo-info__controls,
+.photo-info:focus-within .photo-info__credit,
+.photo-info:focus-within .photo-info__controls {
   opacity: 1;
+  transform: none;
+}
+
+.photo-info p.photo-info__place {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.photo-info__place:empty,
+.photo-info__place:has(span:empty) {
+  display: none;
+}
+
+.photo-info__pin {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
 }
 
 .photo-info__text {
@@ -251,12 +290,8 @@ body.is-loading .photo-info {
   text-overflow: ellipsis;
 }
 
-.photo-info__title {
-  color: var(--text);
-  font-weight: 600;
-}
-
 .photo-info__credit {
+  margin-bottom: 2px !important;
   color: var(--text-soft);
   font-weight: 400;
 }

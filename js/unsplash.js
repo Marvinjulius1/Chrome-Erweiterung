@@ -58,11 +58,14 @@ export async function fetchRandomPhoto(key, query, slotId) {
   if (!response.ok) throw new Error(`Unsplash API: HTTP ${response.status}`);
   const photo = await response.json();
 
-  const title = photo.description || photo.alt_description || (photo.location && photo.location.title) || '';
+  const title = photo.description || photo.alt_description || '';
+  const place = photo.location || {};
+  const location = place.name || [place.city, place.country].filter(Boolean).join(', ');
   return {
     id: `unsplash-api-${photo.id}`,
     url: photo.urls.raw,
     title: capitalize(title.trim()).slice(0, 90),
+    location: location || undefined,
     categories: [],
     slots: [slotId],
     photographer: photo.user.name,

@@ -32,16 +32,16 @@
 .clock--digital .clock__time,
 .clock--digital-seconds .clock__time {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 500;
   /* Scales with width and height, so wide and short screens both look balanced */
-  font-size: clamp(84px, min(15vw, 25vh), 270px);
+  font-size: clamp(68px, min(11.5vw, 19vh), 200px);
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.04em;
   color: var(--text);
 }
 
 .clock--digital-seconds .clock__time {
-  font-size: clamp(64px, min(11.5vw, 19vh), 210px);
+  font-size: clamp(52px, min(8.8vw, 14.5vh), 156px);
 }
 
 .clock__period {
@@ -257,7 +257,7 @@
 }
 
 .center[data-clock-position='beside'] .clock__time {
-  font-size: clamp(60px, 9vw, 140px);
+  font-size: clamp(52px, 7.5vw, 116px);
 }
 
 .center[data-clock-position='beside'] .clock {

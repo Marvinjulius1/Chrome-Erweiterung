@@ -50,7 +50,7 @@ const els = {
   quoteAuthor: $('#quote-author'),
   quoteFavorite: $('#quote-favorite'),
   credit: $('#photo-credit'),
-  title: $('#photo-title'),
+  place: $('#photo-place'),
   btnPrev: $('#img-prev'),
   btnNext: $('#img-next'),
   btnNew: $('#img-new'),
@@ -388,7 +388,7 @@ function link(text, href) {
 function renderCredit(info) {
   const { image } = info;
   els.credit.replaceChildren();
-  els.title.textContent = '';
+  els.place.textContent = '';
   if (!image) return;
 
   const sourceHome = image.source === 'Pexels' ? 'https://www.pexels.com' : 'https://unsplash.com';
@@ -398,7 +398,9 @@ function renderCredit(info) {
     ' on ',
     link(image.source, withReferral(image.sourceUrl || sourceHome, image.source))
   );
-  els.title.textContent = image.title || '';
+  // Where the photo was taken; photos without a listed place show their title.
+  els.place.textContent = image.location || image.title || '';
+  els.place.parentElement.title = image.location && image.title ? image.title : '';
 
   els.btnPrev.disabled = !info.canGoBack;
   setToggle(els.btnFavorite, info.isFavorite, 'Remove from favorites', 'Add to favorites');
